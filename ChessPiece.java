@@ -1,6 +1,11 @@
 public abstract class ChessPiece extends Actor
 {
-	private boolean isWhite = false;
+	private boolean isWhite;
+
+   public ChessPiece(boolean white)
+   {
+      isWhite = white;
+   }
 	
 	public boolean isWhite()
 	{
