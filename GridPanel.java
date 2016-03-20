@@ -440,7 +440,7 @@ public class GridPanel extends JPanel implements Scrollable,
      */
     public void setCurrentLocation(Location loc)
     {
-        prevoosLocation = currentLocation;
+        previousLocation = currentLocation;
         currentLocation = loc;
     }
 
