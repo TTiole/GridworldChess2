@@ -12,10 +12,7 @@ public abstract class ChessPiece extends Actor
         return isWhite;
     }
 	
-    public void move()
-    {
-        
-    }
+    //Actor.java already has moveTo(Location loc)
 
     public abstract Location[] getLegalMoves();
 }
