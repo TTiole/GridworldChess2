@@ -70,6 +70,7 @@ public class GridPanel extends JPanel implements Scrollable,
     private ResourceBundle resources;
     private DisplayMap displayMap;
     private Location currentLocation;
+    private Location previousLocation;
     private Timer tipTimer;
     private JToolTip tip;
     private JPanel glassPane;
@@ -439,6 +440,7 @@ public class GridPanel extends JPanel implements Scrollable,
      */
     public void setCurrentLocation(Location loc)
     {
+        prevoosLocation = currentLocation;
         currentLocation = loc;
     }
 
@@ -451,6 +453,11 @@ public class GridPanel extends JPanel implements Scrollable,
         return currentLocation;
     }
 
+    public Location getPreviousLocation()
+    {
+        return previousLocation;
+    }
+    
     /**
      * Moves the current location by a given amount.
      * @param dr the number of rows by which to move the location
