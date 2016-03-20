@@ -12,6 +12,10 @@ public abstract class ChessPiece extends Actor
         return isWhite;
     }
 	
-    public abstract void move();
-    public Location[] legalMoves();
+    public void move()
+    {
+        
+    }
+
+    public abstract Location[] getLegalMoves();
 }
