@@ -298,22 +298,13 @@ public class GUIController<T>
         if (loc != null)
         {
             T occupant = world.getGrid().get(loc);
-            if (occupant == null)
+            if (occupant != null)
             {
-                MenuMaker<T> maker = new MenuMaker<T>(parentFrame, resources,
-                        displayMap);
-                JPopupMenu popup = maker.makeConstructorMenu(occupantClasses,
-                        loc);
-                Point p = display.pointForLocation(loc);
-                popup.show(display, p.x, p.y);
+                
             }
             else
             {
-                MenuMaker<T> maker = new MenuMaker<T>(parentFrame, resources,
-                        displayMap);
-                JPopupMenu popup = maker.makeMethodMenu(occupant, loc);
-                Point p = display.pointForLocation(loc);
-                popup.show(display, p.x, p.y);
+                
             }
         }
         parentFrame.repaint();
