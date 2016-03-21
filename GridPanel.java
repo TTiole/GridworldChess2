@@ -71,6 +71,7 @@ public class GridPanel extends JPanel implements Scrollable,
     private DisplayMap displayMap;
     private Location currentLocation;
     private Location previousLocation;
+    private Location[] currentSelection;
     private Timer tipTimer;
     private JToolTip tip;
     private JPanel glassPane;
@@ -81,6 +82,7 @@ public class GridPanel extends JPanel implements Scrollable,
      */
     public GridPanel(DisplayMap map, ResourceBundle res)
     {
+    		currentSelection = new Location[0];
         displayMap = map;
         resources = res;
         setToolTipsEnabled(true);
@@ -103,7 +105,12 @@ public class GridPanel extends JPanel implements Scrollable,
         g2.fillRect(insets.left, insets.top, numCols * (cellSize + 1) + 1, numRows
                 * (cellSize + 1) + 1);
 
+				currentSelection = new Location[2];
+				currentSelection[0] = currentLocation;
+				currentSelection[1] = previousLocation;
+
         drawWatermark(g2);
+        drawSelection(g2);
         drawGridlines(g2);
         drawOccupants(g2);
         drawCurrentLocation(g2);
@@ -220,6 +227,20 @@ public class GridPanel extends JPanel implements Scrollable,
             g2.drawRect(p.x - cellSize / 2 - 2, p.y - cellSize / 2 - 2,
                     cellSize + 3, cellSize + 3);
         }
+    }
+    
+    private void drawSelection(Graphics2D g2)
+    {
+        if ("hide".equals(System.getProperty("info.gridworld.gui.selection")))
+            return;
+        for(Location loc : currentSelection)
+        	if (loc != null)
+        	{
+            	Point p = pointForLocation(loc);
+            	g2.setColor(Color.GREEN);
+            	g2.fillRect(p.x - cellSize / 2, p.y - cellSize / 2, cellSize, cellSize);
+            	g2.setColor(Color.WHITE);
+        	}
     }
 
     /**
@@ -433,6 +454,13 @@ public class GridPanel extends JPanel implements Scrollable,
                     .getString("cell.tooltip.empty"), new Object[]
                 { loc, f });
     }
+    
+    public void setCurrentSelection(Location[] locs)
+    {
+    		currentSelection = new Location[locs.length];
+    		for(int i = 0; i < locs.length; i++)
+    			currentSelection[i] = locs[i];
+    }
 
     /**
      * Sets the current location.
@@ -470,7 +498,7 @@ public class GridPanel extends JPanel implements Scrollable,
         if (!grid.isValid(newLocation))
             return;
 
-        currentLocation = newLocation;
+        setCurrentLocation(newLocation);
 
         JViewport viewPort = getEnclosingViewport();
         if (isPannableUnbounded())
