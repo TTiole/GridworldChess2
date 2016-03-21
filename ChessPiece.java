@@ -6,6 +6,11 @@ public abstract class ChessPiece extends Actor
     {
         isWhite = white;
     }
+    
+    public Location getLocation()
+    {
+    	return super.getLocation();
+    }
 	
     public boolean isWhite()
     {
