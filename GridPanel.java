@@ -455,6 +455,11 @@ public class GridPanel extends JPanel implements Scrollable,
                 { loc, f });
     }
     
+    public Location[] getCurrentSelection()
+    {
+    	return currentSelection;
+    }
+    
     public void setCurrentSelection(Location[] locs)
     {
     		currentSelection = new Location[locs.length];
