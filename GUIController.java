@@ -293,7 +293,7 @@ public class GUIController<T>
     public void editLocation()
     {
         World<T> world = parentFrame.getWorld();
-
+        
         Location loc = display.getCurrentLocation();
         Location loc0 = display.getPreviousLocation();
         if (loc != null)
@@ -306,6 +306,8 @@ public class GUIController<T>
             if (occupant0 != null)
             {
                 ChessPiece A = (ChessPiece)occupant0;
+                
+                // Moves chess piece if occupant0 is a piece and loc is a legal move.
                 if (locArrayContains(locSelection, loc))
                     A.moveTo(loc);
                 display.setCurrentSelection(new Location[0]);
