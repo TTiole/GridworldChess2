@@ -2,8 +2,6 @@
 
 public class Bishop extends ChessPiece
 {
-  private location = super.getLocation();
-  
   public Bishop(boolean isWhite)
   {
     super(isWhite);
@@ -11,9 +9,9 @@ public class Bishop extends ChessPiece
   
   public abstract Location[] getLegalMoves()
   {
-    Location[13] legalMoves;
+    Location[] legalMoves;
     int count = 0;
-    int[4] directions = {NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST};
+    int[] directions = {NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST};
     
   }
 }
