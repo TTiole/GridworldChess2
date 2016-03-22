@@ -295,16 +295,25 @@ public class GUIController<T>
         World<T> world = parentFrame.getWorld();
 
         Location loc = display.getCurrentLocation();
+        Location loc0 = display.getPreviousLocation();
         if (loc != null)
         {
             T occupant = world.getGrid().get(loc);
-            if (occupant != null)
+            t occupant0 = null;
+            if (loc0 != null)
+                T occupant0 = world.getGrid().get(loc0);
+            Location[] locSelection = display.getCurrentSelection();
+            if (occupant0 != null)
             {
-                
+                ChessPiece A = (ChessPiece)occupant0;
+                if (locArrayContains(locSelection, loc))
+                    A.moveTo(loc);
+                display.setCurrentSelection(new Location[0]);
             }
-            else
+            else if (occupant != null)
             {
-                
+                ChessPiece A = (ChessPiece)occupant;
+                display.setCurrentLocation(A.getLegalMoves());
             }
         }
         parentFrame.repaint();
@@ -323,5 +332,13 @@ public class GUIController<T>
             world.remove(loc);
             parentFrame.repaint();
         }
+    }
+    
+    public boolean locArrayContains(Location[] locs, Location loc)
+    {
+        for(Location L : locs)
+            if(L.equals(loc))
+                return true;
+        return false;
     }
 }
