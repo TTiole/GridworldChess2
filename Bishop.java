@@ -7,9 +7,9 @@ public class Bishop extends ChessPiece
     super(isWhite);
   }
   
-  public abstract Location[] getLegalMoves()
+  public Location[] getLegalMoves()
   {
-    Location[] legalMoves = new Location[13]
+    Location[] legalMoves = new Location[13];
     int count = 0;
     int[] directions = {NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST};
     
