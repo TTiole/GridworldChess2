@@ -11,14 +11,22 @@ public abstract class ChessPiece extends Actor
     {
         return colorType;
     }
-	
-    //Actor.java already has moveTo(Location loc)
-
-    public Location[] getLegalMoves()
+    
+    public boolean isLegal(Location loc)
     {
-    	Location[] locs = new Location[2];
-    	locs[0] = new Location(0, 0);
-    	locs[1] = new Location(1, 1);
-    	return locs;
+    	ChessPiece C = (ChessPiece)getGrid().get(loc);
+    	
+    	if(loc == null)
+    		return false;
+    		
+    	else if(getGrid().isValid(loc))
+    		return false;
+    		
+    	else if(C.getColorType() == colorType)
+    		return false;
+    		
+    	return true;
     }
+
+    public abstract Location[] getLegalMoves();
 }
