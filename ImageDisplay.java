@@ -43,7 +43,7 @@ public class ImageDisplay extends AbstractDisplay
 {
     private Class cl;
     private String imageFilename;
-    private static final String imageExtension = ".gif";
+    private static final String imageExtension = ".png";
     private Map<String, Image> tintedVersions = new HashMap<String, Image>();
 
     /**
@@ -54,7 +54,7 @@ public class ImageDisplay extends AbstractDisplay
     public ImageDisplay(Class cl) throws IOException
     {
         this.cl = cl;
-        imageFilename = cl.getName().replace('.', '/');
+        imageFilename = "images/" + cl.getName();
         URL url = cl.getClassLoader().getResource(
                 imageFilename + imageExtension);
 
