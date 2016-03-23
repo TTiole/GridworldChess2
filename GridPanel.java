@@ -105,10 +105,6 @@ public class GridPanel extends JPanel implements Scrollable,
         g2.fillRect(insets.left, insets.top, numCols * (cellSize + 1) + 1, numRows
                 * (cellSize + 1) + 1);
 
-				currentSelection = new Location[2];
-				currentSelection[0] = currentLocation;
-				currentSelection[1] = previousLocation;
-
         drawWatermark(g2);
         drawSelection(g2);
         drawGridlines(g2);

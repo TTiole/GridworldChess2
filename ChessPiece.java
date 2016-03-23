@@ -1,18 +1,24 @@
 public abstract class ChessPiece extends Actor
 {
-    private boolean isWhite;
+    private char colorType;
 
-    public ChessPiece(boolean white)
+    public ChessPiece(char c)
     {
-        isWhite = white;
+        colorType = c;
     }
 	
-    public boolean isWhite()
+    public char getColorType()
     {
-        return isWhite;
+        return colorType;
     }
 	
     //Actor.java already has moveTo(Location loc)
 
-    public abstract Location[] getLegalMoves();
+    public Location[] getLegalMoves()
+    {
+    	Location[] locs = new Location[2];
+    	locs[0] = new Location(0, 0);
+    	locs[1] = new Location(1, 1);
+    	return locs;
+    }
 }

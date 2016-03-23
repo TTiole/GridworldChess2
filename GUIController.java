@@ -299,23 +299,28 @@ public class GUIController<T>
         if (loc != null)
         {
             T occupant = world.getGrid().get(loc);
-            t occupant0 = null;
+            T occupant0 = null;
             if (loc0 != null)
-                T occupant0 = world.getGrid().get(loc0);
+                occupant0 = world.getGrid().get(loc0);
             Location[] locSelection = display.getCurrentSelection();
-            if (occupant0 != null)
+            
+            if (occupant0 != null) // if last click was on a chess piece:
             {
                 ChessPiece A = (ChessPiece)occupant0;
                 
-                // Moves chess piece if occupant0 is a piece and loc is a legal move.
+                // Move chess piece if occupant0 is a piece and loc is a legal move.
                 if (locArrayContains(locSelection, loc))
                     A.moveTo(loc);
+                    
+                // Reset highlighted selection
                 display.setCurrentSelection(new Location[0]);
             }
-            else if (occupant != null)
+            if (occupant != null && (occupant0 == null || occupant0 == occupant)) // if current click is on a chess piece and last click was not:
             {
                 ChessPiece A = (ChessPiece)occupant;
-                display.setCurrentLocation(A.getLegalMoves());
+                
+                // Highlight legal moves.
+                display.setCurrentSelection(A.getLegalMoves());
             }
         }
         parentFrame.repaint();
