@@ -4,4 +4,9 @@ public class Pawn extends ChessPiece
   {
   	super(c);
   }
+  
+  public Location[] getLegalMoves()
+  {
+  	return new Location[0];
+  }
 }

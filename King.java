@@ -4,4 +4,9 @@ public class King extends ChessPiece
   {
   	super(c);
   }
+  
+  public Location[] getLegalMoves()
+  {
+  	return new Location[0];
+  }
 }

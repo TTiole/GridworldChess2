@@ -4,4 +4,9 @@ public class Queen extends ChessPiece
   {
   	super(c);
   }
+  
+  public Location[] getLegalMoves()
+  {
+  	return new Location[0];
+  }
 }
