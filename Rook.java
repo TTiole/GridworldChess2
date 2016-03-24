@@ -13,7 +13,9 @@ public class Rook extends ChessPiece
     {
         while(isLegal(sPos) || sPos.equals(getLocation()))
         {
-            
+            sPos = sPos.getAdjacentLocation(d);
+            if(isLegal(sPos))
+                legalMoves.add(sPos);
         }
     }
     
