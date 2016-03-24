@@ -9,9 +9,12 @@ public class Rook extends ChessPiece
     {
     List<Location> legalMoves = new ArrayList<Location>(0);
     Location sPos = getLocation();
-    for(int i = 1; i <= 4; i++)
+    for(int d = 0; d < 360; d += 90)
     {
-        
+        while(isLegal(sPos)
+        {
+            
+        }
     }
     
     /*
