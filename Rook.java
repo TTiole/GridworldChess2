@@ -11,9 +11,9 @@ public class Rook extends ChessPiece
     public Location[] getLegalMoves()
     {
         List<Location> legalMoves = new ArrayList<Location>(0);
-        Location sPos = getLocation();
         for(int d = 0; d < 360; d += 90)
         {
+            Location sPos = getLocation();
             while(isLegal(sPos) || sPos.equals(getLocation()))
             {
                 sPos = sPos.getAdjacentLocation(d);
