@@ -18,7 +18,7 @@ public class Rook extends ChessPiece
             {
                 sPos = sPos.getAdjacentLocation(d);
                 if(isLegal(sPos))
-                legalMoves.add(sPos);
+                    legalMoves.add(sPos);
             }
         }
     
