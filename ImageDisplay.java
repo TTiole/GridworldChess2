@@ -54,7 +54,7 @@ public class ImageDisplay extends AbstractDisplay
     public ImageDisplay(Class cl) throws IOException
     {
         this.cl = cl;
-        imageFilename = "images/" + cl.getName();
+        imageFilename = "images/" + "w_" + cl.getName().toLowerCase();
         URL url = cl.getClassLoader().getResource(
                 imageFilename + imageExtension);
 
