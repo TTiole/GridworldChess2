@@ -11,7 +11,7 @@ public class Rook extends ChessPiece
     Location sPos = getLocation();
     for(int d = 0; d < 360; d += 90)
     {
-        while(isLegal(sPos)
+        while(isLegal(sPos) || sPos.equals(getLocation()))
         {
             
         }
