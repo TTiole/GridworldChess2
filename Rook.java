@@ -12,7 +12,7 @@ public class Rook extends ChessPiece
     {
         //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[14];
-        i = 0;
+        int i = 0;
         for(int d = 0; d < 360; d += 90)
         {
             Location sPos = getLocation();
