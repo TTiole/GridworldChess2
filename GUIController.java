@@ -48,14 +48,14 @@ public class GUIController<T>
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 
     private Timer timer;
-    private JButton stepButton, runButton, stopButton;
+    private JButton playButton, resetButton;
     private JComponent controlPanel;
     private GridPanel display;
     private WorldFrame<T> parentFrame;
-    private int numStepsToRun, numStepsSoFar;
+    private int numStepsToPlay, numStepsSoFar;
     private ResourceBundle resources;
     private DisplayMap displayMap;
-    private boolean running;
+    private boolean playing;
     private Set<Class> occupantClasses;
 
     /**
@@ -97,43 +97,20 @@ public class GUIController<T>
                 ex.printStackTrace();
             }
 
-        timer = new Timer(INITIAL_DELAY, new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
-            {
-                step();
-            }
-        });
-
         display.addMouseListener(new MouseAdapter()
         {
             public void mousePressed(MouseEvent evt)
             {
                 Grid<T> gr = parentFrame.getWorld().getGrid();
                 Location loc = display.locationForPoint(evt.getPoint());
-                if (loc != null && gr.isValid(loc) && !isRunning())
+                if (loc != null && gr.isValid(loc))
                 {
                     display.setCurrentLocation(loc);
                     locationClicked();
                 }
             }
         });
-        stop();
-    }
-
-    /**
-     * Advances the world one step.
-     */
-    public void step()
-    {
-        parentFrame.getWorld().step();
-        parentFrame.repaint();
-        if (++numStepsSoFar == numStepsToRun)
-            stop();
-        Grid<T> gr = parentFrame.getWorld().getGrid();
-
-        for (Location loc : gr.getOccupiedLocations())
-            addOccupant(gr.get(loc));
+        reset();
     }
 
     private void addOccupant(T occupant)
@@ -148,41 +125,24 @@ public class GUIController<T>
         while (cl != Object.class);
     }
 
-    /**
-     * Starts a timer to repeatedly carry out steps at the speed currently
-     * indicated by the speed slider up Depending on the run option, it will
-     * either carry out steps for some fixed number or indefinitely
-     * until stopped.
-     */
-    public void run()
+    public void play()
     {
-        display.setToolTipsEnabled(false); // hide tool tips while running
-        parentFrame.setRunMenuItemsEnabled(false);
-        stopButton.setEnabled(true);
-        stepButton.setEnabled(false);
-        runButton.setEnabled(false);
-        numStepsSoFar = 0;
-        timer.start();
-        running = true;
+        playButton.setEnabled(false);
+        playing = true;
     }
 
     /**
      * Stops any existing timer currently carrying out steps.
      */
-    public void stop()
+    public void reset()
     {
-        display.setToolTipsEnabled(true);
-        parentFrame.setRunMenuItemsEnabled(true);
-        timer.stop();
-        stopButton.setEnabled(false);
-        runButton.setEnabled(true);
-        stepButton.setEnabled(true);
-        running = false;
+        playButton.setEnabled(true);
+        playing = false;
     }
 
-    public boolean isRunning()
+    public boolean isPlaying()
     {
-        return running;
+        return playing;
     }
 
     /**
@@ -192,75 +152,36 @@ public class GUIController<T>
     private void makeControls()
     {
         controlPanel = new JPanel();
-        stepButton = new JButton(resources.getString("button.gui.step"));
-        runButton = new JButton(resources.getString("button.gui.run"));
-        stopButton = new JButton(resources.getString("button.gui.stop"));
+        playButton = new JButton(resources.getString("button.gui.play"));
+        resetButton = new JButton(resources.getString("button.gui.reset"));
         
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
         controlPanel.setBorder(BorderFactory.createEtchedBorder());
         
-        Dimension spacer = new Dimension(5, stepButton.getPreferredSize().height + 10);
+        Dimension spacer = new Dimension(5, resetButton.getPreferredSize().height + 10);
         
         controlPanel.add(Box.createRigidArea(spacer));
 
-        controlPanel.add(stepButton);
+        controlPanel.add(resetButton);
         controlPanel.add(Box.createRigidArea(spacer));
-        controlPanel.add(runButton);
-        controlPanel.add(Box.createRigidArea(spacer));
-        controlPanel.add(stopButton);
-        runButton.setEnabled(false);
-        stepButton.setEnabled(false);
-        stopButton.setEnabled(false);
+        controlPanel.add(playButton);
+        playButton.setEnabled(true);
+        resetButton.setEnabled(true);
 
-        controlPanel.add(Box.createRigidArea(spacer));
-        controlPanel.add(new JLabel(resources.getString("slider.gui.slow")));
-        JSlider speedSlider = new JSlider(MIN_DELAY_MSECS, MAX_DELAY_MSECS,
-                INITIAL_DELAY);
-        speedSlider.setInverted(true);
-        speedSlider.setPreferredSize(new Dimension(100, speedSlider
-                .getPreferredSize().height));
-        speedSlider.setMaximumSize(speedSlider.getPreferredSize());
-
-        // remove control PAGE_UP, PAGE_DOWN from slider--they should be used
-        // for zoom
-        InputMap map = speedSlider.getInputMap();
-        while (map != null)
-        {
-            map.remove(KeyStroke.getKeyStroke("control PAGE_UP"));
-            map.remove(KeyStroke.getKeyStroke("control PAGE_DOWN"));
-            map = map.getParent();
-        }
-
-        controlPanel.add(speedSlider);
-        controlPanel.add(new JLabel(resources.getString("slider.gui.fast")));
         controlPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
-        stepButton.addActionListener(new ActionListener()
+        playButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                step();
+                play();
             }
         });
-        runButton.addActionListener(new ActionListener()
+        resetButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                run();
-            }
-        });
-        stopButton.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                stop();
-            }
-        });
-        speedSlider.addChangeListener(new ChangeListener()
-        {
-            public void stateChanged(ChangeEvent evt)
-            {
-                timer.setDelay(((JSlider) evt.getSource()).getValue());
+                reset();
             }
         });
     }
