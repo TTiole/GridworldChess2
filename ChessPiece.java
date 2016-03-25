@@ -27,6 +27,17 @@ public abstract class ChessPiece extends Actor
     		
     	return true;
     }
+    public ArrayList<Location> getLocations(char c)
+    {
+    	ArrayList<Location> Locs = getOccupiedLocations();
+    	for(Location l : Locs)
+    	{
+      	  ChessPiece C = (ChessPiece)(getGrid().get(l));
+      	  if(C.getColorType() != c)
+	    Locs.remove(l);
+	}
+	return Locs;
+    }
 
     public abstract Location[] getLegalMoves();
 }
