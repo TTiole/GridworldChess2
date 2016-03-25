@@ -22,6 +22,8 @@ public class Rook extends ChessPiece
                 {
                     legalMovesArray[i] = sPos;
                     i++;
+                    if(getGrid().get(sPos) != null)
+                				break;
                 }
                 sPos = sPos.getAdjacentLocation(d);
             }

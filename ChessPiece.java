@@ -27,5 +27,6 @@ public abstract class ChessPiece extends Actor
     		
     	return true;
     }
+
     public abstract Location[] getLegalMoves();
 }

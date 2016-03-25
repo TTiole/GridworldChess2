@@ -4,6 +4,7 @@ public class ChessRunner
     {
         ActorWorld world = new ActorWorld();
         world.add(new Location(3, 3), new Rook('w'));
+        world.add(new Location(6, 3), new Rook('b'));
         world.show();
     }
 }
