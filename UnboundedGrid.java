@@ -83,4 +83,10 @@ public class UnboundedGrid<E> extends AbstractGrid<E>
             throw new NullPointerException("loc == null");
         return occupantMap.remove(loc);
     }
+    
+    public void clear()
+    {
+        for(Location loc : getOccupiedLocations())
+            remove(loc);
+    }
 }
