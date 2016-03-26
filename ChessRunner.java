@@ -1,13 +1,31 @@
+import java.util.HashMap;
+import java.util.ArrayList;
+
 public class ChessRunner
 {
 	private static ActorWorld world;
+	private static ArrayList<HashMap> history;
 		
 	public static void main(String[] args)
 	{
         	world = new ActorWorld();
+        	history = new ArrayList<HashMap>();
         	defaultSetup();
         	world.show();
-    	}
+	}
+	
+	public static void recordState(Grid grid)
+	{
+		HashMap<Location, ChessPiece> places = new HashMap<Location, ChessPiece>(1);
+		for(Location loc : grid.getOccupiedLocations())
+			places.put(loc, (ChessPiece)(grid.get(loc))
+		history.add(0, places);
+	}
+	
+	public static ArrayList getHistory()
+	{
+		return history;
+	}
     
     	public static void defaultSetup()
     	{
