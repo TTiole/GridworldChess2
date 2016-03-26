@@ -12,6 +12,12 @@ public abstract class ChessPiece extends Actor
         return colorType;
     }
     
+    public void moveTo(Location loc)
+    {
+    	super.moveTo(loc);
+    	ChessRunner.recordState();
+    }
+    
     public boolean isLegal(Location loc)
     {
     	if(loc == null || !getGrid().isValid(loc))
