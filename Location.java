@@ -100,6 +100,11 @@ public class Location implements Comparable
         row = r;
         col = c;
     }
+    
+    public Location getInverted()
+    {
+        return new Location(7 - row, 7 - col);
+    }
 
     /**
      * Gets the row coordinate.
