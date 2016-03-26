@@ -16,6 +16,7 @@ public class ChessRunner
 	
 	public static void setState(int k)
 	{
+      world.getGrid().clear();
 		for(Location loc : history.get(k).keySet())
 			world.add(loc, history.get(k).get(loc));
 	}
