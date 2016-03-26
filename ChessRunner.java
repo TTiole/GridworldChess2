@@ -8,10 +8,16 @@ public class ChessRunner
 		
 	public static void main(String[] args)
 	{
-        	world = new ActorWorld();
-        	history = new ArrayList<HashMap>();
-        	defaultSetup();
-        	world.show();
+        world = new ActorWorld();
+       	history = new ArrayList<HashMap>();
+       	defaultSetup();
+       	world.show();
+	}
+	
+	public static void setState(int k)
+	{
+		for(Location loc : history.get(k).keySet())
+			world.add(loc, history.get(k).get(loc));
 	}
 	
 	public static void recordState(Grid grid)
