@@ -10,13 +10,18 @@ public class ChessRunner
 	{
         world = new ActorWorld();
        	history = new ArrayList<HashMap>();
-       	defaultSetup();
+       	setState(-1);
        	world.show();
 	}
 	
 	public static void setState(int k)
 	{
         world.getGrid().clear();
+        if(k < 0)
+        {
+            defaultSetup();
+            return;
+        }
 		for(Location loc : history.get(k).keySet())
 			world.add(loc, history.get(k).get(loc));
 	}
