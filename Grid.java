@@ -127,4 +127,6 @@ public interface Grid<E>
     ArrayList<E> getNeighbors(Location loc);
     
     void clear();
+    
+    void invertBoard();
 }
