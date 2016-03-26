@@ -89,4 +89,18 @@ public class UnboundedGrid<E> extends AbstractGrid<E>
         for(Location loc : getOccupiedLocations())
             remove(loc);
     }
+    
+    public void invertBoard()
+    {
+        ArrayList<ChessPiece> pieceList = new ArrayList<ChessPiece>();
+        ArrayList<Location> locList = new ArrayList<Location>();
+        for(Location loc : getOccupiedLocations())
+        {
+            pieceList.add((ChessPiece)(get(loc)))
+            locList.add(loc.getInverted());
+        }
+        clear();
+        for(int i = 0; i < pieceList.size() && i < locList.size(); i++)
+            put(locList[i], pieceList[i]);
+    }
 }
