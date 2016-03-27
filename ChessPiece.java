@@ -13,11 +13,6 @@ public abstract class ChessPiece extends Actor
         return colorType;
     }
     
-    public int getValue()
-    {
-    	return value;
-    }
-    
     public void moveTo(Location loc)
     {
     	super.moveTo(loc);
