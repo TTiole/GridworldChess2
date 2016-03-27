@@ -41,16 +41,19 @@ public abstract class ChessPiece extends Actor implements Comparable
     	ArrayList<Location> Locs = getOccupiedLocations();
     	for(Location l : Locs)
     	{
-      	  ChessPiece C = (ChessPiece)(getGrid().get(l));
-      	  if(C.getColorType() != c)
-	    Locs.remove(l);
-	}
-	return Locs;
+      		ChessPiece C = (ChessPiece)(getGrid().get(l));
+      		if(C.getColorType() != c)
+	    		Locs.remove(l);
+		}
+		return Locs;
     }
     
     public int compareTo(ChessPiece C)
     {
-    	return value - C.value;
+    	if(getClass().equals(C.getClass()))
+    		return value - C.value;
+    	else
+    		return -1;
     }
 
     public abstract Location[] getLegalMoves();
