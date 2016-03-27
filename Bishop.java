@@ -43,4 +43,9 @@ public class Bishop extends ChessPiece
     legalMovesArray = legalMoves.toArray(legalMovesArray);
     return legalMovesArray;
   }
+  
+  public void copy(Location loc)
+  {
+    ChessRunner.add(loc, new Bishop(getColorType()))
+  }
 }
