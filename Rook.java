@@ -6,6 +6,7 @@ public class Rook extends ChessPiece
     public Rook(char c)
     {
         super(c);
+        value = 5;
     }
 
     public Location[] getLegalMoves()
