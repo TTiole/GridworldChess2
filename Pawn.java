@@ -3,6 +3,7 @@ public class Pawn extends ChessPiece
   public Pawn(char c)
   {
   	super(c);
+  	value = 1;
   }
   
   public Location[] getLegalMoves()
