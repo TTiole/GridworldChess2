@@ -17,22 +17,42 @@ public class Boneyard
         }
     }
     
-    public static void takePiece(ChessPiece C)
+    public static void insertPiece(ChessPiece C)
     {
-        if(takenPieces.size() == 0)
+        int index;
+        if(takenPieces.isEmpty())
+        {
             takenPieces.add(C);
-        else if(takenPieces.size() == 1)
-            if(C.value > takenPieces.get(0).value)
-                takenPieces.add(0, C);
-            else
-                takenPieces.add(C);
+            index = 0;
+        }
         else
             for(int i = 0; i < takenPieces.size(); i++)
-            {
-                if(C.value > takenPieces.get(i).value)
+                if(C.compareTo(takenPiece.get(i) > 0)
+                {
                     takenPieces.add(i, C);
-                else if(C.value == takenPieces.get(i).value && C.value == takenPieces.get(i+1).value)
-                    takenPieces.add(i+1, C);
-            }
+                    index = i;
+                }
+                else if(i == takenPieces.size() - 1)
+                {
+                    takenPieces.add(C);
+                    index = i;
+                }
+    }
+    
+    public static void sort()
+    {
+        for(int i = takenPieces.size() - 1; i >= 0; i--)
+        {
+            if(takenPieces.get(i).getColorType() == 'w')
+                takenPieces.get(i).moveTo(whitePlaces[i]);
+            else if(takenPieces.get(i).getColorType() == 'b')
+                takenPieces.get(i).moveTo(blackPlaces[i]);
+        }
+    }
+    
+    public static void takePiece(ChessPiece C)
+    {
+        insertPiece(C);
+        sort();
     }
 }
