@@ -60,4 +60,9 @@ public class ChessRunner
        		world.add(new Location(i*7, 7), new Rook(colors[i]));
     	}
 	}
+	
+	public static void add(Location loc, T occupant)
+	{
+		world.add(loc, T);
+	}
 }
