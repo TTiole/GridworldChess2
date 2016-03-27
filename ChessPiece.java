@@ -46,4 +46,5 @@ public abstract class ChessPiece extends Actor
     }
 
     public abstract Location[] getLegalMoves();
+    public abstract void copy(Location loc);
 }
