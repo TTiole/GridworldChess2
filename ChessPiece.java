@@ -23,7 +23,7 @@ public abstract class ChessPiece extends Actor
     	if(loc == null || !getGrid().isValid(loc))
     		return false;
     		
-    	if(loc.getCol() >= 8)
+    	if(loc.isOnBoard())
     		return false;
 
     	ChessPiece C = (ChessPiece)getGrid().get(loc);
