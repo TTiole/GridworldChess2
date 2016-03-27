@@ -1,7 +1,9 @@
-public abstract class ChessPiece extends Actor
+import java.lang.Comparable;
+
+public abstract class ChessPiece extends Actor implements Comparable
 {
     private char colorType;
-    protected int value;
+    protected int value = 0;
 
     public ChessPiece(char c)
     {
@@ -44,6 +46,11 @@ public abstract class ChessPiece extends Actor
 	    Locs.remove(l);
 	}
 	return Locs;
+    }
+    
+    public int compareTo(ChessPiece C)
+    {
+    	return value - C.value;
     }
 
     public abstract Location[] getLegalMoves();
