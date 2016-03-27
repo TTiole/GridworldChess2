@@ -234,6 +234,8 @@ public class GUIController<T>
                     ChessPiece C = (ChessPiece)occupant0;
                     if(locArrayContains(locSelection, loc)) // Piece -> legal move
                     {
+                        if(occupant != null)
+                            Boneyard.takePiece((ChessPiece)occupant);
                         C.moveTo(loc);
                         display.setOneSelection(loc);
                     }
