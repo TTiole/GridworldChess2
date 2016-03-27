@@ -9,4 +9,9 @@ public class Queen extends ChessPiece
   {
   	return new Location[0];
   }
+  
+  public void copyTo(Location loc)
+  {
+    ChessRunner.add(loc, new Knight(getColorType()))
+  }
 }
