@@ -7,12 +7,13 @@ public class King extends ChessPiece
   
   public King(char c)
   {
+  	super(c);
+  	value = 0;
     char targetColor = 'w';
     if(c == 'w')
       targetColor = 'b';
     oppositeLocs = getLocations(targetColor);
   	check = false;
-  	super(c);
   }
   
   public boolean isInCheck()
