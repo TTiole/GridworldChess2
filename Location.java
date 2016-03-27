@@ -27,6 +27,7 @@ public class Location implements Comparable
 {
     private int row; // row location in grid
     private int col; // column location in grid
+    private boolean onBoard;
 
     /**
      * The turn angle for turning 90 degrees to the left.
@@ -99,6 +100,7 @@ public class Location implements Comparable
     {
         row = r;
         col = c;
+        onBoard = r < 8 && c < 8;
     }
     
     public Location getInverted()
