@@ -281,8 +281,7 @@ public class GUIController<T>
                     {
                         display.clearSelection();
                         if(occupant == null) // Out -> blank
-                            // add new ChessPiece to loc
-                            int scrap = 0;
+                            C.copyTo(loc);
                         else // Out -> piece
                             display.setOneSelection(loc);
                     }
