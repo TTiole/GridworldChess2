@@ -108,6 +108,11 @@ public class Location implements Comparable
         return new Location(7 - row, 7 - col);
     }
 
+    public boolean isOnBoard()
+    {
+        return onBoard;
+    }
+
     /**
      * Gets the row coordinate.
      * @return the row of this location
