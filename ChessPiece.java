@@ -1,6 +1,7 @@
 public abstract class ChessPiece extends Actor
 {
     private char colorType;
+    private int value;
 
     public ChessPiece(char c)
     {
@@ -10,6 +11,11 @@ public abstract class ChessPiece extends Actor
     public char getColorType()
     {
         return colorType;
+    }
+    
+    public int getValue()
+    {
+    	return value;
     }
     
     public void moveTo(Location loc)
