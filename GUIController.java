@@ -290,28 +290,6 @@ public class GUIController<T>
                 else if(occupant != null) // Blank -> piece or out
                     display.setOneSelection(loc);
             }
-            
-            
-            if (occupant0 != null) // if last click was on a chess piece:
-            {
-                ChessPiece A = (ChessPiece)occupant0;
-                
-                // Move chess piece if occupant0 is a piece and loc is a legal move.
-                if (locArrayContains(locSelection, loc))
-                {
-                    A.moveTo(loc);
-                }
-                    
-                // Reset highlighted selection
-                display.setSelection(new Location[0]);
-            }
-            if (occupant != null && (occupant0 == null || occupant0 == occupant)) // if current click is on a chess piece and last click was not:
-            {
-                ChessPiece A = (ChessPiece)occupant;
-                
-                // Highlight legal moves.
-                display.setSelection(A.getLegalMoves());
-            }
         }
         parentFrame.repaint();
     }
