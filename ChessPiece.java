@@ -1,7 +1,7 @@
 public abstract class ChessPiece extends Actor
 {
     private char colorType;
-    private int value;
+    protected int value;
 
     public ChessPiece(char c)
     {
