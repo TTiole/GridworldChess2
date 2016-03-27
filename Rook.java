@@ -38,4 +38,9 @@ public class Rook extends ChessPiece
         //legalMovesArray = legalMoves.toArray(legalMovesArray);
         return legalMovesArray;
     }
+  
+  public void copyTo(Location loc)
+  {
+    ChessRunner.add(loc, new Knight(getColorType()))
+  }
 }
