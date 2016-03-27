@@ -6,6 +6,7 @@ public class Bishop extends ChessPiece
   public Bishop(char c)
   {
     super(c);
+    value = 3;
   }
   
   public Location[] getLegalMoves()
