@@ -13,10 +13,11 @@ public class Bishop extends ChessPiece
   {
     //cPos: current position being analyzed nPos: next position to be analyzed
     List<Location> legalMoves = new ArrayList<Location>(0);
-    Location cPos = getLocation();
+    Location cPos = null;
     Location nPos = null;
     for(int i = 1; i <= 4; i++)
     {
+      cPos = getLocation();
       switch(i) //NORTHEAST (1), SOUTHEAST (2), SOUTHWEST (3), NORTHWEST (4)
       {
         case 1:
