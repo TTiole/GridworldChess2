@@ -17,9 +17,9 @@ public class Knight extends ChessPiece
             for(int n = 0; n < 4; n++)
             {
                 if(n == 2)
-                    dy *= -1;
+                    dy = -dy;
                 if(n % 2 == 0)
-                    dx *= -1; // FINISH THIS FIRST
+                    dx = -dx;
             }
         }
         
