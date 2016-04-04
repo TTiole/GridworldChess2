@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class CaptureZone
+public class StorageArea
 {
     private static ArrayList<ChessPiece> takenPieces;
     private static Location[] whitePlaces, blackPlaces;
