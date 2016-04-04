@@ -8,7 +8,8 @@ public class Pawn extends ChessPiece
   
   public Location[] getLegalMoves()
   {
-  	return new Location[0];
+  	Location[] legalMoves = new Location[4];
+  	
   }
   
   public void copyTo(Location loc)
