@@ -456,22 +456,11 @@ public class GridPanel extends JPanel implements Scrollable,
     	return currentSelection;
     }
     
-    public void clearSelection()
-    {
-    	setSelection(new Location[0]);
-    }
-    
-    public void setSelection(Location[] locs)
+    public void setCurrentSelection(Location[] locs)
     {
     		currentSelection = new Location[locs.length];
     		for(int i = 0; i < locs.length; i++)
     			currentSelection[i] = locs[i];
-    }
-    
-    public void setOneSelection(Location loc)
-    {
-    	currentSelection = new Location[1];
-    	currentSelection[0] = loc;
     }
 
     /**

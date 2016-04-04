@@ -113,26 +113,4 @@ public class BoundedGrid<E> extends AbstractGrid<E>
         occupantArray[loc.getRow()][loc.getCol()] = null;
         return r;
     }
-    
-    public void clear()
-    {
-        for(Location loc : getOccupiedLocations())
-            remove(loc);
-    }
-    
-    public void invertBoard()
-    {
-        ChessPiece[] pieceList = new ChessPiece[32];
-        Location[] locList = new Location[32];
-        int i = 0;
-        for(Location loc : getOccupiedLocations())
-        {
-            pieceList[i] = (ChessPiece)(get(loc));
-            locList[i] = loc.getInverted();
-            i++;
-        }
-        clear();
-        for(int j = 0; j < pieceList.length && j < locList.length; j++)
-            put(locList[j], (E)pieceList[j]);
-    }
 }

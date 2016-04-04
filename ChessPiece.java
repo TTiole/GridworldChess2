@@ -1,10 +1,6 @@
-import java.lang.Comparable;
-import java.util.ArrayList;
-
-public abstract class ChessPiece extends Actor implements Comparable
+public abstract class ChessPiece extends Actor
 {
     private char colorType;
-    protected int value = 0;
 
     public ChessPiece(char c)
     {
@@ -16,49 +12,32 @@ public abstract class ChessPiece extends Actor implements Comparable
         return colorType;
     }
     
-    public void moveTo(Location loc)
-    {
-    	super.moveTo(loc);
-    	ChessRunner.recordState();
-    }
-    
     public boolean isLegal(Location loc)
     {
     	if(loc == null || !getGrid().isValid(loc))
     		return false;
     		
-    	if(loc.isOnBoard())
+    	if(loc.getCol() >= 8)
     		return false;
 
     	ChessPiece C = (ChessPiece)getGrid().get(loc);
     		
     	if(C != null && C.getColorType() == colorType)
     		return false;
-    	
-    	System.out.println(true);
+    		
     	return true;
     }
     public ArrayList<Location> getLocations(char c)
     {
-    	ArrayList<Location> Locs = getGrid().getOccupiedLocations();
+    	ArrayList<Location> Locs = getOccupiedLocations();
     	for(Location l : Locs)
     	{
-      		ChessPiece C = (ChessPiece)(getGrid().get(l));
-      		if(C.getColorType() != c)
-	    		Locs.remove(l);
-			}
-			return Locs;
-    }
-    
-    public int compareTo(Object obj)
-    {
-    	ChessPiece C = (ChessPiece)obj;
-    	if(getClass().equals(C.getClass()))
-    		return value - C.value;
-    	else
-    		return -1;
+      	  ChessPiece C = (ChessPiece)(getGrid().get(l));
+      	  if(C.getColorType() != c)
+	    Locs.remove(l);
+	}
+	return Locs;
     }
 
     public abstract Location[] getLegalMoves();
-    public abstract void copyTo(Location loc);
 }
