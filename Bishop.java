@@ -11,17 +11,22 @@ public class Bishop extends ChessPiece
   
   public Location[] getLegalMoves()
   {
-    //cPos: current position being analyzed sPos: starting position nPos: next position to be analyzed
+    //cPos: current position being analyzed nPos: next position to be analyzed
     List<Location> legalMoves = new ArrayList<Location>(0);
-    Location sPos = getLocation();
+    Location cPos = getLocation();
+    Location nPos;
     for(int i = 1; i <= 4; i++)
     {
       switch(i) //NORTHEAST (1), SOUTHEAST (2), SOUTHWEST (3), NORTHWEST (4)
       {
         case 1:
-          if(sPos.getAdjacentLocation(Location.NORTHEAST) == null)
-            break;
-          
+          while(cPos != null)
+            nPos = cPos.getAdjacentLocation(Location.NORTHEAST);
+            ChessPiece adjPiece = getGrid().get(nPos);
+            if(getColorType() == adjPiece.getColorType())
+              break;
+            legalMoves.add(nPos);
+            cPos = nPos;
           break;
         case 2:
           //code
@@ -47,6 +52,6 @@ public class Bishop extends ChessPiece
   
   public void copyTo(Location loc)
   {
-    ChessRunner.add(loc, new Bishop(getColorType()))
+    ChessRunner.add(loc, new Bishop(getColorType()));
   }
 }
