@@ -8,7 +8,7 @@ public class Knight extends ChessPiece
   public Location[] getLegalMoves()
   {
   	    //List<Location> legalMoves = new ArrayList<Location>(0);
-        Location[] legalMovesArray = new Location[14];
+        Location[] legalMovesArray = new Location[8];
         int i = 0;
         
         for(int dy = 1; dy <= 2; dy++)
