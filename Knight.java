@@ -24,25 +24,7 @@ public class Knight extends ChessPiece
                 {
                     legalMovesArray[i] = loc;
                     i++;
-                    if(getGrid().get(loc) != null)
-                				break;
                 }
-            }
-        }
-        
-        for(int d = 0; d < 360; d += 90)
-        {
-            Location loc = getLocation();
-            while(isLegal(loc) || loc.equals(getLocation()))
-            {
-                if(isLegal(loc))
-                {
-                    legalMovesArray[i] = loc;
-                    i++;
-                    if(getGrid().get(loc) != null)
-                				break;
-                }
-                loc = loc.getAdjacentLocation(d);
             }
         }
     
