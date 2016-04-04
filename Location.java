@@ -165,6 +165,11 @@ public class Location implements Comparable
         }
         return new Location(getRow() + dr, getCol() + dc);
     }
+    
+    public void getRelativeLocation(int dy, int dx)
+    {
+        return new Location(getRow() + dy, getCol() + dx);
+    }
 
     /**
      * Returns the direction from this location toward another location. The
