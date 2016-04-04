@@ -20,6 +20,13 @@ public class Knight extends ChessPiece
                 if(n == 2)
                     dy = -dy;
                 Location loc = getLocation().getRelativeLocation(dy, dx);
+                if(isLegal(loc))
+                {
+                    legalMovesArray[i] = loc;
+                    i++;
+                    if(getGrid().get(loc) != null)
+                				break;
+                }
             }
         }
         
