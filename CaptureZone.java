@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Boneyard
+public class CaptureZone
 {
     private static ArrayList<ChessPiece> takenPieces;
     private static Location[] whitePlaces, blackPlaces;
