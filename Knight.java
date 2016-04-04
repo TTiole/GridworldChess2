@@ -13,6 +13,6 @@ public class Knight extends ChessPiece
   
   public void copyTo(Location loc)
   {
-    ChessRunner.add(loc, new Knight(getColorType()))
+    ChessRunner.add(loc, new Knight(getColorType()));
   }
 }

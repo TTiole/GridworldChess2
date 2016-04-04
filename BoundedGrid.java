@@ -122,15 +122,17 @@ public class BoundedGrid<E> extends AbstractGrid<E>
     
     public void invertBoard()
     {
-        ArrayList<ChessPiece> pieceList = new ArrayList<ChessPiece>();
-        ArrayList<Location> locList = new ArrayList<Location>();
+        ChessPiece[] pieceList = new ChessPiece[32];
+        Location[] locList = new Location[32];
+        int i = 0;
         for(Location loc : getOccupiedLocations())
         {
-            pieceList.add((ChessPiece)(get(loc)))
-            locList.add(loc.getInverted());
+            pieceList[i] = (ChessPiece)(get(loc));
+            locList[i] = loc.getInverted();
+            i++;
         }
         clear();
-        for(int i = 0; i < pieceList.size() && i < locList.size(); i++)
-            put(locList[i], pieceList[i]);
+        for(int j = 0; j < pieceList.length && j < locList.length; j++)
+            put(locList[j], (E)pieceList[j]);
     }
 }

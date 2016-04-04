@@ -27,7 +27,7 @@ public class StorageArea
         }
         else
             for(int i = 0; i < takenPieces.size(); i++)
-                if(C.compareTo(takenPiece.get(i) > 0)
+                if(C.compareTo(takenPieces.get(i)) > 0)
                 {
                     takenPieces.add(i, C);
                     index = i;

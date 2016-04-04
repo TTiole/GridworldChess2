@@ -1,4 +1,5 @@
 import java.lang.Comparable;
+import java.util.ArrayList;
 
 public abstract class ChessPiece extends Actor implements Comparable
 {
@@ -33,23 +34,25 @@ public abstract class ChessPiece extends Actor implements Comparable
     		
     	if(C != null && C.getColorType() == colorType)
     		return false;
-    		
+    	
+    	System.out.println(true);
     	return true;
     }
     public ArrayList<Location> getLocations(char c)
     {
-    	ArrayList<Location> Locs = getOccupiedLocations();
+    	ArrayList<Location> Locs = getGrid().getOccupiedLocations();
     	for(Location l : Locs)
     	{
       		ChessPiece C = (ChessPiece)(getGrid().get(l));
       		if(C.getColorType() != c)
 	    		Locs.remove(l);
-		}
-		return Locs;
+			}
+			return Locs;
     }
     
-    public int compareTo(ChessPiece C)
+    public int compareTo(Object obj)
     {
+    	ChessPiece C = (ChessPiece)obj;
     	if(getClass().equals(C.getClass()))
     		return value - C.value;
     	else

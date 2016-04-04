@@ -235,7 +235,7 @@ public class GUIController<T>
                     if(locArrayContains(locSelection, loc)) // Piece -> legal move
                     {
                         if(occupant != null)
-                            Boneyard.takePiece((ChessPiece)occupant);
+                            StorageArea.takePiece((ChessPiece)occupant);
                         C.moveTo(loc);
                         display.setOneSelection(loc);
                     }
@@ -311,7 +311,7 @@ public class GUIController<T>
         }
     }
     
-    public void deselect()
+    //public void deselect()
     
     public boolean locArrayContains(Location[] locs, Location loc)
     {

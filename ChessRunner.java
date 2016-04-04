@@ -22,15 +22,15 @@ public class ChessRunner
             defaultSetup();
             return;
         }
-		for(Location loc : history.get(k).keySet())
-			world.add(loc, history.get(k).get(loc));
+		for(Object loc : history.get(k).keySet())
+			world.add((Location)loc, (ChessPiece)history.get(k).get(loc));
 	}
 	
 	public static void recordState()
 	{
 		HashMap<Location, ChessPiece> places = new HashMap<Location, ChessPiece>(1);
 		for(Location loc : world.getGrid().getOccupiedLocations())
-			places.put(loc, (ChessPiece)(world.getGrid().get(loc))
+			places.put(loc, (ChessPiece)(world.getGrid().get(loc)));
 		history.add(0, places);
 	}
 	
@@ -47,8 +47,8 @@ public class ChessRunner
     	
     	for(int i = 0; i < colors.length; i++)
     	{
-    		for(int j = 0; j < 8; j++)
-    			world.add(new Location(6 - i*5, j), new Pawn(colors[i]));
+    			for(int j = 0; j < 8; j++)
+    				world.add(new Location(6 - i*5, j), new Pawn(colors[i]));
        		
        		world.add(new Location(i*7, 0), new Rook(colors[i]));
        		world.add(new Location(i*7, 1), new Knight(colors[i]));
@@ -59,10 +59,11 @@ public class ChessRunner
        		world.add(new Location(i*7, 6), new Knight(colors[i]));
        		world.add(new Location(i*7, 7), new Rook(colors[i]));
     	}
+    	world.add(new Location(4, 4), new Rook('w'));
 	}
 	
-	public static void add(Location loc, T occupant)
+	public static void add(Location loc, ChessPiece occupant)
 	{
-		world.add(loc, T);
+		world.add(loc, occupant);
 	}
 }

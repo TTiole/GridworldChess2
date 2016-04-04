@@ -16,17 +16,17 @@ public class Rook extends ChessPiece
         int i = 0;
         for(int d = 0; d < 360; d += 90)
         {
-            Location sPos = getLocation();
-            while(isLegal(sPos) || sPos.equals(getLocation()))
+            Location loc = getLocation();
+            while(isLegal(loc) || loc.equals(getLocation()))
             {
-                if(isLegal(sPos))
+                if(isLegal(loc))
                 {
-                    legalMovesArray[i] = sPos;
+                    legalMovesArray[i] = loc;
                     i++;
-                    if(getGrid().get(sPos) != null)
+                    if(getGrid().get(loc) != null)
                 				break;
                 }
-                sPos = sPos.getAdjacentLocation(d);
+                loc = loc.getAdjacentLocation(d);
             }
         }
     
@@ -42,6 +42,6 @@ public class Rook extends ChessPiece
   
   public void copyTo(Location loc)
   {
-    ChessRunner.add(loc, new Rook(getColorType()))
+    ChessRunner.add(loc, new Rook(getColorType()));
   }
 }

@@ -13,6 +13,6 @@ public class Pawn extends ChessPiece
   
   public void copyTo(Location loc)
   {
-    ChessRunner.add(loc, new Pawn(getColorType()))
+    ChessRunner.add(loc, new Pawn(getColorType()));
   }
 }

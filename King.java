@@ -12,7 +12,7 @@ public class King extends ChessPiece
     char targetColor = 'w';
     if(c == 'w')
       targetColor = 'b';
-    oppositeLocs = getLocations(targetColor);
+    //oppositeLocs = getLocations(targetColor);
   	check = false;
   }
   
@@ -23,7 +23,7 @@ public class King extends ChessPiece
       ChessPiece C = (ChessPiece)(getGrid().get(L));
       Location[] enemyLegal = C.getLegalMoves();
       for(Location L2 : enemyLegal)
-        if(enemyLegal[L2].equals(getLocation()))
+        if(L2.equals(getLocation()))
           return true;
     }
     return false;
@@ -36,6 +36,6 @@ public class King extends ChessPiece
   
   public void copyTo(Location loc)
   {
-    ChessRunner.add(loc, new King(getColorType()))
+    ChessRunner.add(loc, new King(getColorType()));
   }
 }
