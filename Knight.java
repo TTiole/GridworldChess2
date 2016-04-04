@@ -16,10 +16,10 @@ public class Knight extends ChessPiece
             int dx = 3 - dy;
             for(int n = 0; n < 4; n++)
             {
+                dx = -dx;
                 if(n == 2)
                     dy = -dy;
-                if(n % 2 == 0)
-                    dx = -dx;
+                Location loc = getLocation().getRelativeLocation(dy, dx);
             }
         }
         
