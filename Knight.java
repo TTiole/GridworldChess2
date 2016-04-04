@@ -11,7 +11,7 @@ public class Knight extends ChessPiece
         Location[] legalMovesArray = new Location[14];
         int i = 0;
         
-        for(int dy = 1; dy <= 2; y++)
+        for(int dy = 1; dy <= 2; dy++)
         {
             int dx = 3 - dy;
             for(int n = 0; n < 4; n++)
