@@ -100,7 +100,7 @@ public class Location implements Comparable
     {
         row = r;
         col = c;
-        onBoard = r < 8 && c < 8;
+        onBoard = r >=0 && c >= 0 && r < 8 && c < 8;
     }
     
     public boolean isOnBoard()

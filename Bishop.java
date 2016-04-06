@@ -10,10 +10,11 @@ public class Bishop extends ChessPiece
   
   public List<Location> analyzeNextPos(List<Location> legalMoves, int dir, Location cPos, Location nPos)
   {
-    while(cPos != null)
+    while(cPos != null && cPos.isOnBoard())
     {
+    	System.out.println(cPos);
       nPos = cPos.getAdjacentLocation(dir);
-      if(isLegal(nPos) == true)
+      if(isLegal(nPos))
         legalMoves.add(nPos);
       cPos = nPos;
     }
@@ -31,16 +32,16 @@ public class Bishop extends ChessPiece
       switch(i) //NORTHEAST (1), SOUTHEAST (2), SOUTHWEST (3), NORTHWEST (4)
       {
         case 1:
-          analyzeNextPos(legalMoves, Location.NORTHEAST, cPos, nPos)
+          analyzeNextPos(legalMoves, Location.NORTHEAST, cPos, nPos);
           break;
         case 2:
-          analyzeNextPos(legalMoves, Location.SOUTHEAST, cPos, nPos)
+          analyzeNextPos(legalMoves, Location.SOUTHEAST, cPos, nPos);
           break;
         case 3:
-          analyzeNextPos(legalMoves, Location.SOUTHWEST, cPos, nPos)
+          analyzeNextPos(legalMoves, Location.SOUTHWEST, cPos, nPos);
           break;
         case 4:
-          analyzeNextPos(legalMoves, Location.NORTHWEST, cPos, nPos)
+          analyzeNextPos(legalMoves, Location.NORTHWEST, cPos, nPos);
           break;
       }
     }
