@@ -1,10 +1,21 @@
-public abstract class ChessPiece extends Actor
+import java.util.ArrayList;
+import java.lang.Comparable;
+
+public abstract class ChessPiece extends Actor implements Comparable
 {
     private char colorType;
+    protected static int value;
 
     public ChessPiece(char c)
     {
         colorType = c;
+        value = 0;
+    }
+
+    public ChessPiece(char c, int v)
+    {
+        colorType = c;
+        value = v;
     }
 	
     public char getColorType()
@@ -29,14 +40,23 @@ public abstract class ChessPiece extends Actor
     }
     public ArrayList<Location> getLocations(char c)
     {
-    	ArrayList<Location> Locs = getOccupiedLocations();
+    	ArrayList<Location> Locs = getGrid().getOccupiedLocations();
     	for(Location l : Locs)
     	{
       	  ChessPiece C = (ChessPiece)(getGrid().get(l));
       	  if(C.getColorType() != c)
 	    Locs.remove(l);
-	}
-	return Locs;
+			}
+			return Locs;
+    }
+    
+    public int compareTo(Object obj)
+    {
+    	ChessPiece C = (ChessPiece)obj;
+    	if(getClass().equals(C.getClass()))
+    		return value - C.value;
+    	else
+    		return -1;
     }
 
     public abstract Location[] getLegalMoves();

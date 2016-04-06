@@ -2,7 +2,7 @@ public class Queen extends ChessPiece
 {
   public Queen(char c)
   {
-  	super(c);
+  	super(c, 9);
   }
   
   public Location[] getLegalMoves()

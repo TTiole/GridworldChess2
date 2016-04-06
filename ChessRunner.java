@@ -29,5 +29,6 @@ public class ChessRunner
         		world.add(new Location(i*7, 6), new Knight(colors[i]));
         		world.add(new Location(i*7, 7), new Rook(colors[i]));
     		}
+    		world.add(new Location(4, 4), new Knight('b'));
     	}
 }

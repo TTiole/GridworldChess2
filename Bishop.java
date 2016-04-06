@@ -5,8 +5,7 @@ public class Bishop extends ChessPiece
 {
   public Bishop(char c)
   {
-    super(c);
-    value = 3;
+    super(c, 3);
   }
   
   public Location[] getLegalMoves()
@@ -21,25 +20,25 @@ public class Bishop extends ChessPiece
       switch(i) //NORTHEAST (1), SOUTHEAST (2), SOUTHWEST (3), NORTHWEST (4)
       {
         case 1:
-          nPos = cPos.getAdjacentLocation(NORTHEAST);
+          nPos = cPos.getAdjacentLocation(Location.NORTHEAST);
           if(isLegal(nPos) == true)
             legalMoves.add(nPos);
           cPos = nPos;
           break;
         case 2:
-          nPos = cPos.getAdjacentLocation(SOUTHEAST);
+          nPos = cPos.getAdjacentLocation(Location.SOUTHEAST);
           if(isLegal(nPos) == true)
             legalMoves.add(nPos);
           cPos = nPos;
           break;
         case 3:
-          nPos = cPos.getAdjacentLocation(SOUTHWEST);
+          nPos = cPos.getAdjacentLocation(Location.SOUTHWEST);
           if(isLegal(nPos) == true)
             legalMoves.add(nPos);
           cPos = nPos;
           break;
         case 4:
-          nPos = cPos.getAdjacentLocation(NORTHWEST);
+          nPos = cPos.getAdjacentLocation(Location.NORTHWEST);
           if(isLegal(nPos) == true)
             legalMoves.add(nPos);
           cPos = nPos;
@@ -55,10 +54,5 @@ public class Bishop extends ChessPiece
     Location[] legalMovesArray = new Location[legalMoves.size()];
     legalMovesArray = legalMoves.toArray(legalMovesArray);
     return legalMovesArray;
-  }
-  
-  public void copyTo(Location loc)
-  {
-    ChessRunner.add(loc, new Bishop(getColorType()));
   }
 }

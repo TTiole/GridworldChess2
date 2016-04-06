@@ -7,12 +7,12 @@ public class King extends ChessPiece
   
   public King(char c)
   {
+  	super(c);
     char targetColor = 'w';
     if(c == 'w')
       targetColor = 'b';
-    oppositeLocs = getLocations(targetColor);
+    //oppositeLocs = getLocations(targetColor);
   	check = false;
-  	super(c);
   }
   
   public boolean isInCheck()
@@ -22,7 +22,7 @@ public class King extends ChessPiece
       ChessPiece C = (ChessPiece)(getGrid().get(L));
       Location[] enemyLegal = C.getLegalMoves();
       for(Location L2 : enemyLegal)
-        if(enemyLegal[L2].equals(getLocation()))
+        if(L2.equals(getLocation()))
           return true;
     }
     return false;
