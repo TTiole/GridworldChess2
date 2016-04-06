@@ -128,6 +128,7 @@ public class GUIController<T>
     public void play()
     {
         playButton.setEnabled(false);
+        ChessRunner.defaultSetup();
         playing = true;
     }
 
@@ -137,6 +138,7 @@ public class GUIController<T>
     public void reset()
     {
         playButton.setEnabled(true);
+        ChessRunner.defaultSetup();
         playing = false;
     }
 
@@ -225,25 +227,72 @@ public class GUIController<T>
                 occupant0 = world.getGrid().get(loc0);
             Location[] locSelection = display.getCurrentSelection();
             
-            if (occupant0 != null) // if last click was on a chess piece:
+            
+            if(playing)
             {
-                ChessPiece A = (ChessPiece)occupant0;
-                
-                // Move chess piece if occupant0 is a piece and loc is a legal move.
-                if (locArrayContains(locSelection, loc))
+                if(occupant0 != null && loc0.isOnBoard())
                 {
-                    A.moveTo(loc);
+                    display.clearSelection();
+                    ChessPiece C = (ChessPiece)occupant0;
+                    if(locArrayContains(locSelection, loc)) // Piece -> legal move
+                    {
+                        if(occupant != null)
+                            StorageArea.takePiece((ChessPiece)occupant);
+                        C.moveTo(loc);
+                        display.setOneSelection(loc);
+                    }
+                    else if(occupant != null)
+                    {
+                        ChessPiece C2 = (ChessPiece)occupant;
+                        if(C.getColorType() == C2.getColorType() && loc.isOnBoard()) // Piece -> piece
+                            display.setSelection(C2.getLegalMoves());
+                    }
                 }
-                    
-                // Reset highlighted selection
-                display.setCurrentSelection(new Location[0]);
-            }
-            if (occupant != null && (occupant0 == null || occupant0 == occupant)) // if current click is on a chess piece and last click was not:
-            {
-                ChessPiece A = (ChessPiece)occupant;
                 
-                // Highlight legal moves.
-                display.setCurrentSelection(A.getLegalMoves());
+                else if(occupant != null) // Blank -> piece
+                {
+                    ChessPiece C = (ChessPiece)occupant;
+                    display.setSelection(C.getLegalMoves());
+                }
+            }
+            
+            else
+            {
+                if(occupant0 != null)
+                {
+                    ChessPiece C = (ChessPiece)occupant0;
+                    
+                    if(loc0.isOnBoard())
+                    {
+                        if(occupant == null) // Piece -> blank
+                        {
+                            C.moveTo(loc);
+                            display.clearSelection();
+                        }
+                        else
+                        {
+                            ChessPiece C2 = (ChessPiece)occupant;
+                            if(loc.isOnBoard()) // Piece -> piece
+                                display.setOneSelection(loc);
+                            else // Piece -> out
+                            {
+                                C.removeSelfFromGrid();
+                                display.clearSelection();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        display.clearSelection();
+                        if(occupant == null) // Out -> blank
+                            C.copyTo(loc);
+                        else // Out -> piece
+                            display.setOneSelection(loc);
+                    }
+                }
+                
+                else if(occupant != null) // Blank -> piece or out
+                    display.setOneSelection(loc);
             }
         }
         parentFrame.repaint();

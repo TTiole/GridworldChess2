@@ -32,4 +32,9 @@ public class King extends ChessPiece
   {
   	return new Location[0];
   }
+  
+  public void copyTo(Location loc)
+  {
+    ChessRunner.add(loc, new King(getColorType()));
+  }
 }

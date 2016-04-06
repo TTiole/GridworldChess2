@@ -60,4 +60,5 @@ public abstract class ChessPiece extends Actor implements Comparable
     }
 
     public abstract Location[] getLegalMoves();
+    public abstract void copyTo(Location loc);
 }

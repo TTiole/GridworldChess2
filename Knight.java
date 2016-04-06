@@ -38,4 +38,9 @@ public class Knight extends ChessPiece
         //legalMovesArray = legalMoves.toArray(legalMovesArray);
         return legalMovesArray;
   }
+  
+  public void copyTo(Location loc)
+  {
+    ChessRunner.add(loc, new Bishop(getColorType()));
+  }
 }

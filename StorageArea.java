@@ -12,8 +12,8 @@ public class StorageArea
         blackPlaces = new Location[16];
         for(int i = 0; i < 16; i++)
         {
-            whitePlaces[i] = new Location(8 + i/8, i % 8);
-            blackPlaces[i] = new Location(9 + i/8, i % 8);
+            whitePlaces[i] = new Location(i % 8, 8 + i/8);
+            blackPlaces[i] = new Location(i % 8, 8 + i/8);
         }
     }
     
@@ -31,11 +31,13 @@ public class StorageArea
                 {
                     takenPieces.add(i, C);
                     index = i;
+                    break;
                 }
                 else if(i == takenPieces.size() - 1)
                 {
                     takenPieces.add(C);
                     index = i;
+                    break;
                 }
     }
     
