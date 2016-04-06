@@ -8,6 +8,17 @@ public class Bishop extends ChessPiece
     super(c, 3);
   }
   
+  public List<Location> analyzeNextPos(List<Location> legalMoves, int dir, Location cPos, Location nPos)
+  {
+    while(cPos != null)
+    {
+      nPos = cPos.getAdjacentLocation(dir);
+      if(isLegal(nPos) == true)
+        legalMoves.add(nPos);
+      cPos = nPos;
+    }
+    return legalMoves;
+  }
   public Location[] getLegalMoves()
   {
     //cPos: current position being analyzed nPos: next position to be analyzed
@@ -20,28 +31,16 @@ public class Bishop extends ChessPiece
       switch(i) //NORTHEAST (1), SOUTHEAST (2), SOUTHWEST (3), NORTHWEST (4)
       {
         case 1:
-          nPos = cPos.getAdjacentLocation(Location.NORTHEAST);
-          if(isLegal(nPos) == true)
-            legalMoves.add(nPos);
-          cPos = nPos;
+          analyzeNextPos(legalMoves, Location.NORTHEAST, cPos, nPos)
           break;
         case 2:
-          nPos = cPos.getAdjacentLocation(Location.SOUTHEAST);
-          if(isLegal(nPos) == true)
-            legalMoves.add(nPos);
-          cPos = nPos;
+          analyzeNextPos(legalMoves, Location.SOUTHEAST, cPos, nPos)
           break;
         case 3:
-          nPos = cPos.getAdjacentLocation(Location.SOUTHWEST);
-          if(isLegal(nPos) == true)
-            legalMoves.add(nPos);
-          cPos = nPos;
+          analyzeNextPos(legalMoves, Location.SOUTHWEST, cPos, nPos)
           break;
         case 4:
-          nPos = cPos.getAdjacentLocation(Location.NORTHWEST);
-          if(isLegal(nPos) == true)
-            legalMoves.add(nPos);
-          cPos = nPos;
+          analyzeNextPos(legalMoves, Location.NORTHWEST, cPos, nPos)
           break;
       }
     }
