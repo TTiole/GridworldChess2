@@ -25,7 +25,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     
     public void moveTo(Location loc)
     {
-    	super.moveTo(loc);
+
     }
     
     public boolean isLegal(Location loc)
