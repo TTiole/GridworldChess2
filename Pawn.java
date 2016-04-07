@@ -5,10 +5,49 @@ public class Pawn extends ChessPiece
   public Pawn(char c)
   {
   	super(c, 1);
+  	isPassed = false;
+  	canPass = true;
+  }
+  
+  public boolean isPassed()
+  {
+    return isPassed;
+  }
+  
+  public boolean canPass()
+  {
+    return canPass;
   }
   
   public Location[] getLegalMoves()
   {
+    //nPosF = next position in front, n2PosF = 2 positions in front, passedEnP = passed enemy pawn (this if for killing passing pawns)
+    Location nPosF = getLocation().getAdjacentLocation(0);
+    Location n2PosF = nPosF.getAdjacentLocation(0);
+    Location[] legalMoves = new Location[4];
+    
+    if(canPass())
+    {
+      if(getGrid().get(nPosF) == null)
+        {
+        legalMoves[0] = nPosF;
+        if(getGrid().get(n2PosF) == null)
+          legalMoves[1] = n2PosF;
+        }
+    }
+    else
+      if(getGrid().get(nPosF) == null)
+        legalMoves[0] = nPosF;
+    for(int i = 0; i <= 1; i++)
+    {
+      if(i == 0)
+      {
+        ChessPiece passedEnP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(90)));
+        if(passedEnP.getColorType() != getColorType() && passedEnP.isPassed())
+          legalMoves[1] = new Location(getLocation())
+      }
+    }
+    
   	return new Location[4];
   }
   
