@@ -23,11 +23,6 @@ public abstract class ChessPiece extends Actor implements Comparable
         return colorType;
     }
     
-    public void moveTo(Location loc)
-    {
-
-    }
-    
     public boolean isLegal(Location loc)
     {
     	if(loc == null || !getGrid().isValid(loc))

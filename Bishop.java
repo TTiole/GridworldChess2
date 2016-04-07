@@ -22,39 +22,34 @@ public class Bishop extends ChessPiece
   }
   public Location[] getLegalMoves()
   {
-    //cPos: current position being analyzed nPos: next position to be analyzed
-    List<Location> legalMoves = new ArrayList<Location>(0);
-    Location cPos = null;
-    Location nPos = null;
-    for(int i = 1; i <= 4; i++)
-    {
-      cPos = getLocation();
-      switch(i) //NORTHEAST (1), SOUTHEAST (2), SOUTHWEST (3), NORTHWEST (4)
-      {
-        case 1:
-          analyzeNextPos(legalMoves, Location.NORTHEAST, cPos, nPos);
-          break;
-        case 2:
-          analyzeNextPos(legalMoves, Location.SOUTHEAST, cPos, nPos);
-          break;
-        case 3:
-          analyzeNextPos(legalMoves, Location.SOUTHWEST, cPos, nPos);
-          break;
-        case 4:
-          analyzeNextPos(legalMoves, Location.NORTHWEST, cPos, nPos);
-          break;
-      }
-    }
+        //List<Location> legalMoves = new ArrayList<Location>(0);
+        Location[] legalMovesArray = new Location[14];
+        int i = 0;
+        for(int d = 45; d < 360; d += 90)
+        {
+            Location sPos = getLocation();
+            while(isLegal(sPos) || sPos.equals(getLocation()))
+            {
+                if(isLegal(sPos))
+                {
+                    legalMovesArray[i] = sPos;
+                    i++;
+                    if(getGrid().get(sPos) != null)
+                				break;
+                }
+                sPos = sPos.getAdjacentLocation(d);
+            }
+        }
     
-    /*
-     * This converts ArrayLists into Arrays so that
-     * we can have arrays that will always be
-     * the right size.
-     */
-    Location[] legalMovesArray = new Location[legalMoves.size()];
-    legalMovesArray = legalMoves.toArray(legalMovesArray);
-    return legalMovesArray;
-  }
+        /*
+         * This converts ArrayLists into Arrays so that
+         * we can have arrays that will always be
+         * the right size.
+         */
+        //Location[] legalMovesArray = new Location[legalMoves.size()];
+        //legalMovesArray = legalMoves.toArray(legalMovesArray);
+        return legalMovesArray;
+    }
   
   public void copyTo(Location loc)
   {

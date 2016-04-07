@@ -19,12 +19,30 @@ public class Pawn extends ChessPiece
     return canPass;
   }
   
+  public void moveTo(Location loc)
+  {
+  	super.moveTo(loc);
+  	if(canPass)
+  		canPass = false;
+  }
+  
   public Location[] getLegalMoves()
   {
-    //nPosF = next position in front, n2PosF = 2 positions in front, passedEnP = passed enemy pawn (this is for killing passing pawns), diagP = piece in the diagonals
+    //nPosF = next position in front, n2PosF = 2 positions in front
+    //passedEnP = passed enemy pawn (this is for killing passing pawns)
+    //diagP = piece in the diagonals
     Location nPosF = getLocation().getAdjacentLocation(0);
     Location n2PosF = nPosF.getAdjacentLocation(0);
     Location[] legalMoves = new Location[4];
+    
+    /*
+    if(getGrid().get(nPosF) == null)
+    {
+    	legalMoves[0] = nPosF;
+    	if(getGrid().get(n2PosF) == null && canPass)
+    		legalMoves[1] = n2PosF;
+    }
+    */
     
     if(canPass())
     {
@@ -41,7 +59,7 @@ public class Pawn extends ChessPiece
     for(int i = 0; i <= 1; i++)
     {
       ChessPiece passedEnP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(90 + 180*i)));
-      if(passedEnP.getColorType() != getColorType() && passedEnP.isPassed())
+      if(passedEnP instanceof Pawn && passedEnP.getColorType() != getColorType() && ((Pawn)(passedEnP)).isPassed())
         legalMoves[1] = new Location(getLocation().getRow()+1 - 2*i, getLocation().getCol()-1);
     }
     for(int i = 0; i <= 1; i++)
@@ -50,7 +68,6 @@ public class Pawn extends ChessPiece
       if(diagP.getColorType() != getColorType())
         legalMoves[i+2] = diagP.getLocation();
     }
-    
   	return legalMoves;
   }
   

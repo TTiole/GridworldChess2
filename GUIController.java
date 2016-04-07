@@ -138,7 +138,6 @@ public class GUIController<T>
     public void reset()
     {
         playButton.setEnabled(true);
-        ChessRunner.defaultSetup();
         playing = false;
     }
 
