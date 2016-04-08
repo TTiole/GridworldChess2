@@ -35,27 +35,14 @@ public class Pawn extends ChessPiece
     Location n2PosF = nPosF.getAdjacentLocation(0);
     Location[] legalMoves = new Location[4];
     
-    /*
+
     if(getGrid().get(nPosF) == null)
     {
     	legalMoves[0] = nPosF;
     	if(getGrid().get(n2PosF) == null && canPass)
     		legalMoves[1] = n2PosF;
     }
-    */
     
-    if(canPass())
-    {
-      if(getGrid().get(nPosF) == null)
-      {
-        legalMoves[0] = nPosF;
-        if(getGrid().get(n2PosF) == null)
-          legalMoves[1] = n2PosF;
-      }
-    }
-    else
-      if(getGrid().get(nPosF) == null)
-        legalMoves[0] = nPosF;
     for(int i = 0; i <= 1; i++)
     {
       ChessPiece passedEnP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(90 + 180*i)));
