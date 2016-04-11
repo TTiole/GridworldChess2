@@ -2,6 +2,7 @@ public class Pawn extends ChessPiece
 {
   private boolean isPassed;
   private boolean canPass;
+  private int moves;
   public Pawn(char c)
   {
   	super(c, 1);
@@ -22,8 +23,10 @@ public class Pawn extends ChessPiece
   public void moveTo(Location loc)
   {
   	super.moveTo(loc);
-  	if(canPass)
-  		canPass = false;
+    if(moves != 0)
+      canPass = false;
+    
+  	moves++;
   }
   
   public Location[] getLegalMoves()
