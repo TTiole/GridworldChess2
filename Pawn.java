@@ -22,14 +22,14 @@ public class Pawn extends ChessPiece
   
   public void moveTo(Location loc)
   {
+    if(getLocation().getCol()-loc.getCol() == 2)
+      isPassed = true;
     Location prevLoc = getLocation();
-    if(isPassed)
+    if(isPassed) //if it wants to move then it can no longer be passed
       isPassed = false;
   	super.moveTo(loc);
-    if(moves != 0)
+    if(canPass) //if it has moved by now then it can't pass anymore
       canPass = false;
-    else if(prevLoc.getCol()-loc.getCol() == 2)
-      isPassed = true;
   	moves++;
   }
   
