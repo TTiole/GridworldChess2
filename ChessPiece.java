@@ -36,6 +36,35 @@ public abstract class ChessPiece extends Actor implements Comparable
     		moveTo(loc);
     }
     
+    public ChessPiece getKing(char c)
+    {
+    	if(c == 'w')
+    	{
+    		ChessPiece wK = null; //white king
+    		ArrayList<Location> Locs = getLocations(w);
+    		for (Location l : Locs)
+    		{
+    			P = (ChessPiece)(getGrid().get(l));
+    			if (P instanceof King)
+    				break;
+    		}
+    		return wK;
+    	}
+    	else
+    	{
+    		ChessPiece bK = null; //black king
+    		ArrayList<Location> Locs = getLocations(w);
+    		for (Location l : Locs)
+    		{
+    			P = (ChessPiece)(getGrid().get(l));
+    			if (P instanceof King)
+    				break;
+    		}
+    		return bK;
+    	}
+    	return null;
+    }
+    
     public boolean isLegal(Location loc)
     {
     	if(loc == null || !getGrid().isValid(loc))
