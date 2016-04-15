@@ -37,6 +37,24 @@ public abstract class ChessPiece extends Actor implements Comparable
     		moveTo(loc);
     }
     
+    public void moveTo(Location loc)
+    {
+    	ChessPiece kingInQuestion;
+    	boolean alreadyInCheck = false;
+    	if(getColorType() == 'w')
+    		kingInQuestion = getKing('w');
+    	else
+    		kingInQuestion = getKing('b')
+    	
+    	Location prevLoc = getLocation();
+    	
+    	if(kingInQuestion.isInCheck())
+    		alreadyInCheck = true;
+    	super.moveTo(Loc);
+    	if(kingInQuestion.isInCheck())
+    		super.moveTo(prevLoc);
+    }
+    
     public ChessPiece getKing(char c)
     {
     	if(c == 'w')
