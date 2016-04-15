@@ -23,6 +23,19 @@ public abstract class ChessPiece extends Actor implements Comparable
         return colorType;
     }
     
+    public void swapTo(Location loc)
+    {
+    	if(getGrid().get(loc) != null)
+    	{
+    		ChessPiece C = (ChessPiece)(getGrid().get(loc));
+    		Location loc0 = getLocation();
+    		moveTo(C.getLocation());
+    		ChessRunner.add(loc0, C);
+    	}
+    	else
+    		moveTo(loc);
+    }
+    
     public boolean isLegal(Location loc)
     {
     	if(loc == null || !getGrid().isValid(loc))
