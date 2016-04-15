@@ -87,9 +87,9 @@ public abstract class ChessPiece extends Actor implements Comparable
     	{
       	  ChessPiece C = (ChessPiece)(getGrid().get(l));
       	  if(C.getColorType() != c)
-	    Locs.remove(l);
-			}
-			return Locs;
+	    	Locs.remove(l);
+		}
+		return Locs;
     }
     
     public int compareTo(Object obj)
