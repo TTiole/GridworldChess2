@@ -2,12 +2,13 @@ import java.util.ArrayList;
 
 public class StorageArea
 {
-    private static ArrayList<ChessPiece> takenPieces;
+    private static ArrayList<ChessPiece> whitePieces, blackPieces;
     private static Location[] whitePlaces, blackPlaces;
     
     static
     {
-        takenPieces = new ArrayList<ChessPiece>();
+        whitePieces = new ArrayList<ChessPiece>();
+        blackPieces = new ArrayList<ChessPiece>();
         whitePlaces = new Location[16];
         blackPlaces = new Location[16];
         for(int i = 0; i < 16; i++)
@@ -19,37 +20,48 @@ public class StorageArea
     
     public static void insertPiece(ChessPiece C)
     {
-        int index;
-        if(takenPieces.isEmpty())
-        {
-            takenPieces.add(C);
-            index = 0;
-        }
-        else
-            for(int i = 0; i < takenPieces.size(); i++)
-                if(C.compareTo(takenPieces.get(i)) > 0)
-                {
-                    takenPieces.add(i, C);
-                    index = i;
-                    break;
-                }
-                else if(i == takenPieces.size() - 1)
-                {
-                    takenPieces.add(C);
-                    index = i;
-                    break;
-                }
+    	if(C.getColorType() == 'w')
+	    {
+	        if(whitePieces.isEmpty())
+	            whitePieces.add(C);
+	        else
+	        {
+	        	int len = whitePieces.size();
+	            for(int i = 0; i < len; i++)
+	                if(C.compareTo(whitePieces.get(i)) > 0)
+	                    whitePieces.add(i, C);
+	                else if(i == whitePieces.size() - 1)
+	                    whitePieces.add(C);
+	        }
+	    }
+	    else
+	    {
+	        int index;
+	        if(blackPieces.isEmpty())
+	        {
+	            blackPieces.add(C);
+	        }
+	        else
+	        {
+	        	int len = blackPieces.size();
+	            for(int i = 0; i < len; i++)
+	                if(C.compareTo(blackPieces.get(i)) > 0)
+	                    blackPieces.add(i, C);
+	                else if(i == blackPieces.size() - 1)
+	                    blackPieces.add(C);
+	        }
+	    }
     }
-    
-    public static void sort()
-    {
-        for(int i = takenPieces.size() - 1; i >= 0; i--)
-        {
-            if(takenPieces.get(i).getColorType() == 'w')
-                takenPieces.get(i).moveTo(whitePlaces[i]);
-            else if(takenPieces.get(i).getColorType() == 'b')
-                takenPieces.get(i).moveTo(blackPlaces[i]);
-        }
+	    
+	public static void sort()
+	{
+	    for(int i = 0; i < whitePieces.size(); i++)
+	        if(whitePieces.get(i).getColorType() == 'w')
+	            whitePieces.get(i).swapTo(whitePlaces[i]);
+	                
+	    for(int i = 0; i < blackPieces.size(); i++)
+	        if(blackPieces.get(i).getColorType() == 'b')
+	            blackPieces.get(i).swapTo(blackPlaces[i]);
     }
     
     public static void takePiece(ChessPiece C)

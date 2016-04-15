@@ -30,6 +30,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     		ChessPiece C = (ChessPiece)(getGrid().get(loc));
     		Location loc0 = getLocation();
     		moveTo(C.getLocation());
+    		ChessRunner.remove(loc);
     		ChessRunner.add(loc0, C);
     	}
     	else
@@ -41,11 +42,11 @@ public abstract class ChessPiece extends Actor implements Comparable
     	if(c == 'w')
     	{
     		ChessPiece wK = null; //white king
-    		ArrayList<Location> Locs = getLocations(w);
+    		ArrayList<Location> Locs = getLocations('w');
     		for (Location l : Locs)
     		{
-    			P = (ChessPiece)(getGrid().get(l));
-    			if (P instanceof King)
+    			wK = (ChessPiece)(getGrid().get(l));
+    			if (wK instanceof King)
     				break;
     		}
     		return wK;
@@ -53,16 +54,15 @@ public abstract class ChessPiece extends Actor implements Comparable
     	else
     	{
     		ChessPiece bK = null; //black king
-    		ArrayList<Location> Locs = getLocations(w);
+    		ArrayList<Location> Locs = getLocations('b');
     		for (Location l : Locs)
     		{
-    			P = (ChessPiece)(getGrid().get(l));
-    			if (P instanceof King)
+    			bK = (ChessPiece)(getGrid().get(l));
+    			if (bK instanceof King)
     				break;
     		}
     		return bK;
     	}
-    	return null;
     }
     
     public boolean isLegal(Location loc)
@@ -87,9 +87,9 @@ public abstract class ChessPiece extends Actor implements Comparable
     	{
       	  ChessPiece C = (ChessPiece)(getGrid().get(l));
       	  if(C.getColorType() != c)
-	    	Locs.remove(l);
-		}
-		return Locs;
+	    Locs.remove(l);
+			}
+			return Locs;
     }
     
     public int compareTo(Object obj)

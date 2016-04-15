@@ -1,12 +1,39 @@
+import java.util.ArrayList;
+
 public class ChessRunner
 {
 	private static ActorWorld world;
+	private static Grid grid;
 		
 	public static void main(String[] args)
 	{
         world = new ActorWorld();
+        grid = world.getGrid();
         customSetup();
         world.show();
+    }
+    
+    public static void flipBoard()
+    {
+    	for(int y = 0; y < 4; y++)
+    		for(int x = 0; x < 8; x++)
+    		{
+    			ChessPiece C;
+    			Location loc0 = new Location(y, x);
+    			Location loc1 = new Location(7-y, 7-x);
+    			if(grid.get(loc0) != null)
+    			{
+    				C = (ChessPiece)(grid.get(loc0));
+    				C.swapTo(loc1);
+    			}
+    			else if(grid.get(loc1) != null)
+    			{
+    				C = (ChessPiece)(grid.get(loc1));
+    				C.swapTo(loc0);
+    			}
+    			else
+    				break;
+    		}
     }
     
 	public static void customSetup()
@@ -55,6 +82,11 @@ public class ChessRunner
 		for(int y = 0; y < 8; y++)
 			for(int x = 0; x < 12; x++)
 				world.remove(new Location(y, x));
+	}
+	
+	public static void remove(Location loc)
+	{
+		world.remove(loc);
 	}
 	
 	public static void add(Location loc, ChessPiece occupant)

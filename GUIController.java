@@ -238,13 +238,14 @@ public class GUIController<T>
                         if(occupant != null)
                             StorageArea.takePiece((ChessPiece)occupant);
                         C.moveTo(loc);
-                        display.setOneSelection(loc);
+                        //display.setOneSelection(loc);
+                        //ChessRunner.flipBoard();
                     }
                     else if(occupant != null)
                     {
                         ChessPiece C2 = (ChessPiece)occupant;
                         if(C.getColorType() == C2.getColorType() && loc.isOnBoard()) // Piece -> piece
-                            display.setSelection(C2.getLegalMoves());
+                        	display.setSelection(C2.getLegalMoves());
                     }
                 }
                 

@@ -30,7 +30,28 @@ public class King extends ChessPiece
   
   public Location[] getLegalMoves()
   {
-  	return new Location[0];
+        //List<Location> legalMoves = new ArrayList<Location>(0);
+        Location[] legalMovesArray = new Location[27];
+        int i = 0;
+        for(int d = 0; d < 360; d += 45)
+        {
+        	Location sPos = getLocation();
+            sPos = sPos.getAdjacentLocation(d);
+            if(isLegal(sPos))
+            {
+                legalMovesArray[i] = sPos;
+                i++;
+            }
+        }
+    
+        /*
+         * This converts ArrayLists into Arrays so that
+         * we can have arrays that will always be
+         * the right size.
+         */
+        //Location[] legalMovesArray = new Location[legalMoves.size()];
+        //legalMovesArray = legalMoves.toArray(legalMovesArray);
+        return legalMovesArray;
   }
   
   public void copyTo(Location loc)
