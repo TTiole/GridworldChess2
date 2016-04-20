@@ -23,6 +23,20 @@ public abstract class ChessPiece extends Actor implements Comparable
         return colorType;
     }
     
+    public void moveTo(Location loc)
+    {
+    	King king = getKing();
+    	Location prevLoc = getLocation();
+    	boolean alreadyInCheck = false;
+    	
+    	if(king != null && king.isInCheck())
+    		alreadyInCheck = true;
+    	
+    	super.moveTo(loc);
+    	if(king.isInCheck())
+    		super.moveTo(prevLoc);
+    }
+    
     public void swapTo(Location loc)
     {
     	if(getGrid().get(loc) != null)
@@ -37,50 +51,16 @@ public abstract class ChessPiece extends Actor implements Comparable
     		moveTo(loc);
     }
     
-    public void moveTo(Location loc)
+    public King getKing()
     {
-    	ChessPiece kingInQuestion;
-    	boolean alreadyInCheck = false;
-    	if(getColorType() == 'w')
-    		kingInQuestion = getKing('w');
-    	else
-    		kingInQuestion = getKing('b')
-    	
-    	Location prevLoc = getLocation();
-    	
-    	if(kingInQuestion.isInCheck())
-    		alreadyInCheck = true;
-    	super.moveTo(Loc);
-    	if(kingInQuestion.isInCheck())
-    		super.moveTo(prevLoc);
-    }
-    
-    public ChessPiece getKing(char c)
-    {
-    	if(c == 'w')
+    	for (Location loc : getLocations(getColorType()))
     	{
-    		ChessPiece wK = null; //white king
-    		ArrayList<Location> Locs = getLocations('w');
-    		for (Location l : Locs)
-    		{
-    			wK = (ChessPiece)(getGrid().get(l));
-    			if (wK instanceof King)
-    				break;
-    		}
-    		return wK;
+    		ChessPiece C = (ChessPiece)(getGrid().get(loc));
+    		if (C instanceof King)
+    			return (King)C;
     	}
-    	else
-    	{
-    		ChessPiece bK = null; //black king
-    		ArrayList<Location> Locs = getLocations('b');
-    		for (Location l : Locs)
-    		{
-    			bK = (ChessPiece)(getGrid().get(l));
-    			if (bK instanceof King)
-    				break;
-    		}
-    		return bK;
-    	}
+    	System.out.println("KING NOT FOUND: " + getColorType());
+    	return null;
     }
     
     public boolean isLegal(Location loc)
@@ -101,13 +81,16 @@ public abstract class ChessPiece extends Actor implements Comparable
     public ArrayList<Location> getLocations(char c)
     {
     	ArrayList<Location> Locs = getGrid().getOccupiedLocations();
-    	for(Location l : Locs)
+    	for(int i = 0; i < Locs.size(); i++)
     	{
-      	  ChessPiece C = (ChessPiece)(getGrid().get(l));
-      	  if(C.getColorType() != c)
-	    Locs.remove(l);
-			}
-			return Locs;
+      	  	ChessPiece C = (ChessPiece)(getGrid().get(Locs.get(i)));
+      	  	if(C.getColorType() != c)
+      	  	{
+	    		Locs.remove(i);
+	    		i--;
+      	  	}
+		}
+		return Locs;
     }
     
     public int compareTo(Object obj)
@@ -117,6 +100,11 @@ public abstract class ChessPiece extends Actor implements Comparable
     		return value - C.value;
     	else
     		return -1;
+    }
+    
+    public String toString()
+    {
+        return getClass().getName() + "[" + getLocation() + ", " + getColorType() + "]";
     }
 
     public abstract Location[] getLegalMoves();

@@ -24,11 +24,13 @@ public class ChessRunner
     			if(grid.get(loc0) != null)
     			{
     				C = (ChessPiece)(grid.get(loc0));
+    				System.out.println("1: "+C);
     				C.swapTo(loc1);
     			}
     			else if(grid.get(loc1) != null)
     			{
     				C = (ChessPiece)(grid.get(loc1));
+    				System.out.println("2: "+C);
     				C.swapTo(loc0);
     			}
     			else

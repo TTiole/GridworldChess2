@@ -3,26 +3,28 @@ import java.util.ArrayList;
 public class King extends ChessPiece
 {
   private boolean check;
-  private ArrayList<Location> oppositeLocs;
+  private char targetColor;
+  private ArrayList<Location> oppositeLocs = new ArrayList<Location>();
   
   public King(char c)
   {
   	super(c);
-    char targetColor = 'w';
+    targetColor = 'w';
     if(c == 'w')
       targetColor = 'b';
-    //oppositeLocs = getLocations(targetColor);
   	check = false;
   }
   
   public boolean isInCheck()
   {
+    oppositeLocs = getLocations(targetColor);
     for(Location L : oppositeLocs)
     {
       ChessPiece C = (ChessPiece)(getGrid().get(L));
+      System.out.println(C);
       Location[] enemyLegal = C.getLegalMoves();
       for(Location L2 : enemyLegal)
-        if(L2.equals(getLocation()))
+        if(L2 != null && L2.equals(getLocation()))
           return true;
     }
     return false;
