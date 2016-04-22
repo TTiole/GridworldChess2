@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.RGBImageFilter;
@@ -54,7 +55,7 @@ public class ImageDisplay extends AbstractDisplay
     public ImageDisplay(Class cl) throws IOException
     {
         this.cl = cl;
-        imageFilename = "images/" + cl.getName();
+        imageFilename = "images/" + "w_" + cl.getName().toLowerCase();
         URL url = cl.getClassLoader().getResource(
                 imageFilename + imageExtension);
 
@@ -120,6 +121,12 @@ public class ImageDisplay extends AbstractDisplay
         int size = Math.max(width, height);
         
         // Scale to shrink or enlarge the image to fit the size 1x1 cell.
+        if(obj instanceof ChessPiece)
+        {
+        	tinted = (BufferedImage)tinted;
+        	
+        }
+        
         g2.scale(1.0 / size, 1.0 / size);
         g2.clip(new Rectangle(-width / 2, -height / 2, width, height));
         g2.drawImage(tinted, -width / 2, -height / 2, null);
