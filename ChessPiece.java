@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.lang.Comparable;
+import java.awt.Color;
 
 public abstract class ChessPiece extends Actor implements Comparable
 {
@@ -16,13 +17,17 @@ public abstract class ChessPiece extends Actor implements Comparable
     {
         colorType = c;
         value = v;
+        if(c == 'b')
+        	setColor(Color.black);
+        else
+        	setColor(Color.white);
     }
 	
     public char getColorType()
     {
         return colorType;
     }
-    
+    /*
     public void moveTo(Location loc)
     {
     	King king = getKing();
@@ -36,16 +41,21 @@ public abstract class ChessPiece extends Actor implements Comparable
     	if(king.isInCheck())
     		super.moveTo(prevLoc);
     }
-    
+    */
     public void swapTo(Location loc)
     {
+    	if(loc == getLocation())
+    		return;
+    	
     	if(getGrid().get(loc) != null)
     	{
     		ChessPiece C = (ChessPiece)(getGrid().get(loc));
+    		if(C.compareTo(this) == 0)
+    			return;
+    		
     		Location loc0 = getLocation();
     		moveTo(C.getLocation());
-    		ChessRunner.remove(loc);
-    		ChessRunner.add(loc0, C);
+    		C.putSelfInGrid(getGrid(), loc0);
     	}
     	else
     		moveTo(loc);
@@ -96,7 +106,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     public int compareTo(Object obj)
     {
     	ChessPiece C = (ChessPiece)obj;
-    	if(getClass().equals(C.getClass()))
+    	if(value != C.value && !getClass().equals(C.getClass()))
     		return value - C.value;
     	else
     		return -1;
@@ -104,7 +114,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     
     public String toString()
     {
-        return getClass().getName() + "[" + getLocation() + ", " + getColorType() + "]";
+        return getClass().getName() + "[Location: " + getLocation() + ", colorType: " + getColorType() + "]";
     }
 
     public abstract Location[] getLegalMoves();

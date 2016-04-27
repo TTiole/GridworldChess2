@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Color;
 import java.lang.reflect.Modifier;
 import java.util.Comparator;
 import java.util.ResourceBundle;
@@ -218,11 +219,11 @@ public class GUIController<T>
         
         Location loc = display.getCurrentLocation();
         Location loc0 = display.getPreviousLocation();
-        if (loc != null)
+        if (loc.isOnBoard())
         {
             T occupant = world.getGrid().get(loc);
             T occupant0 = null;
-            if (loc0 != null)
+            if (loc0.isOnBoard())
                 occupant0 = world.getGrid().get(loc0);
             Location[] locSelection = display.getCurrentSelection();
             

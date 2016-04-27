@@ -55,7 +55,7 @@ public class ImageDisplay extends AbstractDisplay
     public ImageDisplay(Class cl) throws IOException
     {
         this.cl = cl;
-        imageFilename = "images/" + "w_" + cl.getName().toLowerCase();
+        imageFilename = "images/" + cl.getName();
         URL url = cl.getClassLoader().getResource(
                 imageFilename + imageExtension);
 
@@ -64,6 +64,31 @@ public class ImageDisplay extends AbstractDisplay
                     + " not found.");
         tintedVersions.put("", ImageIO.read(url));
     }
+    
+    /**
+	 * Converts a given Image into a BufferedImage
+	 *
+	 * @param img The Image to be converted
+	 * @return The converted BufferedImage
+	 */
+	public static BufferedImage toBufferedImage(Image img)
+	{
+	    if (img instanceof BufferedImage)
+	    {
+	        return (BufferedImage) img;
+	    }
+	
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+	
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose();
+	
+	    // Return the buffered image
+	    return bimage;
+	}
 
     /**
      * Draws a unit-length object facing North. This implementation draws an
@@ -121,15 +146,30 @@ public class ImageDisplay extends AbstractDisplay
         int size = Math.max(width, height);
         
         // Scale to shrink or enlarge the image to fit the size 1x1 cell.
-        if(obj instanceof ChessPiece)
-        {
-        	tinted = (BufferedImage)tinted;
-        	
+        
+        BufferedImage newImage = toBufferedImage(tintedVersions.get(imageSuffix));
+        
+        for (int x = 0; x < newImage.getWidth(); x++) {
+            for (int y = 0; y < newImage.getHeight(); y++) {
+                int rgba = newImage.getRGB(x, y);
+                Color col = new Color(rgba, true);
+                
+                int[] rgb = new int[3];
+                rgb[0] = col.getRed();
+                rgb[1] = col.getGreen();
+                rgb[2] = col.getBlue();
+                for(int i = 0; i < rgb.length; i++)
+                	if(rgb[i] != 255 && rgb[i] != 0)
+                		rgb[i] = 255 - rgb[i];
+                
+                col = new Color(rgb[0], rgb[1], rgb[2], col.getAlpha());
+                newImage.setRGB(x, y, col.getRGB());
+            }
         }
         
         g2.scale(1.0 / size, 1.0 / size);
         g2.clip(new Rectangle(-width / 2, -height / 2, width, height));
-        g2.drawImage(tinted, -width / 2, -height / 2, null);
+        g2.drawImage(newImage, -width / 2, -height / 2, null);
     }
 
     /**
