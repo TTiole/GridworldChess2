@@ -16,6 +16,7 @@
  * @author Cay Horstmann
  */
 
+import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -44,6 +45,8 @@ public class ImageDisplay extends AbstractDisplay
 {
     private Class cl;
     private String imageFilename;
+    private Image white, black;
+    private boolean canInvert = true;
     private static final String imageExtension = ".png";
     private Map<String, Image> tintedVersions = new HashMap<String, Image>();
 
@@ -62,6 +65,8 @@ public class ImageDisplay extends AbstractDisplay
         if (url == null)
             throw new FileNotFoundException(imageFilename + imageExtension
                     + " not found.");
+        white = ImageIO.read(url);
+        black = smartInvert(white);
         tintedVersions.put("", ImageIO.read(url));
     }
     
@@ -146,9 +151,20 @@ public class ImageDisplay extends AbstractDisplay
         int size = Math.max(width, height);
         
         // Scale to shrink or enlarge the image to fit the size 1x1 cell.
+        Image myImage = white;
+        if(obj instanceof ChessPiece && ((ChessPiece)obj).getColorType() == 'b')
+        	myImage = black;
         
-        BufferedImage newImage = toBufferedImage(tintedVersions.get(imageSuffix));
-        
+        g2.scale(1.0 / size, 1.0 / size);
+        g2.clip(new Rectangle(-width / 2, -height / 2, width, height));
+        g2.drawImage(myImage, -width / 2, -height / 2, null);
+    }
+    
+    public BufferedImage smartInvert(Image img)
+    {
+    	canInvert = false;
+    	BufferedImage newImage = copyImage(toBufferedImage(img));
+
         for (int x = 0; x < newImage.getWidth(); x++) {
             for (int y = 0; y < newImage.getHeight(); y++) {
                 int rgba = newImage.getRGB(x, y);
@@ -166,11 +182,17 @@ public class ImageDisplay extends AbstractDisplay
                 newImage.setRGB(x, y, col.getRGB());
             }
         }
-        
-        g2.scale(1.0 / size, 1.0 / size);
-        g2.clip(new Rectangle(-width / 2, -height / 2, width, height));
-        g2.drawImage(newImage, -width / 2, -height / 2, null);
+        return newImage;
     }
+    
+    public BufferedImage copyImage(BufferedImage source)
+    {
+    	BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+    	Graphics g = b.getGraphics();
+    	g.drawImage(source, 0, 0, null);
+    	g.dispose();
+    	return b;
+	}
 
     /**
      * An image filter class that tints colors based on the tint provided to the

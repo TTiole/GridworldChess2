@@ -17,10 +17,10 @@ public abstract class ChessPiece extends Actor implements Comparable
     {
         colorType = c;
         value = v;
-        if(c == 'b')
-        	setColor(Color.black);
-        else
-        	setColor(Color.white);
+        //if(c == 'b')
+        	//setColor(Color.black);
+        //else
+        	//setColor(Color.white);
     }
 	
     public char getColorType()
