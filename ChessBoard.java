@@ -22,7 +22,7 @@ public class ChessBoard
   			}
     		else
   				break;
-    	 }
+    	 } 
     	 */
     	Grid g = getGrid();
     	ArrayList<Locations> locs = g.getOccupiedLocations();
