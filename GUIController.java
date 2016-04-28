@@ -129,7 +129,7 @@ public class GUIController<T>
     public void play()
     {
         playButton.setEnabled(false);
-        ChessRunner.defaultSetup();
+        ChessBoard.defaultSetup();
         playing = true;
     }
 

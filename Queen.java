@@ -38,6 +38,6 @@ public class Queen extends ChessPiece
   
   public void copyTo(Location loc)
   {
-    ChessRunner.add(loc, new Bishop(getColorType()));
+    ChessBoard.add(loc, new Bishop(getColorType()));
   }
 }

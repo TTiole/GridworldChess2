@@ -81,6 +81,6 @@ public class Pawn extends ChessPiece
   
   public void copyTo(Location loc)
   {
-    ChessRunner.add(loc, new Bishop(getColorType()));
+    ChessBoard.add(loc, new Bishop(getColorType()));
   }
 }
