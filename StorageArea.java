@@ -25,24 +25,33 @@ public class StorageArea
 	        whitePieces.add(C);
 	    else
 	        blackPieces.add(C);
-        sort();
+        //sort();
         organize();
     }
     
     public static void sort()
     {
-    	
+			ArrayList<ChessPiece> sorted = new ArrayList();
+			
+			int max = 0, index = 0;
+			for(int i = 0; i < whitePieces.size(); i++)
+			{
+				if(whitePieces.get(i).value > max)
+				{
+					max = whitePieces.get(i).value;
+					index = i;
+				}
+			}
+			sorted.add(whitePieces.get(index));
     }
 	    
 	public static void organize()
 	{
-		Collections.sort(whitePieces);
-		Collections.sort(blackPieces);
-		
-		System.out.println(blackPieces);
-		
-	    for(int i = 0; i < whitePieces.size(); i++)
+		for(int i = 0; i < whitePieces.size(); i++)
+		{
+			
 	        whitePieces.get(i).swapTo(whitePlaces[i]);
+		}
 	                
 	    for(int i = 0; i < blackPieces.size(); i++)
 	        blackPieces.get(i).swapTo(blackPlaces[i]);

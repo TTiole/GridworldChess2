@@ -111,7 +111,7 @@ public class GUIController<T>
                 }
             }
         });
-        reset();
+        play();
     }
 
     private void addOccupant(T occupant)

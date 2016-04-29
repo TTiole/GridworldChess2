@@ -85,7 +85,7 @@ public class GridPanel extends JPanel implements Scrollable,
     		currentSelection = new Location[0];
         displayMap = map;
         resources = res;
-        setToolTipsEnabled(true);
+        setToolTipsEnabled(false);
     }
 
     /**
