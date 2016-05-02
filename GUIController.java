@@ -240,7 +240,7 @@ public class GUIController<T>
                             StorageArea.takePiece((ChessPiece)occupant);
                         C.moveTo(loc);
                         //display.setOneSelection(loc);
-                        //ChessBoard.flipBoard();
+                        ChessBoard.flipBoard();
                     }
                     else if(occupant != null)
                     {

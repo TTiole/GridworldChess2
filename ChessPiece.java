@@ -54,11 +54,11 @@ public abstract class ChessPiece extends Actor implements Comparable
     			return;
     		
     		Location loc0 = getLocation();
-    		moveTo(C.getLocation());
+    		super.moveTo(C.getLocation());
     		C.putSelfInGrid(getGrid(), loc0);
     	}
     	else
-    		moveTo(loc);
+    		super.moveTo(loc);
     }
     
     public King getKing()

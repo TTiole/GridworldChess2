@@ -13,7 +13,7 @@ public class ChessBoard
 	
     public static void flipBoard()
     {
-        /*for(int y = 0; y < 4; y++)
+        for(int y = 0; y < 4; y++)
     	    for(int x = 0; x < 8; x++)
     	    {
     		    ChessPiece C;
@@ -34,8 +34,13 @@ public class ChessBoard
     		    else
   				    break;
     	    } 
-    	    */
-    	ArrayList<Location> locs = grid.getOccupiedLocations();
+    	    /*
+    	ArrayList<Location> locs = new ArrayList<Location>();
+    	for(int i = 0; i < grid.getOccupiedLocations().size(); i++)
+    		locs.add((Location)(grid.getOccupiedLocations().get(i)));
+    	
+    	
+    	
     	for(int i = 0; i < locs.size(); i++)
         {
             if(!(grid.get(locs.get(i)) instanceof ChessPiece))
@@ -43,6 +48,11 @@ public class ChessBoard
             ChessPiece c = (ChessPiece)grid.get(locs.get(i));
             Location oldLoc = c.getLocation();
             Location newLoc = new Location(7 - oldLoc.getRow(), 7 - oldLoc.getCol());
+            
+            
+            
+            
+            
             if(grid.get(newLoc) != null && grid.get(newLoc) instanceof ChessPiece)
             {
                 locs.remove(newLoc);
@@ -52,7 +62,7 @@ public class ChessBoard
             }
             else
                 grid.put(newLoc, c);
-        } 
+        } */
     }
     
 	public static void customSetup()
