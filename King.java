@@ -22,10 +22,13 @@ public class King extends ChessPiece
     for(Location L : oppositeLocs)
     {
       ChessPiece C = (ChessPiece)(getGrid().get(L));
-      Location[] enemyLegal = C.getLegalMoves();
-      for(Location L2 : enemyLegal)
-        if(L2 != null && L2.equals(getLocation()))
-          return true;
+      if(!(C instanceof King))
+      {
+        Location[] enemyLegal = C.getLegalMoves();
+        for(Location L2 : enemyLegal)
+          if(L2 != null && L2.equals(getLocation()))
+            return true;
+      }
     }
     return false;
   }
