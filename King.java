@@ -18,10 +18,10 @@ public class King extends ChessPiece
   public boolean isInCheck()
   {
     oppositeLocs = getLocations(targetColor);
+    System.out.println(oppositeLocs);
     for(Location L : oppositeLocs)
     {
       ChessPiece C = (ChessPiece)(getGrid().get(L));
-      System.out.println(C);
       Location[] enemyLegal = C.getLegalMoves();
       for(Location L2 : enemyLegal)
         if(L2 != null && L2.equals(getLocation()))

@@ -27,21 +27,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     {
         return colorType;
     }
-    /*
-    public void moveTo(Location loc)
-    {
-    	King king = getKing();
-    	Location prevLoc = getLocation();
-    	boolean alreadyInCheck = false;
-    	
-    	if(king != null && king.isInCheck())
-    		alreadyInCheck = true;
-    	
-    	super.moveTo(loc);
-    	if(king.isInCheck())
-    		super.moveTo(prevLoc);
-    }
-    */
+    
     public void swapTo(Location loc)
     {
     	if(loc == getLocation())
@@ -50,8 +36,8 @@ public abstract class ChessPiece extends Actor implements Comparable
     	if(getGrid().get(loc) != null)
     	{
     		ChessPiece C = (ChessPiece)(getGrid().get(loc));
-    		if(C.compareTo(this) == 0)
-    			return;
+    		//if(C.compareTo(this) == 0)
+    		//	return;
     		
     		Location loc0 = getLocation();
     		super.moveTo(C.getLocation());
@@ -82,6 +68,15 @@ public abstract class ChessPiece extends Actor implements Comparable
     		return false;
 
     	ChessPiece C = (ChessPiece)getGrid().get(loc);
+    	King king = getKing();
+    	Location prevLoc = getLocation();
+    	
+    	super.moveTo(loc);
+    	if(king.isInCheck())
+    	{
+    		super.moveTo(prevLoc);
+    		return false;
+    	}
     		
     	if(C != null && C.getColorType() == colorType)
     		return false;
