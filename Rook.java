@@ -3,9 +3,12 @@ import java.util.ArrayList;
 
 public class Rook extends ChessPiece
 {
+    private int moves;
+    
     public Rook(char c)
     {
         super(c, 5);
+        moves = 0;
     }
 
     public Location[] getLegalMoves()
@@ -28,6 +31,7 @@ public class Rook extends ChessPiece
                 sPos = sPos.getAdjacentLocation(d);
             }
         }
+        
     
         /*
          * This converts ArrayLists into Arrays so that
@@ -37,6 +41,17 @@ public class Rook extends ChessPiece
         //Location[] legalMovesArray = new Location[legalMoves.size()];
         //legalMovesArray = legalMoves.toArray(legalMovesArray);
         return legalMovesArray;
+    }
+    
+    public void moveTo(Location loc)
+    {
+        moves++;
+        super.moveTo(loc);
+    }
+    
+    public boolean canCastle()
+    {
+        return moves == 0;
     }
   
   	public void copyTo(Location loc)
