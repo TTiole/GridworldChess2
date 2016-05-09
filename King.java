@@ -49,7 +49,7 @@ public class King extends ChessPiece
       Rook KR = null;
       if(getGrid().get(KRL) != null)
           KR = (Rook)(getGrid().get(KRL));
-      //KR.cLaunched();
+      KR.cLaunched(true);
     }
     else if(loc.getRow() - getLocation().getRow() > 1) //queenside
     {
@@ -57,7 +57,7 @@ public class King extends ChessPiece
       Rook QR = null;
       if(getGrid().get(QRL) != null)
         QR = (Rook)(getGrid().get(QRL));
-      //QR.cLaunched(); I need to make that method on the rook class. cLaunched stands for Castling Launched
+      QR.cLaunched(false); I need to make that method on the rook class. cLaunched stands for Castling Launched
     }
     super.moveTo(loc);
   }
