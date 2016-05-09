@@ -5,7 +5,7 @@ public class Queen extends ChessPiece
   	super(c, 9);
   }
   
-  public Location[] getLegalMoves()
+  public Location[] getLegalMoves(boolean check)
   {
         //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[27];
@@ -13,9 +13,9 @@ public class Queen extends ChessPiece
         for(int d = 0; d < 360; d += 45)
         {
             Location sPos = getLocation();
-            while(isLegal(sPos) || sPos.equals(getLocation()))
+            while(isLegal(check, sPos) || sPos.equals(getLocation()))
             {
-                if(isLegal(sPos))
+                if(isLegal(check, sPos))
                 {
                     legalMovesArray[i] = sPos;
                     i++;

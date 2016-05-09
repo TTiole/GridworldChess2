@@ -11,7 +11,7 @@ public class Rook extends ChessPiece
         moves = 0;
     }
 
-    public Location[] getLegalMoves()
+    public Location[] getLegalMoves(boolean check)
     {
         //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[14];
@@ -19,9 +19,9 @@ public class Rook extends ChessPiece
         for(int d = 0; d < 360; d += 90)
         {
             Location sPos = getLocation();
-            while(isLegal(sPos) || sPos.equals(getLocation()))
+            while(isLegal(check, sPos) || sPos.equals(getLocation()))
             {
-                if(isLegal(sPos))
+                if(isLegal(check, sPos))
                 {
                     legalMovesArray[i] = sPos;
                     i++;

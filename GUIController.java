@@ -246,14 +246,14 @@ public class GUIController<T>
                     {
                         ChessPiece C2 = (ChessPiece)occupant;
                         if(C.getColorType() == C2.getColorType() && loc.isOnBoard()) // Piece -> piece
-                        	display.setSelection(C2.getLegalMoves());
+                        	display.setSelection(C2.getLegalMoves(true));
                     }
                 }
                 
                 else if(occupant != null) // Blank -> piece
                 {
                     ChessPiece C = (ChessPiece)occupant;
-                    display.setSelection(C.getLegalMoves());
+                    display.setSelection(C.getLegalMoves(true));
                 }
             }
             

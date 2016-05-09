@@ -5,7 +5,7 @@ public class Knight extends ChessPiece
   	super(c, 3);
   }
   
-  public Location[] getLegalMoves()
+  public Location[] getLegalMoves(boolean check)
   {
   	    //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[16];
@@ -21,7 +21,7 @@ public class Knight extends ChessPiece
                 if(n == 2)
                     y = -y;
                 Location loc = getLocation().getRelativeLocation(y, x);
-                if(isLegal(loc))
+                if(isLegal(check, loc))
                 {
                     legalMovesArray[i] = loc;
                     i++;

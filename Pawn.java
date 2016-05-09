@@ -34,7 +34,7 @@ public class Pawn extends ChessPiece
   	moves++;
   }
   
-  public Location[] getLegalMoves()
+  public Location[] getLegalMoves(boolean check)
   {
     //nPosF = next position in front, n2PosF = 2 positions in front
     //passedEnP = passed enemy pawn (this is for killing passing pawns)

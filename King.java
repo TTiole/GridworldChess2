@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class King extends ChessPiece
 {
-  private boolean check;
+  private boolean check, cLaunched;
   private char targetColor;
   private ArrayList<Location> oppositeLocs = new ArrayList<Location>();
   private int moves;
@@ -20,32 +20,18 @@ public class King extends ChessPiece
   
   public boolean isInCheck() //looks if it's in check for king in current location
   {
-    oppositeLocs = getLocations(targetColor);
-    System.out.println(oppositeLocs);
-    for(Location L : oppositeLocs)
-    {
-      ChessPiece C = (ChessPiece)(getGrid().get(L));
-      if(!(C instanceof King))
-      {
-        Location[] enemyLegal = C.getLegalMoves();
-        for(Location L2 : enemyLegal)
-          if(L2 != null && L2.equals(getLocation()))
-            return true;
-      }
-    }
-    return false;
+    return isInCheck(getLocation());
   }
   
   public boolean isInCheck(Location loc) //looks if it's in check if the king was in the passed location
   {
     oppositeLocs = getLocations(targetColor);
-    System.out.println(oppositeLocs);
     for(Location L : oppositeLocs)
     {
       ChessPiece C = (ChessPiece)(getGrid().get(L));
       if(!(C instanceof King))
       {
-        Location[] enemyLegal = C.getLegalMoves();
+        Location[] enemyLegal = C.getLegalMoves(false);
         for(Location L2 : enemyLegal)
           if(L2 != null && L2.equals(loc))
             return true;
@@ -53,33 +39,35 @@ public class King extends ChessPiece
     }
     return false;
   }
-  
+  /*
   public void moveTo(Location loc)
   {
     moves++;
     if(getLocation().getRow() - loc.getRow() > 1) // kingside
     {
       Location KRL = new Location(getLocation().getRow()-3,getLocation().getCol());
+      Rook KR = null;
       if(getGrid().get(KRL) != null)
-          Rook KR = (Rook)(getGrid().get(KRL));
+          KR = (Rook)(getGrid().get(KRL));
       //KR.cLaunched();
     }
     else if(loc.getRow() - getLocation().getRow() > 1) //queenside
     {
       Location QRL = new Location(getLocation().getRow()+4,getLocation().getCol());
+      Rook QR = null;
       if(getGrid().get(QRL) != null)
-        Rook QR = (Rook)(getGrid().get(QRL));
+        QR = (Rook)(getGrid().get(QRL));
       //QR.cLaunched(); I need to make that method on the rook class. cLaunched stands for Castling Launched
     }
     super.moveTo(loc);
   }
-  
+  */
   public boolean canCastle()
   {
     return moves == 0 && !isInCheck();
   }
   
-  public Location[] getLegalMoves()
+  public Location[] getLegalMoves(boolean check)
   {
         //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[10];
@@ -88,20 +76,22 @@ public class King extends ChessPiece
         {
         	Location sPos = getLocation();
             sPos = sPos.getAdjacentLocation(d);
-            if(isLegal(sPos))
+            if(isLegal(check, sPos))
             {
                 legalMovesArray[i] = sPos;
                 i++;
             }
         }
+        /*
         //Castling
         Location QRL = new Location(getLocation().getRow()+4,getLocation().getCol());
         Location KRL = new Location(getLocation().getRow()-3,getLocation().getCol());
         //Gets rooks
+        Rook QR = null, KR = null;
         if(getGrid().get(QRL) != null)
-          Rook QR = (Rook)(getGrid().get(QRL));
+          QR = (Rook)(getGrid().get(QRL));
         if(getGrid().get(KRL) != null)
-          Rook KR = (Rook)(getGrid().get(KRL));
+          KR = (Rook)(getGrid().get(KRL));
         
         //Kingside Castling
         if(KR.canCastle() && canCastle())
@@ -120,6 +110,8 @@ public class King extends ChessPiece
           if((getGrid().get(l3) == null && getGrid().get(l4) == null) && (isInCheck(l3) && isInCheck(l4))) //First part makes sure that the locations are empty, second checks to see if check would be caused there
             legalMovesArray[9] = l4;
         }
+        */
+        
         /*
          * This converts ArrayLists into Arrays so that
          * we can have arrays that will always be

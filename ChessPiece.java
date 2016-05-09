@@ -59,7 +59,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     	return null;
     }
     
-    public boolean isLegal(Location loc)
+    public boolean isLegal(boolean check, Location loc)
     {
     	if(loc == null || !getGrid().isValid(loc))
     		return false;
@@ -71,12 +71,8 @@ public abstract class ChessPiece extends Actor implements Comparable
     	King king = getKing();
     	Location prevLoc = getLocation();
     	
-    	super.moveTo(loc);
-    	if(king.isInCheck())
-    	{
-    		super.moveTo(prevLoc);
+    	if(check && king.isInCheck(loc))
     		return false;
-    	}
     		
     	if(C != null && C.getColorType() == colorType)
     		return false;
@@ -112,6 +108,6 @@ public abstract class ChessPiece extends Actor implements Comparable
         return getClass().getName() + "[Location: " + getLocation() + ", colorType: " + getColorType() + "]";
     }
 
-    public abstract Location[] getLegalMoves();
+    public abstract Location[] getLegalMoves(boolean check);
     public abstract void copyTo(Location loc);
 }
