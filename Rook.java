@@ -43,6 +43,14 @@ public class Rook extends ChessPiece
         return legalMovesArray;
     }
     
+    public void cLaunched(boolean b) //True = Kingside castle, False = Queenside castle
+    {
+        if(b)
+            moveTo(new Location(getLocation().getRow()-2, getLocation().getCol()));
+        else
+            moveTo(new Location(getLocation().getRow()+3, getLocation().getCol()));
+    }
+    
     public void moveTo(Location loc)
     {
         moves++;
