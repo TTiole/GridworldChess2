@@ -72,7 +72,8 @@ public abstract class ChessPiece extends Actor implements Comparable
     	Location prevLoc = getLocation();
     	
     	if(check && king.isInCheck(loc))
-    		return false;
+    		System.out.println("Check, "+loc);
+    		//return false;
     		
     	if(C != null && C.getColorType() == colorType)
     		return false;

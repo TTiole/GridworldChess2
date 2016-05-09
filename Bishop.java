@@ -23,7 +23,7 @@ public class Bishop extends ChessPiece
                     legalMovesArray[i] = sPos;
                     i++;
                     if(getGrid().get(sPos) != null)
-                				break;
+                		break;
                 }
                 sPos = sPos.getAdjacentLocation(d);
             }
