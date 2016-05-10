@@ -33,7 +33,7 @@ public class King extends ChessPiece
       {
         Location[] enemyLegal = C.getLegalMoves(false);
         for(Location L2 : enemyLegal)
-          if(L2 != null && L2.equals(loc))
+          if(L2 != null && L2.getCol() == loc.getCol() && L2.getRow() == loc.getRow())
             return true;
       }
     }
