@@ -55,27 +55,27 @@ public class Pawn extends ChessPiece
     	if(n2PosF.isOnBoard() && getGrid().get(n2PosF) == null && canPass)
     		legalMoves[1] = n2PosF;
     }
-    
+    //Enpassant Pawn
     for(int i = 0; i < 2; i++)
     {
       ChessPiece passedEnP = null;
       if(getLocation().getAdjacentLocation(90 + 180*i).isOnBoard())
+      {
         passedEnP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(90 + 180*i)));
-      else
-      	break;
-      if(passedEnP instanceof Pawn && passedEnP.getColorType() != getColorType() && ((Pawn)(passedEnP)).isPassed())
-        legalMoves[1] = new Location(getLocation().getRow()+1 - 2*i, getLocation().getCol()-1);
+        if(passedEnP instanceof Pawn && passedEnP.getColorType() != getColorType() && ((Pawn)(passedEnP)).isPassed())
+          legalMoves[1] = passedEnP.getLocation();
+      }
     }
-    
-    for(int i = 0; i < 2; i++)
+    //Taking other peices
+    for(int i = -45; i < 135; i+=90)
     {
-      ChessPiece diagP = null;
-      if(getLocation().getAdjacentLocation(-45 + 90*i).isOnBoard() && getGrid().get(getLocation().getAdjacentLocation(-45 + 90*i)) != null)
-        diagP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(-45 + 90*i)));
-      else
-      	break;
-      if(diagP.getColorType() != getColorType())
-        legalMoves[i+2] = diagP.getLocation();
+      Location cPos = getLocation();
+      if(cPos.getAdjacentLocation(i).isOnBoard())
+      {
+        ChessPiece C = (ChessPiece)(getGrid().get(cPos.getAdjacentLocation(i)));
+        if(C != null && C.getColorType() != getColorType())
+          legalMoves[2+(i+45)/90]; //This is to make it such that it would put it on position 2 in the first iteration and position 3 on the second iteration
+      }
     }
   	return legalMoves;
   }
