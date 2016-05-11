@@ -49,10 +49,10 @@ public class Pawn extends ChessPiece
     Location[] legalMoves = new Location[6];
     
 
-    if(nPosF.isOnBoard() && getGrid().get(nPosF) == null)
+    if(nPosF.isOnBoard() && getGrid().get(nPosF) == null && isLegal(nPosF, true))
     {
     	legalMoves[0] = nPosF;
-    	if(n2PosF.isOnBoard() && getGrid().get(n2PosF) == null && canPass)
+    	if(n2PosF.isOnBoard() && getGrid().get(n2PosF) == null && canPass && isLegal(n2PosF(n2PosF, true)))
     		legalMoves[1] = n2PosF;
     }
     //Enpassant Pawn
@@ -62,7 +62,7 @@ public class Pawn extends ChessPiece
       if(getLocation().getAdjacentLocation(90 + 180*i).isOnBoard())
       {
         passedEnP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(90 + 180*i)));
-        if(passedEnP instanceof Pawn && passedEnP.getColorType() != getColorType() && ((Pawn)(passedEnP)).isPassed())
+        if(passedEnP instanceof Pawn && passedEnP.getColorType() != getColorType() && ((Pawn)(passedEnP)).isPassed() && isLegal(passedEnP.getLocation()))
           legalMoves[1] = passedEnP.getLocation();
       }
     }
@@ -73,7 +73,7 @@ public class Pawn extends ChessPiece
       if(cPos.getAdjacentLocation(i).isOnBoard())
       {
         ChessPiece C = (ChessPiece)(getGrid().get(cPos.getAdjacentLocation(i)));
-        if(C != null && C.getColorType() != getColorType())
+        if(C != null && isLegal(C.getLocation(), true))
           legalMoves[2+(i+45)/90] = C.getLocation(); //This is to make it such that it would put it on position 2 in the first iteration and position 3 on the second iteration
       }
     }
