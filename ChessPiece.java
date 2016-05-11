@@ -61,22 +61,34 @@ public abstract class ChessPiece extends Actor implements Comparable
     
     public boolean isLegal(boolean check, Location loc)
     {
+    	
     	if(loc == null || !getGrid().isValid(loc))
     		return false;
     		
     	if(!loc.isOnBoard())
+    		return false;
+    		
+    	if(loc.equals(getLocation()))
     		return false;
 
     	ChessPiece C = (ChessPiece)getGrid().get(loc);
     	King king = getKing();
     	Location prevLoc = getLocation();
     	
-    	if(check && king.isInCheck(loc))
-    		System.out.println("Check, "+loc);
-    		//return false;
     		
     	if(C != null && C.getColorType() == colorType)
     		return false;
+    	
+    	if(check)
+    	{
+	    	super.moveTo(loc);
+	    	if(king.isInCheck())
+	    	{
+	    		super.moveTo(prevLoc);
+	    		return false;
+	    	}
+	    	super.moveTo(prevLoc);
+    	}
     		
     	return true;
     }

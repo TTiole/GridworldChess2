@@ -74,7 +74,7 @@ public class Pawn extends ChessPiece
       {
         ChessPiece C = (ChessPiece)(getGrid().get(cPos.getAdjacentLocation(i)));
         if(C != null && C.getColorType() != getColorType())
-          legalMoves[2+(i+45)/90]; //This is to make it such that it would put it on position 2 in the first iteration and position 3 on the second iteration
+          legalMoves[2+(i+45)/90] = C.getLocation(); //This is to make it such that it would put it on position 2 in the first iteration and position 3 on the second iteration
       }
     }
   	return legalMoves;

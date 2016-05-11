@@ -156,6 +156,7 @@ public class Actor
                     "The grid contains a different actor at location "
                             + location + ".");
         */
+        System.out.println(this+", "+getLocation()+", "+newLocation);
         if (!grid.isValid(newLocation))
             throw new IllegalArgumentException("Location " + newLocation
                     + " is not valid.");
