@@ -46,9 +46,9 @@ public class Rook extends ChessPiece
     public void cLaunched(boolean b) //True = Kingside castle, False = Queenside castle
     {
         if(b)
-            moveTo(new Location(getLocation().getRow()-2, getLocation().getCol()));
+            moveTo(new Location(getLocation().getRow(), getLocation().getCol()+2));
         else
-            moveTo(new Location(getLocation().getRow()+3, getLocation().getCol()));
+            moveTo(new Location(getLocation().getRow(), getLocation().getCol()-3));
     }
     
     public void moveTo(Location loc)
