@@ -55,7 +55,6 @@ public abstract class ChessPiece extends Actor implements Comparable
     		if (C instanceof King)
     			return (King)C;
     	}
-    	System.out.println("KING NOT FOUND: " + getColorType());
     	return null;
     }
     
@@ -81,17 +80,29 @@ public abstract class ChessPiece extends Actor implements Comparable
     	
     	if(check)
     	{
-	    	super.moveTo(loc);
+	    	ChessPiece other = tryMove(loc);
 	    	if(king.isInCheck())
 	    	{
 	    		super.moveTo(prevLoc);
+	    		if(other != null)
+	    			ChessBoard.add(loc, other);
 	    		return false;
 	    	}
 	    	super.moveTo(prevLoc);
+	    	if(other != null)
+	    		ChessBoard.add(loc, other);
     	}
     		
     	return true;
     }
+    
+    public ChessPiece tryMove(Location loc)
+    {
+    	ChessPiece other = (ChessPiece)(getGrid().get(loc));
+    	super.moveTo(loc);
+    	return other;
+    }
+    
     public ArrayList<Location> getLocations(char c)
     {
     	ArrayList<Location> Locs = getGrid().getOccupiedLocations();
