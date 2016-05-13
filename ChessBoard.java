@@ -4,6 +4,7 @@ public class ChessBoard
 {
 	private static ActorWorld world;
 	private static Grid grid;
+	private static boolean isWhiteTurn = true;
 	
 	public ChessBoard(Grid g, ActorWorld w)
 	{
@@ -11,8 +12,18 @@ public class ChessBoard
 		world = w;
 	}
 	
+	public static boolean isTurn(char c)
+	{
+		if(isWhiteTurn && c == 'w')
+			return true;
+		else if(!isWhiteTurn && c == 'b')
+			return true;
+		return false;
+	}
+	
     public static void flipBoard()
     {
+    	isWhiteTurn = !isWhiteTurn;
         for(int y = 0; y < 4; y++)
     	    for(int x = 0; x < 8; x++)
     	    {

@@ -27,6 +27,42 @@ public abstract class ChessPiece extends Actor implements Comparable
     {
         return colorType;
     }
+  
+  public Pawn getPassedPawn()
+  {
+  	ChessPiece passedEnP = null;
+    for(int i = 0; i < 2; i++)
+      if(getLocation().getAdjacentLocation(90 + 180*i).isOnBoard())
+      {
+        passedEnP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(90 + 180*i)));
+        if(passedEnP instanceof Pawn && passedEnP.getColorType() != getColorType() && ((Pawn)(passedEnP)).isPassed())
+          break;
+        else
+        	passedEnP = null;
+      }
+    return (Pawn)passedEnP;
+  }
+    
+    public void moveTo(Location loc)
+    {
+    	if(getPassedPawn() != null && getPassedPawn().getColorType() != getColorType())
+    		getPassedPawn().removeSelfFromGrid();
+    		
+    	ArrayList<Location> enemyLocs;
+    	if(getColorType() == 'w')
+    		enemyLocs = getLocations('b');
+    	else
+    		enemyLocs = getLocations('w');
+    	
+    	for(Location L : enemyLocs)
+    		if(getGrid().get(L) instanceof Pawn)
+    		{
+    			Pawn pawn = (Pawn)(getGrid().get(L));
+    			pawn.hasPassed();
+    		}
+    		
+    	super.moveTo(loc);
+    }
     
     public void swapTo(Location loc)
     {

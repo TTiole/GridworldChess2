@@ -12,6 +12,10 @@ public class Bishop extends ChessPiece
   {
         //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[14];
+        
+        if(!ChessBoard.isTurn(getColorType()))
+        	return legalMovesArray;
+        
         int i = 0;
         for(int d = 45; d < 360; d += 90)
         {

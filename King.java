@@ -71,6 +71,10 @@ public class King extends ChessPiece
   {
         //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[10];
+        
+        if(!ChessBoard.isTurn(getColorType()))
+        	return legalMovesArray;
+        
         int i = 0;
         for(int d = 0; d < 360; d += 45)
         {

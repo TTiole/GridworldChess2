@@ -1,8 +1,6 @@
 public class Pawn extends ChessPiece
 {
-  private boolean isPassed;
-  private boolean canPass;
-  private int moves;
+  private boolean isPassed, canPass;
   
   public Pawn(char c)
   {
@@ -16,6 +14,11 @@ public class Pawn extends ChessPiece
     return isPassed;
   }
   
+  public void hasPassed()
+  {
+  	isPassed = false;
+  }
+  
   public boolean canPass()
   {
     return canPass;
@@ -23,15 +26,13 @@ public class Pawn extends ChessPiece
   
   public void moveTo(Location loc)
   {
-    if(getLocation().getCol()-loc.getCol() == 2)
-      isPassed = true;
-    Location prevLoc = getLocation();
     if(isPassed) //if it wants to move then it can no longer be passed
-      isPassed = false;
+      hasPassed();
+    else if(getLocation().getRow()-loc.getRow() == 2)
+      isPassed = true;
   	super.moveTo(loc);
     if(canPass) //if it has moved by now then it can't pass anymore
       canPass = false;
-  	moves++;
   }
   
   public Location[] getLegalMoves(boolean check)
@@ -48,6 +49,8 @@ public class Pawn extends ChessPiece
       
     Location[] legalMoves = new Location[6];
     
+        if(!ChessBoard.isTurn(getColorType()))
+        	return legalMoves;
 
     if(nPosF.isOnBoard() && getGrid().get(nPosF) == null && isLegal(check, nPosF))
     {
@@ -56,16 +59,8 @@ public class Pawn extends ChessPiece
     		legalMoves[1] = n2PosF;
     }
     //Enpassant Pawn
-    for(int i = 0; i < 2; i++)
-    {
-      ChessPiece passedEnP = null;
-      if(getLocation().getAdjacentLocation(90 + 180*i).isOnBoard())
-      {
-        passedEnP = (ChessPiece)(getGrid().get(getLocation().getAdjacentLocation(90 + 180*i)));
-        if(passedEnP instanceof Pawn && passedEnP.getColorType() != getColorType() && ((Pawn)(passedEnP)).isPassed() && isLegal(check, passedEnP.getLocation()))
-          legalMoves[1] = passedEnP.getLocation();
-      }
-    }
+    if(getPassedPawn() != null && isLegal(check, getPassedPawn().getLocation()))
+    	legalMoves[1] = getPassedPawn().getLocation().getAdjacentLocation(0);
     //Taking other peices
     for(int i = -45; i < 135; i+=90)
     {
