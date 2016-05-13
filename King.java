@@ -57,7 +57,7 @@ public class King extends ChessPiece
       Rook QR = null;
       if(getGrid().get(QRL) != null)
         QR = (Rook)(getGrid().get(QRL));
-      QR.cLaunched(false); //I need to make that method on the rook class. cLaunched stands for Castling Launched
+      QR.cLaunched(false); //cLaunched stands for Castling Launched
     }
     super.moveTo(loc);
   }
@@ -88,7 +88,7 @@ public class King extends ChessPiece
         }
         
         //Castling
-        //Gets rooks
+        //Gets rook locations
         Location QRL = new Location(getLocation().getRow(),getLocation().getCol()+4);
         Location KRL = new Location(getLocation().getRow(),getLocation().getCol()-3);
         
