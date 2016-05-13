@@ -20,11 +20,11 @@ public class ChessBoard
 			return true;
 		return false;
 	}
-	
+    //This method flips the board after every turn	
     public static void flipBoard()
     {
     	isWhiteTurn = !isWhiteTurn;
-        for(int y = 0; y < 4; y++)
+        for(int y = 0; y < 4; y++) //Loop through the top half of the board
     	    for(int x = 0; x < 8; x++)
     	    {
     		    ChessPiece C;
@@ -41,35 +41,6 @@ public class ChessBoard
     			    C.swapTo(loc0);
   			    }
     	    } 
-    	    /*
-    	ArrayList<Location> locs = new ArrayList<Location>();
-    	for(int i = 0; i < grid.getOccupiedLocations().size(); i++)
-    		locs.add((Location)(grid.getOccupiedLocations().get(i)));
-    	
-    	
-    	
-    	for(int i = 0; i < locs.size(); i++)
-        {
-            if(!(grid.get(locs.get(i)) instanceof ChessPiece))
-            	i++;
-            ChessPiece c = (ChessPiece)grid.get(locs.get(i));
-            Location oldLoc = c.getLocation();
-            Location newLoc = new Location(7 - oldLoc.getRow(), 7 - oldLoc.getCol());
-            
-            
-            
-            
-            
-            if(grid.get(newLoc) != null && grid.get(newLoc) instanceof ChessPiece)
-            {
-                locs.remove(newLoc);
-                ChessPiece d = (ChessPiece)grid.get(newLoc);
-                grid.put(newLoc, c);
-                grid.put(oldLoc, d);
-            }
-            else
-                grid.put(newLoc, c);
-        } */
     }
     
 	public static void customSetup()
@@ -89,7 +60,7 @@ public class ChessBoard
 			world.add(new Location(5, 8 + 2*i), new Pawn(colors[i]));
 		}
 	}
-    
+        //This is a default chess game
 	public static void defaultSetup()
 	{
 		clearAll();
