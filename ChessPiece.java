@@ -17,17 +17,14 @@ public abstract class ChessPiece extends Actor implements Comparable
     {
         colorType = c;
         value = v;
-        //if(c == 'b')
-        	//setColor(Color.black);
-        //else
-        	//setColor(Color.white);
     }
 	
     public char getColorType()
     {
         return colorType;
     }
-  
+    
+  //This method returns any passed pawns next to the current pawn
   public Pawn getPassedPawn()
   {
   	ChessPiece passedEnP = null;
@@ -42,7 +39,6 @@ public abstract class ChessPiece extends Actor implements Comparable
       }
     return (Pawn)passedEnP;
   }
-    
     public void moveTo(Location loc)
     {
     	if(getPassedPawn() != null && getPassedPawn().getColorType() != getColorType())
@@ -83,6 +79,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     		super.moveTo(loc);
     }
     
+    //This method returns the king of the same color as ChessPiece
     public King getKing()
     {
     	for (Location loc : getLocations(getColorType()))
@@ -94,6 +91,8 @@ public abstract class ChessPiece extends Actor implements Comparable
     	return null;
     }
     
+    //Check to see if the move at Location loc is legal. 
+    //The boolean check serves as a way to end the infinite loop: isInCheck() -> getLegalMoves() -> isLegal() -> isInCheck()...
     public boolean isLegal(boolean check, Location loc)
     {
     	
@@ -139,6 +138,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     	return other;
     }
     
+    //This method returns the locations of all the pieces of color c
     public ArrayList<Location> getLocations(char c)
     {
     	ArrayList<Location> Locs = getGrid().getOccupiedLocations();
