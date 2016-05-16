@@ -38,8 +38,6 @@ public class Pawn extends ChessPiece
   public Location[] getLegalMoves(boolean check)
   {
     //nPosF = next position in front, n2PosF = 2 positions in front
-    //passedEnP = passed enemy pawn (this is for killing passing pawns)
-    //diagP = piece in the diagonals
     Location nPosF = null;
     Location n2PosF = null;
     if(getLocation().getAdjacentLocation(0) != null)
@@ -49,8 +47,8 @@ public class Pawn extends ChessPiece
       
     Location[] legalMoves = new Location[6];
     
-        if(!ChessBoard.isTurn(getColorType()))
-        	return legalMoves;
+    if(!ChessBoard.isTurn(getColorType()))
+   		return legalMoves;
 
     if(nPosF.isOnBoard() && getGrid().get(nPosF) == null && isLegal(check, nPosF))
     {
@@ -73,6 +71,18 @@ public class Pawn extends ChessPiece
       }
     }
   	return legalMoves;
+  }
+  
+  public Location[] getAttackingMoves(boolean check)
+  {
+  	Location cPos = getLocation();
+  	Location[] locs = new Location[3];
+  	for(int i = -1; i < 2; i+=2)
+  	if(cPos.getAdjacentLocation(135*i).isOnBoard() && isLegal(check, cPos.getAdjacentLocation(135*i)))
+  		locs[i+1/2] = cPos.getAdjacentLocation(135*i);
+  	if(getPassedPawn() != null && isLegal(check, getPassedPawn().getLocation()))
+    	locs[2] = getPassedPawn().getLocation().getAdjacentLocation(180);
+  	return locs;
   }
   
   public void copyTo(Location loc)

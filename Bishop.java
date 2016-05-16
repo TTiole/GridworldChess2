@@ -13,7 +13,7 @@ public class Bishop extends ChessPiece
         Location[] legalMoves = new Location[14];
         
         if(!ChessBoard.isTurn(getColorType()))
-        	return legalMovesArray;
+        	return legalMoves;
         
         int i = 0;
         for(int d = 45; d < 360; d += 90)
@@ -23,7 +23,7 @@ public class Bishop extends ChessPiece
             {
                 if(isLegal(check, sPos))
                 {
-                    legalMovesArray[i] = sPos;
+                    legalMoves[i] = sPos;
                     i++;
                     if(getGrid().get(sPos) != null)
                 		  break;
@@ -31,7 +31,7 @@ public class Bishop extends ChessPiece
                 sPos = sPos.getAdjacentLocation(d);
             }
         }
-        return legalMovesArray;
+        return legalMoves;
     }
   
   public void copyTo(Location loc)

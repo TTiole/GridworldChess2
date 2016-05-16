@@ -32,9 +32,12 @@ public class King extends ChessPiece
       if(!(C instanceof King))
       {
         Location[] enemyLegal = C.getLegalMoves(false);
+        System.out.println("------");
+        System.out.println(C);
+        System.out.println();
         for(Location L2 : enemyLegal)
-          if(L2 != null && L2.getCol() == loc.getCol() && L2.getRow() == loc.getRow())
-            return true;
+          //if(L2 != null && L2.equals(loc))
+            System.out.println(L2);
       }
     }
     return false;

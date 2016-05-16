@@ -163,6 +163,11 @@ public abstract class ChessPiece extends Actor implements Comparable
     		return -1;
     }
     
+    public Location[] getAttackingMoves(boolean check)
+    {
+    	return getLegalMoves(check);
+    }
+    
     public String toString()
     {
         return getClass().getName() + "[Location: " + getLocation() + ", colorType: " + getColorType() + "]";
