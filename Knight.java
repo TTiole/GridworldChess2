@@ -10,7 +10,7 @@ public class Knight extends ChessPiece
   	    //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[16];
         
-        if(!ChessBoard.isTurn(getColorType()))
+        if(!ChessBoard.isTurn(getColorType()) && check)
         	return legalMovesArray;
         	
         int i = 0;
