@@ -47,7 +47,7 @@ public class Pawn extends ChessPiece
       
     Location[] legalMoves = new Location[6];
     
-    if(!ChessBoard.isTurn(getColorType()))
+    if(!ChessBoard.isTurn(getColorType()) && check)
    		return legalMoves;
 
     if(nPosF.isOnBoard() && getGrid().get(nPosF) == null && isLegal(check, nPosF))
