@@ -12,7 +12,7 @@ public class Bishop extends ChessPiece
   {
         Location[] legalMoves = new Location[14];
         
-        if(!ChessBoard.isTurn(getColorType()))
+        if(!ChessBoard.isTurn(getColorType()) && check)
         	return legalMoves;
         
         int i = 0;
