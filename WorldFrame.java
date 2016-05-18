@@ -176,8 +176,6 @@ public class WorldFrame<T> extends JFrame
         Grid<T> gr = world.getGrid();
         gridClasses.add(gr.getClass());
 
-        makeNewGridMenu();
-
         control = new GUIController<T>(this, display, displayMap, resources);
         content.add(control.controlPanel(), BorderLayout.SOUTH);
 
@@ -448,13 +446,6 @@ public class WorldFrame<T> extends JFrame
 
         setRunMenuItemsEnabled(true);
         setJMenuBar(mbar);
-    }
-
-    private void makeNewGridMenu()
-    {
-        newGridMenu.removeAll();
-        MenuMaker<T> maker = new MenuMaker<T>(this, resources, displayMap);
-        maker.addConstructors(newGridMenu, gridClasses);
     }
 
     /**

@@ -56,8 +56,10 @@ public class GUIController<T>
     private int numStepsToPlay, numStepsSoFar;
     private ResourceBundle resources;
     private DisplayMap displayMap;
-    private boolean playing;
+    private boolean playing, menuOpen;
     private Set<Class> occupantClasses;
+    private ChessPiece other = null;
+    private Location prevLoc0;
 
     /**
      * Creates a new controller tied to the specified display and gui
@@ -70,6 +72,7 @@ public class GUIController<T>
     public GUIController(WorldFrame<T> parent, GridPanel disp,
             DisplayMap displayMap, ResourceBundle res)
     {
+    	menuOpen = false;
         resources = res;
         display = disp;
         parentFrame = parent;
@@ -112,6 +115,11 @@ public class GUIController<T>
             }
         });
         play();
+    }
+    
+    public GridPanel getDisplay()
+    {
+    	return display;
     }
 
     private void addOccupant(T occupant)
@@ -208,6 +216,11 @@ public class GUIController<T>
             editLocation();
         parentFrame.repaint();
     }
+    
+    public void setMenuOpen(boolean b)
+    {
+    	menuOpen = b;
+    }
 
     /**
      * Edits the contents of the current location, by displaying the constructor
@@ -223,24 +236,50 @@ public class GUIController<T>
         {
             T occupant = world.getGrid().get(loc);
             T occupant0 = null;
-            if (loc0.isOnBoard())
+            if (loc0 != null && loc0.isOnBoard())
                 occupant0 = world.getGrid().get(loc0);
             Location[] locSelection = display.getCurrentSelection();
             
             
             if(playing)
             {
+                    
                 if(occupant0 != null && loc0.isOnBoard())
                 {
                     display.clearSelection();
-                    ChessPiece C = (ChessPiece)occupant0;
+	                ChessPiece C = (ChessPiece)occupant0;
+	                if(menuOpen)
+	                {
+        				setMenuOpen(false);
+	        			C.moveTo(prevLoc0);
+		    			if(other != null)
+		    			{
+		    				if(other.getGrid() != null)
+		    					other.removeSelfFromGrid();
+		    				ChessBoard.add(loc0, other);
+		    			}
+		    			return;
+	                }
+                    
                     if(locArrayContains(locSelection, loc)) // Piece -> legal move
-                    {
-                        if(occupant != null)
-                            StorageArea.takePiece((ChessPiece)occupant);
-                        C.moveTo(loc);
-                        //display.setOneSelection(loc);
-                        ChessBoard.flipBoard();
+                    {                        
+                        if(C instanceof Pawn && loc.getRow() == 0)
+                        {
+                        	other = C.tryMove(loc);
+                        	StorageArea.takePiece(other);
+	    					
+	    					setMenuOpen(true);
+							MenuMaker<T> maker = new MenuMaker<T>(this, parentFrame, resources,
+                        			displayMap);
+                			JPopupMenu popup = maker.makePromoteMenu(occupant0, loc);
+                			Point p = display.pointForLocation(loc);
+                			popup.show(display, p.x, p.y);
+                        }
+                        else
+	                    {
+	                        C.moveTo(loc);
+	                        ChessBoard.flipBoard();
+                        }
                     }
                     else if(occupant != null)
                     {
@@ -296,6 +335,7 @@ public class GUIController<T>
                     display.setOneSelection(loc);
             }
         }
+        prevLoc0 = loc0;
         parentFrame.repaint();
     }
 

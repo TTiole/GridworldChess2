@@ -79,7 +79,7 @@ public class Pawn extends ChessPiece
   	Location[] locs = new Location[3];
   	for(int i = -1; i < 2; i+=2)
   	if(cPos.getAdjacentLocation(135*i).isOnBoard() && isLegal(check, cPos.getAdjacentLocation(135*i)))
-  		locs[i+1/2] = cPos.getAdjacentLocation(135*i);
+  		locs[(i+1)/2] = cPos.getAdjacentLocation(135*i);
   	if(getPassedPawn() != null && isLegal(check, getPassedPawn().getLocation()))
     	locs[2] = getPassedPawn().getLocation().getAdjacentLocation(180);
   	return locs;

@@ -43,6 +43,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -55,366 +57,85 @@ import javax.swing.event.DocumentListener;
  */
 public class MenuMaker<T>
 {
+    private T occupant;
+    private Grid currentGrid;
+    private Location currentLocation;
+    private WorldFrame<T> parent;
+    private DisplayMap displayMap;
+    private GUIController master;
+    private ResourceBundle resources;
+    
     /**
      * Constructs a menu maker for a given world.
      * @param parent the frame in which the world is displayed
      * @param resources the resource bundle
      * @param displayMap the display map
      */
-    public MenuMaker(WorldFrame<T> parent, ResourceBundle resources,
+    public MenuMaker(GUIController<T> master, WorldFrame<T> parent, ResourceBundle resources,
             DisplayMap displayMap)
     {
+    	this.master = master;
         this.parent = parent;
         this.resources = resources;
         this.displayMap = displayMap;
     }
-
-    /**
-     * Makes a menu that displays all public methods of an object
-     * @param occupant the object whose methods should be displayed
-     * @param loc the location of the occupant
-     * @return the menu to pop up
-     */
-    public JPopupMenu makeMethodMenu(T occupant, Location loc)
+    
+    public JPopupMenu makePromoteMenu(T occupant, Location loc)
     {
         this.occupant = occupant;
         this.currentLocation = loc;
         JPopupMenu menu = new JPopupMenu();
-        Method[] methods = getMethods();
-        Class oldDcl = null;
-        for (int i = 0; i < methods.length; i++)
-        {
-            Class dcl = methods[i].getDeclaringClass();
-            if (dcl != Object.class)
-            {
-                if (i > 0 && dcl != oldDcl)
-                    menu.addSeparator();
-                menu.add(new MethodItem(methods[i]));
-            }
-            oldDcl = dcl;
-        }
+        
+        menu.add(new MCItem("Queen", (Icon)(new ImageIcon("images/Queen.png"))));
+        menu.add(new MCItem("Rook", (Icon)(new ImageIcon("images/Rook.png"))));
+        menu.add(new MCItem("Bishop", (Icon)(new ImageIcon("images/Bishop.png"))));
+        menu.add(new MCItem("Knight", (Icon)(new ImageIcon("images/Knight.png"))));
+
         return menu;
     }
 
-    /**
-     * Makes a menu that displays all public constructors of a collection of
-     * classes.
-     * @param classes the classes whose constructors should be displayed
-     * @param loc the location of the occupant to be constructed
-     * @return the menu to pop up
-     */
-    public JPopupMenu makeConstructorMenu(Collection<Class> classes,
-            Location loc)
+    private class MCItem extends JMenuItem implements ActionListener
     {
-        this.currentLocation = loc;
-        JPopupMenu menu = new JPopupMenu();
-        boolean first = true;
-        Iterator<Class> iter = classes.iterator();
-        while (iter.hasNext())
+        public MCItem(String S, Icon I)
         {
-            if (first)
-                first = false;
-            else
-                menu.addSeparator();
-            Class cl = iter.next();
-            Constructor[] cons = (Constructor[]) cl.getConstructors();
-            for (int i = 0; i < cons.length; i++)
-            {
-                menu.add(new OccupantConstructorItem(cons[i]));
-            }
-        }
-        return menu;
-    }
-
-    /**
-     * Adds menu items that call all public constructors of a collection of
-     * classes to a menu
-     * @param menu the menu to which the items should be added
-     * @param classes the collection of classes
-     */
-    public void addConstructors(JMenu menu, Collection<Class> classes)
-    {
-        boolean first = true;
-        Iterator<Class> iter = classes.iterator();
-        while (iter.hasNext())
-        {
-            if (first)
-                first = false;
-            else
-                menu.addSeparator();
-            Class cl = iter.next();
-            Constructor[] cons = cl.getConstructors();
-            for (int i = 0; i < cons.length; i++)
-            {
-                menu.add(new GridConstructorItem(cons[i]));
-            }
-        }
-    }
-
-    private Method[] getMethods()
-    {
-        Class cl = occupant.getClass();
-        Method[] methods = cl.getMethods();
-
-        Arrays.sort(methods, new Comparator<Method>()
-        {
-            public int compare(Method m1, Method m2)
-            {
-                int d1 = depth(m1.getDeclaringClass());
-                int d2 = depth(m2.getDeclaringClass());
-                if (d1 != d2)
-                    return d2 - d1;
-                int d = m1.getName().compareTo(m2.getName());
-                if (d != 0)
-                    return d;
-                d1 = m1.getParameterTypes().length;
-                d2 = m2.getParameterTypes().length;
-                return d1 - d2;
-            }
-
-            private int depth(Class cl)
-            {
-                if (cl == null)
-                    return 0;
-                else
-                    return 1 + depth(cl.getSuperclass());
-            }
-        });
-        return methods;
-    }
-
-    /**
-     * A menu item that shows a method or constructor.
-     */
-    private class MCItem extends JMenuItem
-    {
-        public String getDisplayString(Class retType, String name,
-                Class[] paramTypes)
-        {
-            StringBuffer b = new StringBuffer();
-            b.append("<html>");
-            if (retType != null)
-                appendTypeName(b, retType.getName());
-            b.append(" <font color='blue'>");
-            appendTypeName(b, name);
-            b.append("</font>( ");
-            for (int i = 0; i < paramTypes.length; i++)
-            {
-                if (i > 0)
-                    b.append(", ");
-                appendTypeName(b, paramTypes[i].getName());
-            }
-            b.append(" )</html>");
-            return b.toString();
-        }
-
-        public void appendTypeName(StringBuffer b, String name)
-        {
-            int i = name.lastIndexOf('.');
-            if (i >= 0)
-            {
-                String prefix = name.substring(0, i + 1);
-                if (!prefix.equals("java.lang"))
-                {
-                    b.append("<font color='gray'>");
-                    b.append(prefix);
-                    b.append("</font>");
-                }
-                b.append(name.substring(i + 1));
-            }
-            else
-                b.append(name);
-        }
-
-        public Object makeDefaultValue(Class type)
-        {
-            if (type == int.class)
-                return new Integer(0);
-            else if (type == boolean.class)
-                return Boolean.FALSE;
-            else if (type == double.class)
-                return new Double(0);
-            else if (type == String.class)
-                return "";
-            else if (type == Color.class)
-                return Color.BLACK;
-            else if (type == Location.class)
-                return currentLocation;
-            else if (Grid.class.isAssignableFrom(type))
-                return currentGrid;
-            else
-            {
-                try
-                {
-                    return type.newInstance();
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-            }
-        }
-    }
-
-    private abstract class ConstructorItem extends MCItem
-    {
-        public ConstructorItem(Constructor c)
-        {
-            setText(getDisplayString(null, c.getDeclaringClass().getName(), c
-                    .getParameterTypes()));
-            this.c = c;
-        }
-
-        public Object invokeConstructor()
-        {
-            Class[] types = c.getParameterTypes();
-            Object[] values = new Object[types.length];
-
-            for (int i = 0; i < types.length; i++)
-            {
-                values[i] = makeDefaultValue(types[i]);
-            }
-
-            if (types.length > 0)
-            {
-                PropertySheet sheet = new PropertySheet(types, values);
-                JOptionPane.showMessageDialog(this, sheet, resources
-                        .getString("dialog.method.params"),
-                        JOptionPane.QUESTION_MESSAGE);
-                values = sheet.getValues();
-            }
-
-            try
-            {
-                return c.newInstance(values);
-            }
-            catch (InvocationTargetException ex)
-            {
-                parent.new GUIExceptionHandler().handle(ex.getCause());
-                return null;
-            }
-            catch (Exception ex)
-            {
-                parent.new GUIExceptionHandler().handle(ex);
-                return null;
-            }
-        }
-
-        private Constructor c;
-    }
-
-    private class OccupantConstructorItem extends ConstructorItem implements
-            ActionListener
-    {
-        public OccupantConstructorItem(Constructor c)
-        {
-            super(c);
+        	super(S, I);
             addActionListener(this);
-            setIcon(displayMap.getIcon(c.getDeclaringClass(), 16, 16));
-        }
-
-        @SuppressWarnings("unchecked")
-        public void actionPerformed(ActionEvent event)
-        {
-            T result = (T) invokeConstructor();
-            parent.getWorld().add(currentLocation, result);
-            parent.repaint();
-        }
-    }
-
-    private class GridConstructorItem extends ConstructorItem implements
-            ActionListener
-    {
-        public GridConstructorItem(Constructor c)
-        {
-            super(c);
-            addActionListener(this);
-            setIcon(displayMap.getIcon(c.getDeclaringClass(), 16, 16));
-        }
-
-        @SuppressWarnings("unchecked")
-        public void actionPerformed(ActionEvent event)
-        {
-            Grid<T> newGrid = (Grid<T>) invokeConstructor(); 
-            parent.setGrid(newGrid);
-        }
-    }
-
-    private class MethodItem extends MCItem implements ActionListener
-    {
-        public MethodItem(Method m)
-        {
-            setText(getDisplayString(m.getReturnType(), m.getName(), m
-                    .getParameterTypes()));
-            this.m = m;
-            addActionListener(this);
-            setIcon(displayMap.getIcon(m.getDeclaringClass(), 16, 16));
         }
 
         public void actionPerformed(ActionEvent event)
         {
-            Class[] types = m.getParameterTypes();
-            Object[] values = new Object[types.length];
-
-            for (int i = 0; i < types.length; i++)
-            {
-                values[i] = makeDefaultValue(types[i]);
-            }
-
-            if (types.length > 0)
-            {
-                PropertySheet sheet = new PropertySheet(types, values);
-                JOptionPane.showMessageDialog(this, sheet, resources
-                        .getString("dialog.method.params"),
-                        JOptionPane.QUESTION_MESSAGE);
-                values = sheet.getValues();
-            }
-
-            try
-            {
-                Object result = m.invoke(occupant, values);
-                parent.repaint();
-                if (m.getReturnType() != void.class)
-                {
-                    String resultString = result.toString();
-                    Object resultObject;
-                    final int MAX_LENGTH = 50;
-                    final int MAX_HEIGHT = 10;
-                    if (resultString.length() < MAX_LENGTH)
-                        resultObject = resultString;
-                    else
-                    {
-                        int rows = Math.min(MAX_HEIGHT, 1
-                                + resultString.length() / MAX_LENGTH);
-                        JTextArea pane = new JTextArea(rows, MAX_LENGTH);
-                        pane.setText(resultString);
-                        pane.setLineWrap(true);
-                        resultObject = new JScrollPane(pane);
-                    }
-                    JOptionPane.showMessageDialog(parent, resultObject,
-                            resources.getString("dialog.method.return"),
-                            JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-            catch (InvocationTargetException ex)
-            {
-                parent.new GUIExceptionHandler().handle(ex.getCause());
-            }
-            catch (Exception ex)
-            {
-                parent.new GUIExceptionHandler().handle(ex);
-            }
+        	try
+        	{
+        		ChessPiece cp = (ChessPiece)occupant;
+        		
+        		Class[] ClsList = new Class[1];
+        		ClsList[0] = Character.TYPE;
+        		
+        		Class Cls = Class.forName(event.getActionCommand());
+        		Constructor Con = Cls.getConstructor(ClsList);
+        		Object obj = Con.newInstance(cp.getColorType());
+        		
+        		cp.removeSelfFromGrid();
+        		ChessBoard.add(currentLocation, (ChessPiece)obj);
+        		
+        		ChessBoard.flipBoard();
+        		master.setMenuOpen(false);
+        		master.getDisplay().setCurrentLocation(null);
+        		parent.repaint();
+        	}
+        	catch(ClassNotFoundException e)
+        	{System.out.println("ClassNotFoundException: "+e.getMessage());}
+        	catch(InstantiationException e)
+        	{System.out.println("InstantiationException: "+e.getMessage());}
+        	catch(IllegalAccessException e)
+        	{System.out.println("IllegalAccessException: "+e.getMessage());}
+        	catch(NoSuchMethodException e)
+        	{System.out.println("NoSuchMethodException: "+e.getMessage());}
+        	catch(InvocationTargetException e)
+        	{System.out.println("InvocationTargetException: "+e.getMessage());}
         }
-
-        private Method m;
+        	
     }
-
-    private T occupant;
-    private Grid currentGrid;
-    private Location currentLocation;
-    private WorldFrame<T> parent;
-    private DisplayMap displayMap;
-    private ResourceBundle resources;
 }
 
 class PropertySheet extends JPanel

@@ -57,6 +57,10 @@ public abstract class ChessPiece extends Actor implements Comparable
     			pawn.hasPassed();
     		}
     		
+    	ChessPiece occupant = (ChessPiece)(getGrid().get(loc));
+        if(occupant != null)
+            StorageArea.takePiece((ChessPiece)occupant);
+    		
     	super.moveTo(loc);
     }
     
@@ -134,6 +138,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     public ChessPiece tryMove(Location loc)
     {
     	ChessPiece other = (ChessPiece)(getGrid().get(loc));
+    	
     	super.moveTo(loc);
     	return other;
     }

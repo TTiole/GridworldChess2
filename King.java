@@ -31,13 +31,10 @@ public class King extends ChessPiece
       ChessPiece C = (ChessPiece)(getGrid().get(L));
       if(!(C instanceof King))
       {
-        Location[] enemyLegal = C.getLegalMoves(false);
-        System.out.println("------");
-        System.out.println(C);
-        System.out.println();
+        Location[] enemyLegal = C.getAttackingMoves(false);
         for(Location L2 : enemyLegal)
-          //if(L2 != null && L2.equals(loc))
-            System.out.println(L2);
+          if(L2 != null && L2.equals(loc))
+            return true;
       }
     }
     return false;

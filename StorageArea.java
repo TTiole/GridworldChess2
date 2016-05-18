@@ -49,11 +49,20 @@ public class StorageArea
 	{
 		for(int i = 0; i < whitePieces.size(); i++)
 		{
-			
-	        whitePieces.get(i).swapTo(whitePlaces[i]);
+			ChessPiece W = whitePieces.get(i);
+			if(W.getGrid() != null)
+	        	W.swapTo(whitePlaces[i]);
+	        else
+	        	ChessBoard.add(whitePlaces[i], W);
 		}
 	                
 	    for(int i = 0; i < blackPieces.size(); i++)
-	        blackPieces.get(i).swapTo(blackPlaces[i]);
+		{
+			ChessPiece B = blackPieces.get(i);
+			if(B.getGrid() != null)
+	        	B.swapTo(blackPlaces[i]);
+	        else
+	        	ChessBoard.add(blackPlaces[i], B);
+		}
     }
 }
