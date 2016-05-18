@@ -20,6 +20,7 @@ public class ChessBoard
 			return true;
 		return false;
 	}
+	
     //This method flips the board after every turn	
     public static void flipBoard()
     {

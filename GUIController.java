@@ -266,7 +266,8 @@ public class GUIController<T>
                         if(C instanceof Pawn && loc.getRow() == 0)
                         {
                         	other = C.tryMove(loc);
-                        	StorageArea.takePiece(other);
+                        	if(other != null)
+                        		StorageArea.takePiece(other);
 	    					
 	    					setMenuOpen(true);
 							MenuMaker<T> maker = new MenuMaker<T>(this, parentFrame, resources,

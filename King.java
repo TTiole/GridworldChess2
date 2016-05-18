@@ -29,13 +29,10 @@ public class King extends ChessPiece
     for(Location L : oppositeLocs)
     {
       ChessPiece C = (ChessPiece)(getGrid().get(L));
-      if(!(C instanceof King))
-      {
-        Location[] enemyLegal = C.getAttackingMoves(false);
-        for(Location L2 : enemyLegal)
-          if(L2 != null && L2.equals(loc))
-            return true;
-      }
+      Location[] enemyLegal = C.getAttackingMoves(false);
+      for(Location L2 : enemyLegal)
+        if(L2 != null && L2.equals(loc))
+          return true;
     }
     return false;
   }
@@ -56,8 +53,10 @@ public class King extends ChessPiece
       Location QRL = new Location(getLocation().getRow(),getLocation().getCol()+4);
       Rook QR = null;
       if(getGrid().get(QRL) != null)
+      {
         QR = (Rook)(getGrid().get(QRL));
-      QR.cLaunched(false); //cLaunched stands for Castling Launched
+      	QR.cLaunched(false); //cLaunched stands for Castling Launched
+      }
     }
     super.moveTo(loc);
   }
@@ -89,17 +88,24 @@ public class King extends ChessPiece
         
         //Castling
         //Gets rook locations
-        Location QRL = new Location(getLocation().getRow(),getLocation().getCol()+4);
-        Location KRL = new Location(getLocation().getRow(),getLocation().getCol()-3);
+        int dl = -3, dr = 4;
+        if(getColorType() == 'b')
+        {
+        	dl = -dl;
+        	dr = -dr;
+        }
+        
+        Location QRL = new Location(getLocation().getRow(), getLocation().getCol() + dr);
+        Location KRL = new Location(getLocation().getRow(), getLocation().getCol() + dl);
         
         Rook QR = null, KR = null;
         if(QRL.isOnBoard() && getGrid().get(QRL) instanceof Rook)
           QR = (Rook)(getGrid().get(QRL));
         if(KRL.isOnBoard() && getGrid().get(KRL) instanceof Rook)
           KR = (Rook)(getGrid().get(KRL));
-        
+          
         //Kingside Castling
-        if(KR != null && KR.canCastle() && canCastle())
+        if(check && KR != null && KR.canCastle() && canCastle())
         {
           Location l1 = new Location(getLocation().getRow(),getLocation().getCol()-1);
           Location l2 = new Location(getLocation().getRow(),getLocation().getCol()-2);
@@ -110,7 +116,7 @@ public class King extends ChessPiece
         }
         
         //Queenside Castling
-        if(QR != null && QR.canCastle() && canCastle())
+        if(check && QR != null && QR.canCastle() && canCastle())
         {
           Location l3 = new Location(getLocation().getRow(),getLocation().getCol()+1);
           Location l4 = new Location(getLocation().getRow(),getLocation().getCol()+2);
