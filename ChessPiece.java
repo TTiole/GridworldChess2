@@ -106,7 +106,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     	if(!loc.isOnBoard())
     		return false;
     		
-    	if(loc.equals(getLocation()))
+    	if(loc.equals(getLocation()) || !getLocation().isOnBoard())
     		return false;
 
     	ChessPiece C = (ChessPiece)getGrid().get(loc);

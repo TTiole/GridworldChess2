@@ -15,7 +15,7 @@ public class StorageArea
         for(int i = 0; i < 16; i++)
         {
             whitePlaces[i] = new Location(i % 8, 8 + i/8);
-            blackPlaces[i] = new Location(i % 8, 8 + i/8);
+            blackPlaces[i] = new Location(i % 8, 10 + i/8);
         }
     }
     
@@ -31,18 +31,18 @@ public class StorageArea
     
     public static void sort()
     {
-			ArrayList<ChessPiece> sorted = new ArrayList();
+		ArrayList<ChessPiece> sorted = new ArrayList();
 			
-			int max = 0, index = 0;
-			for(int i = 0; i < whitePieces.size(); i++)
+		int max = 0, index = 0;
+		for(int i = 0; i < whitePieces.size(); i++)
+		{
+			if(whitePieces.get(i).value > max)
 			{
-				if(whitePieces.get(i).value > max)
-				{
-					max = whitePieces.get(i).value;
-					index = i;
-				}
+				max = whitePieces.get(i).value;
+				index = i;
 			}
-			sorted.add(whitePieces.get(index));
+		}
+		sorted.add(whitePieces.get(index));
     }
 	    
 	public static void organize()
