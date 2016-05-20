@@ -106,6 +106,7 @@ public class GridPanel extends JPanel implements Scrollable,
                 * (cellSize + 1) + 1);
 
         drawWatermark(g2);
+        drawSquares(g2);
         drawSelection(g2);
         drawGridlines(g2);
         drawOccupants(g2);
@@ -233,9 +234,26 @@ public class GridPanel extends JPanel implements Scrollable,
         	if (loc != null)
         	{
             	Point p = pointForLocation(loc);
-            	g2.setColor(Color.GREEN);
+            	g2.setColor(new Color(0, 191, 0));
             	g2.fillRect(p.x - cellSize / 2, p.y - cellSize / 2, cellSize, cellSize);
             	g2.setColor(Color.WHITE);
+        	}
+    }
+    
+    private void drawSquares(Graphics2D g2)
+    {
+        if ("hide".equals(System.getProperty("info.gridworld.gui.selection")))
+            return;
+        for(int r = 0; r < 8; r++)
+        	for (int c = 0; c < 8; c++)
+        	{
+        		if((r%2 == 0 && c%2 == 0) || (r%2 != 0 && c%2 != 0))
+	        	{
+	            	Point p = pointForLocation(new Location(r, c));
+	            	g2.setColor(new Color(255, 255, 127));
+	            	g2.fillRect(p.x - cellSize / 2, p.y - cellSize / 2, cellSize, cellSize);
+	            	g2.setColor(Color.WHITE);
+        		}
         	}
     }
 

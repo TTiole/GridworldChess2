@@ -39,23 +39,30 @@ public class King extends ChessPiece
   
   public void moveTo(Location loc)
   {
-    moves++;
-    if(getLocation().getCol() - loc.getCol() > 1) // kingside
+    int dl = -3, dr = 4;
+    if(getColorType() == 'b')
     {
-      Location KRL = new Location(getLocation().getRow(),getLocation().getCol()-3);
+    	dl = -dr;
+    	dr = -dl;
+    }
+        
+    moves++;
+    if((loc.getCol() == 1 && getColorType() == 'w') || (loc.getCol() == 5 && getColorType() == 'b')) // kingside
+    {
+      Location KRL = new Location(getLocation().getRow(),getLocation().getCol()+dl);
       Rook KR = null;
       if(getGrid().get(KRL) != null)
           KR = (Rook)(getGrid().get(KRL));
-      KR.cLaunched(true);
+      KR.cLaunched(true, dl, dr);
     }
-    else if(loc.getCol() - getLocation().getCol() > 1) //queenside
+    else if((loc.getCol() == 5 && getColorType() == 'w') || (loc.getCol() == 1 && getColorType() == 'b')) //queenside
     {
-      Location QRL = new Location(getLocation().getRow(),getLocation().getCol()+4);
+      Location QRL = new Location(getLocation().getRow(),getLocation().getCol()+dr);
       Rook QR = null;
       if(getGrid().get(QRL) != null)
       {
         QR = (Rook)(getGrid().get(QRL));
-      	QR.cLaunched(false); //cLaunched stands for Castling Launched
+      	QR.cLaunched(false, dl, dr); //cLaunched stands for Castling Launched
       }
     }
     super.moveTo(loc);
