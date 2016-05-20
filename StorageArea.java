@@ -31,18 +31,25 @@ public class StorageArea
     
     public static void sort()
     {
+    	int val1;
+    	int val2;
 		ArrayList<ChessPiece> sorted = new ArrayList();
-			
-		int max = 0, index = 0;
-		for(int i = 0; i < whitePieces.size(); i++)
+		for(int i = 0; i < whitePieces.size();i++)
 		{
-			if(whitePieces.get(i).value > max)
+			val1 = whitePieces.get(i).value
+			for(int j = i+1; j < whitePieces.size(); j++)
 			{
-				max = whitePieces.get(i).value;
-				index = i;
+				if(whitePieces.get(j) == null)
+					val2 = 0;
+				else
+					val2 = whitePieces.get(j).value;
+				if(val2 <= val)
+				{
+					sorted.add(whitePieces.get(i));
+				}
 			}
+			
 		}
-		sorted.add(whitePieces.get(index));
     }
 	    
 	public static void organize()
