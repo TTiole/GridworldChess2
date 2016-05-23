@@ -61,12 +61,14 @@ public class GridPanel extends JPanel implements Scrollable,
     private static final int DEFAULT_CELL_SIZE = 48;
     private static final int DEFAULT_CELL_COUNT = 12;
     private static final int TIP_DELAY = 1000;
+    private static final Color darkTiles = new Color(160, 82, 45);
+    private static final Color lightTiles = new Color(255, 248, 220);
 
     private Grid<?> grid;
     private int numRows, numCols, originRow, originCol;
     private int cellSize; // the size of each cell, EXCLUDING the gridlines
     private boolean toolTipsEnabled;
-    private Color backgroundColor = Color.WHITE;
+    private Color backgroundColor = lightTiles;
     private ResourceBundle resources;
     private DisplayMap displayMap;
     private Location currentLocation;
@@ -236,7 +238,7 @@ public class GridPanel extends JPanel implements Scrollable,
             	Point p = pointForLocation(loc);
             	g2.setColor(new Color(0, 191, 0));
             	g2.fillRect(p.x - cellSize / 2, p.y - cellSize / 2, cellSize, cellSize);
-            	g2.setColor(Color.WHITE);
+            	g2.setColor(lightTiles);
         	}
     }
     
@@ -250,9 +252,9 @@ public class GridPanel extends JPanel implements Scrollable,
         		if((r%2 == 0 && c%2 == 0) || (r%2 != 0 && c%2 != 0))
 	        	{
 	            	Point p = pointForLocation(new Location(r, c));
-	            	g2.setColor(new Color(255, 255, 127));
+	            	g2.setColor(darkTiles);
 	            	g2.fillRect(p.x - cellSize / 2, p.y - cellSize / 2, cellSize, cellSize);
-	            	g2.setColor(Color.WHITE);
+	            	g2.setColor(lightTiles);
         		}
         	}
     }
