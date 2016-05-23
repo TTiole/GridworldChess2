@@ -5,7 +5,7 @@ import java.awt.Color;
 public abstract class ChessPiece extends Actor implements Comparable
 {
     private char colorType;
-    protected static int value;
+    private int value;
 
     public ChessPiece(char c)
     {
@@ -159,13 +159,21 @@ public abstract class ChessPiece extends Actor implements Comparable
 		return Locs;
     }
     
+    public int getValue()
+    {
+    	return value;
+    }
+    
     public int compareTo(Object obj)
     {
     	ChessPiece C = (ChessPiece)obj;
-    	if(value != C.value && !getClass().equals(C.getClass()))
-    		return value - C.value;
-    	else
+    	
+    	if(this instanceof Knight && obj instanceof Bishop)
     		return -1;
+    	else if(obj instanceof Knight && this instanceof Bishop)
+    		return 1;
+    	else
+    		return getValue() - C.getValue();
     }
     
     public Location[] getAttackingMoves(boolean check)
@@ -175,7 +183,8 @@ public abstract class ChessPiece extends Actor implements Comparable
     
     public String toString()
     {
-        return getClass().getName() + "[Location: " + getLocation() + ", colorType: " + getColorType() + "]";
+        return getClass().getName() + "[Location: " + getLocation() + ", colorType: " + getColorType()
+        							+ ", value: " + getValue() + "]";
     }
 
     public abstract Location[] getLegalMoves(boolean check);
