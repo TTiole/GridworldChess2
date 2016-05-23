@@ -22,34 +22,48 @@ public class StorageArea
     public static void takePiece(ChessPiece C)
     {
     	if(C.getColorType() == 'w')
+    	{
 	        whitePieces.add(C);
-	    else
+	        sort(C, 'w');
+    	}
+		else
+		{
 	        blackPieces.add(C);
+	        sort(C, 'b');
+		}
         //sort();
         organize();
     }
     
-    public static void sort()
+    public static void sort(C, colorType)
     {
-    	int val1;
-    	int val2;
-		ArrayList<ChessPiece> sorted = new ArrayList();
-		for(int i = 0; i < whitePieces.size();i++)
-		{
-			val1 = whitePieces.get(i).value
-			for(int j = i+1; j < whitePieces.size(); j++)
-			{
-				if(whitePieces.get(j) == null)
-					val2 = 0;
-				else
-					val2 = whitePieces.get(j).value;
-				if(val2 <= val)
-				{
-					sorted.add(whitePieces.get(i));
-				}
-			}
-			
-		}
+    	ArrayList<ChessPiece> sortedList = new ArrayList<ChessPiece>();
+    	if(colorType == 'w')
+    	{
+    		for(ChessPiece C2 : whitePieces)
+    		{
+    			if(C.compareTo(C2) >= 0)
+    				sortedList.add(indexOf(C2), C);
+    			else if(indexOf(C2) == whitePieces.size()-1)
+    				sortedList.add(C);
+    		}
+    		if(whitePieces.size() == 0)
+    			whitePieces.add(C);
+    		whitePieces = sortedList;
+    	}
+    	else
+    	{
+    		for(ChessPiece C2 : blackPieces)
+    		{
+    			if(C.compareTo(C2) >= 0)
+    				sortedList.add(indexOf(C2), C);
+    			else if(indexOf(C2) == blackPieces.size()-1)
+    				sortedList.add(C);
+    		}
+    		if(blackPieces.size() == 0)
+    			blackPieces.add(C);
+    		blackPieces = sortedList;
+    	}
     }
 	    
 	public static void organize()
