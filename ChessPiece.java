@@ -99,7 +99,6 @@ public abstract class ChessPiece extends Actor implements Comparable
     //The boolean check serves as a way to end the infinite loop: isInCheck() -> getLegalMoves() -> isLegal() -> isInCheck()...
     public boolean isLegal(boolean check, Location loc)
     {
-    	
     	if(loc == null || !getGrid().isValid(loc))
     		return false;
     		
@@ -113,7 +112,6 @@ public abstract class ChessPiece extends Actor implements Comparable
     	King king = getKing();
     	Location prevLoc = getLocation();
     	
-    		
     	if(C != null && C.getColorType() == colorType)
     		return false;
     	
@@ -169,9 +167,9 @@ public abstract class ChessPiece extends Actor implements Comparable
     	ChessPiece C = (ChessPiece)obj;
     	
     	if(this instanceof Knight && obj instanceof Bishop)
-    		return -1;
-    	else if(obj instanceof Knight && this instanceof Bishop)
     		return 1;
+    	else if(obj instanceof Knight && this instanceof Bishop)
+    		return -1;
     	else
     		return getValue() - C.getValue();
     }

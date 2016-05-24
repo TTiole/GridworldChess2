@@ -32,17 +32,24 @@ public class StorageArea
     	ArrayList<ChessPiece> sortedList = new ArrayList<ChessPiece>();
     	if(colorType == 'w')
     	{
-    		//Initializes sortedList
     		for(ChessPiece C0 : whitePieces)
     			sortedList.add(C0);
-			
-			//Compares all taken pieces with the piece that just got taken
-    		for(ChessPiece C2 : whitePieces)
-    			if(C.compareTo(C2) > 0)
-    				sortedList.add(whitePieces.indexOf(C2), C);
-    			else if(whitePieces.indexOf(C2) == whitePieces.size()-1)
-    				sortedList.add(C);
 
+    		for(int i = 0; i < whitePieces.size(); i++)
+    		{
+    			ChessPiece C2 = whitePieces.get(i);
+    			if(C.compareTo(C2) > 0)
+    			{
+    				sortedList.add(i, C);
+    				break;
+    			}
+    			else if(i == whitePieces.size()-1)
+    			{
+    				sortedList.add(C);
+    				break;
+    			}
+    		}
+    				
     		if(whitePieces.size() == 0)
     			sortedList.add(C);
     		whitePieces = sortedList;
@@ -52,11 +59,20 @@ public class StorageArea
     		for(ChessPiece C0 : blackPieces)
     			sortedList.add(C0);
 
-    		for(ChessPiece C2 : blackPieces)
-    			if(C.compareTo(C2) > 0) //Mick you're stupid
-    				sortedList.add(blackPieces.indexOf(C2), C);
-    			else if(blackPieces.indexOf(C2) == blackPieces.size()-1)
+    		for(int i = 0; i < blackPieces.size(); i++)
+    		{
+    			ChessPiece C2 = blackPieces.get(i);
+    			if(C.compareTo(C2) > 0)
+    			{
+    				sortedList.add(i, C);
+    				break;
+    			}
+    			else if(i == blackPieces.size()-1)
+    			{
     				sortedList.add(C);
+    				break;
+    			}
+    		}
     				
     		if(blackPieces.size() == 0)
     			sortedList.add(C);
