@@ -25,16 +25,20 @@ public class StorageArea
         organize();
     }
     
+    //Sorts the taken piece
+    //C = the piece that just got taken
     public static void sort(ChessPiece C, char colorType)
     {
     	ArrayList<ChessPiece> sortedList = new ArrayList<ChessPiece>();
     	if(colorType == 'w')
     	{
+    		//Initializes sortedList
     		for(ChessPiece C0 : whitePieces)
     			sortedList.add(C0);
-
+			
+			//Compares all taken pieces with the piece that just got taken
     		for(ChessPiece C2 : whitePieces)
-    			if(C.compareTo(C2) >= 0)
+    			if(C.compareTo(C2) > 0)
     				sortedList.add(whitePieces.indexOf(C2), C);
     			else if(whitePieces.indexOf(C2) == whitePieces.size()-1)
     				sortedList.add(C);
@@ -49,7 +53,7 @@ public class StorageArea
     			sortedList.add(C0);
 
     		for(ChessPiece C2 : blackPieces)
-    			if(C.compareTo(C2) >= 0)
+    			if(C.compareTo(C2) > 0) //Mick you're stupid
     				sortedList.add(blackPieces.indexOf(C2), C);
     			else if(blackPieces.indexOf(C2) == blackPieces.size()-1)
     				sortedList.add(C);
@@ -73,17 +77,11 @@ public class StorageArea
 	                
 	    for(int i = 0; i < blackPieces.size(); i++)
 		{
-			System.out.println("    "+blackPlaces[i]);
 			ChessPiece B = blackPieces.get(i);
 			if(B.getGrid() != null)
-			{
-				System.out.println(B.getLocation());
 	        	B.swapTo(blackPlaces[i]);
-				System.out.println(B.getLocation());
-			}
 	        else
 	        	ChessBoard.add(blackPlaces[i], B);
 		}
-		System.out.println();
     }
 }
