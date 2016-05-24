@@ -10,8 +10,8 @@ public class King extends ChessPiece
   public King(char c)
   {
   	super(c);
-  	moves = 0;
   	cLaunched = false;
+  	moves = 0;
     targetColor = 'w';
     if(c == 'w')
       targetColor = 'b';
@@ -48,7 +48,7 @@ public class King extends ChessPiece
     }
 
     moves++;
-    if((loc.getCol() == 1 && getColorType() == 'w') || (loc.getCol() == 2 && getColorType() == 'b')) // left side
+    if(((loc.getCol() == 1 && getColorType() == 'w') || (loc.getCol() == 2 && getColorType() == 'b')) && canCastle()) // left side
     {
       Location LRLoc = new Location(getLocation().getRow(),getLocation().getCol()+dl);
 
@@ -57,9 +57,10 @@ public class King extends ChessPiece
       {
           LR = (Rook)(getGrid().get(LRLoc));
       	  LR.cLaunched(true, dl, dr);
+      	  cLaunched = true;
       }
     }
-    else if((loc.getCol() == 5 && getColorType() == 'w') || (loc.getCol() == 6 && getColorType() == 'b')) // right side
+    else if(((loc.getCol() == 5 && getColorType() == 'w') || (loc.getCol() == 6 && getColorType() == 'b')) && canCastle()) // right side
     {
       Location RRLoc = new Location(getLocation().getRow(),getLocation().getCol()+dr);
 
@@ -68,6 +69,7 @@ public class King extends ChessPiece
       {
         RR = (Rook)(getGrid().get(RRLoc));
       	RR.cLaunched(false, dl, dr); //cLaunched stands for Castling Launched
+      	cLaunched = true;
       }
     }
     super.moveTo(loc);
@@ -75,12 +77,11 @@ public class King extends ChessPiece
   
   public boolean canCastle()
   {
-    return moves == 0 && !isInCheck();
+    return moves == 0 && !isInCheck() && !cLaunched;
   }
   
   public Location[] getLegalMoves(boolean check)
   {
-        //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[10];
         
         if(!ChessBoard.isTurn(getColorType()) && check)
