@@ -51,11 +51,9 @@ public class Pawn extends ChessPiece
    		return legalMoves;
 
     if(nPosF.isOnBoard() && getGrid().get(nPosF) == null && isLegal(check, nPosF))
-    {
     	legalMoves[0] = nPosF;
-    	if(n2PosF.isOnBoard() && getGrid().get(n2PosF) == null && canPass && isLegal(check, n2PosF))
-    		legalMoves[1] = n2PosF;
-    }
+    if(n2PosF.isOnBoard() && getGrid().get(n2PosF) == null && canPass && isLegal(check, n2PosF))
+    	legalMoves[1] = n2PosF;
     //Enpassant Pawn
     if(getPassedPawn() != null && isLegal(check, getPassedPawn().getLocation()))
     	legalMoves[1] = getPassedPawn().getLocation().getAdjacentLocation(0);
