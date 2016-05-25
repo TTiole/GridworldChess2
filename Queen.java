@@ -16,14 +16,20 @@ public class Queen extends ChessPiece
         for(int d = 0; d < 360; d += 45)
         {
             Location sPos = getLocation();
-            while(isLegal(check, sPos) || sPos.equals(getLocation()))
+            while((loc != null && loc.isOnBoard()) || sPos.equals(getLocation()))
             {
-                if(isLegal(check, sPos))
+                if(loc != null && loc.isOnBoard())
                 {
-                    legalMovesArray[i] = sPos;
+                    ChessPiece C = (ChessPiece)(getGrid().get(sPos));
+                    if(C != null)
+                    {
+                      if(isLegal(check, sPos))
+                        legalMoves[i] = sPos;
+                      break;
+                    }
+                    else if(isLegal(check, sPos))
+                      legalMoves[i] = sPos;
                     i++;
-                    if(getGrid().get(sPos) != null)
-                				break;
                 }
                 sPos = sPos.getAdjacentLocation(d);
             }
