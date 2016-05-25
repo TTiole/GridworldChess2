@@ -7,7 +7,6 @@ public class Queen extends ChessPiece
   
   public Location[] getLegalMoves(boolean check)
   {
-        //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[27];
         
         if(!ChessBoard.isTurn(getColorType()) && check)
@@ -29,14 +28,6 @@ public class Queen extends ChessPiece
                 sPos = sPos.getAdjacentLocation(d);
             }
         }
-    
-        /*
-         * This converts ArrayLists into Arrays so that
-         * we can have arrays that will always be
-         * the right size.
-         */
-        //Location[] legalMovesArray = new Location[legalMoves.size()];
-        //legalMovesArray = legalMoves.toArray(legalMovesArray);
         return legalMovesArray;
   }
   

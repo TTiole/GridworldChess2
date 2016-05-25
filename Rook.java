@@ -13,7 +13,6 @@ public class Rook extends ChessPiece
 
     public Location[] getLegalMoves(boolean check)
     {
-        //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[14];
         
         if(!ChessBoard.isTurn(getColorType()) && check)
@@ -30,20 +29,11 @@ public class Rook extends ChessPiece
                     legalMovesArray[i] = sPos;
                     i++;
                     if(getGrid().get(sPos) != null)
-                				break;
+                		break;
                 }
                 sPos = sPos.getAdjacentLocation(d);
             }
         }
-        
-    
-        /*
-         * This converts ArrayLists into Arrays so that
-         * we can have arrays that will always be
-         * the right size.
-         */
-        //Location[] legalMovesArray = new Location[legalMoves.size()];
-        //legalMovesArray = legalMoves.toArray(legalMovesArray);
         return legalMovesArray;
     }
     

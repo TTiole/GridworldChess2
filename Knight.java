@@ -7,7 +7,6 @@ public class Knight extends ChessPiece
   
   public Location[] getLegalMoves(boolean check)
   {
-  	    //List<Location> legalMoves = new ArrayList<Location>(0);
         Location[] legalMovesArray = new Location[16];
         
         if(!ChessBoard.isTurn(getColorType()) && check)
@@ -32,14 +31,6 @@ public class Knight extends ChessPiece
                 }
             }
         }
-    
-        /*
-         * This converts ArrayLists into Arrays so that
-         * we can have arrays that will always be
-         * the right size.
-         */
-        //Location[] legalMovesArray = new Location[legalMoves.size()];
-        //legalMovesArray = legalMoves.toArray(legalMovesArray);
         return legalMovesArray;
   }
   
