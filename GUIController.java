@@ -208,7 +208,7 @@ public class GUIController<T>
     /**
      * Callback on mousePressed when editing a grid.
      */
-    private void locationClicked()
+    public void locationClicked()
     {
         World<T> world = parentFrame.getWorld();
         Location loc = display.getCurrentLocation();
@@ -270,8 +270,7 @@ public class GUIController<T>
                         		StorageArea.takePiece(other);
 	    					
 	    					setMenuOpen(true);
-							MenuMaker<T> maker = new MenuMaker<T>(this, parentFrame, resources,
-                        			displayMap);
+							MenuMaker<T> maker = new MenuMaker<T>(this, parentFrame, resources, displayMap);
                 			JPopupMenu popup = maker.makePromoteMenu(occupant0, loc);
                 			Point p = display.pointForLocation(loc);
                 			popup.show(display, p.x, p.y);

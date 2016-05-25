@@ -176,6 +176,8 @@ public class WorldFrame<T> extends JFrame
         Grid<T> gr = world.getGrid();
         gridClasses.add(gr.getClass());
 
+        makeNewGridMenu();
+
         control = new GUIController<T>(this, display, displayMap, resources);
         content.add(control.controlPanel(), BorderLayout.SOUTH);
 
@@ -342,7 +344,7 @@ public class WorldFrame<T> extends JFrame
 
         newGridMenu = makeMenu("menu.file.new");
         menu.add(newGridMenu);
-        //menuItemsDisabledDuringRun.add(newGridMenu);
+        menuItemsDisabledDuringRun.add(newGridMenu);
 
         menu.add(makeMenuItem("menu.file.quit", new ActionListener()
         {
@@ -389,21 +391,10 @@ public class WorldFrame<T> extends JFrame
                 {
                     public void actionPerformed(ActionEvent e)
                     {
-                        control.editLocation();
+                        control.locationClicked();
                     }
                 }));
         menuItemsDisabledDuringRun.add(viewEditMenu);
-
-        JMenuItem viewDeleteMenu;
-        menu.add(viewDeleteMenu = makeMenuItem("menu.view.delete",
-                new ActionListener()
-                {
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        control.deleteLocation();
-                    }
-                }));
-        menuItemsDisabledDuringRun.add(viewDeleteMenu);
 
         menu.add(makeMenuItem("menu.view.zoomin", new ActionListener()
         {
@@ -422,13 +413,6 @@ public class WorldFrame<T> extends JFrame
         }));
 
         mbar.add(menu = makeMenu("menu.help"));
-        menu.add(makeMenuItem("menu.help.about", new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                showAboutPanel();
-            }
-        }));
         menu.add(makeMenuItem("menu.help.help", new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -436,16 +420,16 @@ public class WorldFrame<T> extends JFrame
                 showHelp();
             }
         }));
-        menu.add(makeMenuItem("menu.help.license", new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                showLicense();
-            }
-        }));
 
         setRunMenuItemsEnabled(true);
         setJMenuBar(mbar);
+    }
+
+    private void makeNewGridMenu()
+    {
+        newGridMenu.removeAll();
+        MenuMaker<T> maker = new MenuMaker<T>(this, resources, displayMap);
+        maker.addNewGames(newGridMenu);
     }
 
     /**
@@ -499,7 +483,7 @@ public class WorldFrame<T> extends JFrame
         final JEditorPane helpText = new JEditorPane();
         try
         {
-            URL url = getClass().getResource("GridWorldHelp.html");
+            URL url = getClass().getResource("ChessRules.rtf");
 
             helpText.setPage(url);
         }

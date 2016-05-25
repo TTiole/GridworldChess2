@@ -71,6 +71,14 @@ public class MenuMaker<T>
      * @param resources the resource bundle
      * @param displayMap the display map
      */
+    public MenuMaker(WorldFrame<T> parent, ResourceBundle resources,
+            DisplayMap displayMap)
+    {
+        this.parent = parent;
+        this.resources = resources;
+        this.displayMap = displayMap;
+    }
+    
     public MenuMaker(GUIController<T> master, WorldFrame<T> parent, ResourceBundle resources,
             DisplayMap displayMap)
     {
@@ -86,17 +94,22 @@ public class MenuMaker<T>
         this.currentLocation = loc;
         JPopupMenu menu = new JPopupMenu();
         
-        menu.add(new MCItem("Queen", (Icon)(new ImageIcon("images/Queen.png"))));
-        menu.add(new MCItem("Rook", (Icon)(new ImageIcon("images/Rook.png"))));
-        menu.add(new MCItem("Bishop", (Icon)(new ImageIcon("images/Bishop.png"))));
-        menu.add(new MCItem("Knight", (Icon)(new ImageIcon("images/Knight.png"))));
+        menu.add(new PromoteItem("Queen", (Icon)(new ImageIcon("images/Queen.png"))));
+        menu.add(new PromoteItem("Rook", (Icon)(new ImageIcon("images/Rook.png"))));
+        menu.add(new PromoteItem("Bishop", (Icon)(new ImageIcon("images/Bishop.png"))));
+        menu.add(new PromoteItem("Knight", (Icon)(new ImageIcon("images/Knight.png"))));
 
         return menu;
     }
-
-    private class MCItem extends JMenuItem implements ActionListener
+    
+    public void addNewGames(JMenu menu)
     {
-        public MCItem(String S, Icon I)
+        menu.add(new NGameItem("Standard"));
+    }
+
+    private class PromoteItem extends JMenuItem implements ActionListener
+    {
+        public PromoteItem(String S, Icon I)
         {
         	super(S, I);
             addActionListener(this);
@@ -133,6 +146,28 @@ public class MenuMaker<T>
         	{System.out.println("NoSuchMethodException: "+e.getMessage());}
         	catch(InvocationTargetException e)
         	{System.out.println("InvocationTargetException: "+e.getMessage());}
+        }
+        	
+    }
+    
+    private class NGameItem extends JMenuItem implements ActionListener
+    {
+        public NGameItem(String S)
+        {
+        	super(S);
+            addActionListener(this);
+        }
+
+        public void actionPerformed(ActionEvent event)
+        {
+        	ChessBoard.reset();
+        	switch(event.getActionCommand())
+        	{
+        		case "Standard":
+        			ChessBoard.defaultSetup();
+        			break;	
+        	}
+        	parent.repaint();
         }
         	
     }
