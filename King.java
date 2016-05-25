@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class King extends ChessPiece
 {
-  private boolean check, cLaunched;
+  private boolean check;
   private char targetColor;
   private ArrayList<Location> oppositeLocs = new ArrayList<Location>();
   private int moves;
@@ -10,7 +10,6 @@ public class King extends ChessPiece
   public King(char c)
   {
   	super(c);
-  	cLaunched = false;
   	moves = 0;
     targetColor = 'w';
     if(c == 'w')
@@ -47,7 +46,6 @@ public class King extends ChessPiece
     	dr = -temp;
     }
 
-    moves++;
     if(((loc.getCol() == 1 && getColorType() == 'w') || (loc.getCol() == 2 && getColorType() == 'b')) && canCastle()) // left side
     {
       Location LRLoc = new Location(getLocation().getRow(),getLocation().getCol()+dl);
@@ -57,7 +55,6 @@ public class King extends ChessPiece
       {
           LR = (Rook)(getGrid().get(LRLoc));
       	  LR.cLaunched(true, dl, dr);
-      	  cLaunched = true;
       }
     }
     else if(((loc.getCol() == 5 && getColorType() == 'w') || (loc.getCol() == 6 && getColorType() == 'b')) && canCastle()) // right side
@@ -69,15 +66,16 @@ public class King extends ChessPiece
       {
         RR = (Rook)(getGrid().get(RRLoc));
       	RR.cLaunched(false, dl, dr); //cLaunched stands for Castling Launched
-      	cLaunched = true;
       }
     }
+    
+    moves++;
     super.moveTo(loc);
   }
   
   public boolean canCastle()
   {
-    return moves == 0 && !isInCheck() && !cLaunched;
+    return moves == 0 && !isInCheck();
   }
   
   public Location[] getLegalMoves(boolean check)
