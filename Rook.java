@@ -13,14 +13,10 @@ public class Rook extends ChessPiece
 
     public Location[] getLegalMoves(boolean check)
     {
-        Location[] legalMoves = new Location[14];
-        
         if(!ChessBoard.isTurn(getColorType()) && check)
-        	return legalMoves;
+        	return new Location[0];
         	
-        appendLegalMoves(legalMoves, 0, 90);
-        
-        return legalMoves;
+        return getLinearMoves(14, 0, 90, check);
     }
     
     public void cLaunched(boolean left, int dl, int dr) //True = Kingside castle, False = Queenside castle

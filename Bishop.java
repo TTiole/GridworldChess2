@@ -10,14 +10,10 @@ public class Bishop extends ChessPiece
   
   public Location[] getLegalMoves(boolean check)
   {
-        Location[] legalMoves = new Location[14];
-        
         if(!ChessBoard.isTurn(getColorType()) && check)
-        	return legalMoves;
+        	return new Location[0];
         
-        appendLinearMoves(legalMoves, 45, 90);
-        
-        return legalMoves;
+        return getLinearMoves(13, 45, 90, check);
     }
   
   public void copyTo(Location loc)

@@ -7,14 +7,10 @@ public class Queen extends ChessPiece
   
   public Location[] getLegalMoves(boolean check)
   {
-        Location[] legalMoves = new Location[27];
-        
         if(!ChessBoard.isTurn(getColorType()) && check)
-        	return legalMoves;
-        	
-        appendLinearMoves(legalMoves, 0, 45);
+        	return new Location[0];
         
-        return legalMovesArray;
+        return getLinearMoves(27, 0, 45, check);
   }
   
   public void copyTo(Location loc)

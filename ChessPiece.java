@@ -24,30 +24,34 @@ public abstract class ChessPiece extends Actor implements Comparable
         return colorType;
     }
     
-    public void appendLinearMoves(Location[] locArr, int start, int step)
+    public Location[] getLinearMoves(int len, int start, int step, boolean check)
     {
+    	Location[] locArr = new Location[len];
     	int i = 0;
         for(int d = start; d < 360; d += step)
         {
-            Location sPos = getLocation();
-            while((loc != null && loc.isOnBoard()) || sPos.equals(getLocation()))
+            Location loc = getLocation();
+            while((loc != null && loc.isOnBoard()) || loc.equals(getLocation()))
             {
-                if(loc != null && loc.isOnBoard())
+                if(!loc.equals(getLocation()));
                 {
-                    ChessPiece C = (ChessPiece)(getGrid().get(sPos));
-                    if(C != null)
+                    ChessPiece C = (ChessPiece)(getGrid().get(loc));
+
+                    if(C != null && !loc.equals(getLocation()))
                     {
-                      if(isLegal(check, sPos))
-                        locArr[i] = sPos;
-                      break;
+                      	if(isLegal(check, loc))
+                        	locArr[i] = loc;
+                      	break;
                     }
-                    else if(isLegal(check, sPos))
-                      locArr[i] = sPos;
+                    else if(isLegal(check, loc))
+                      locArr[i] = loc;
                     i++;
                 }
-                sPos = sPos.getAdjacentLocation(d);
+                loc = loc.getAdjacentLocation(d);
             }
         }
+        return locArr;
+        
     }
     
   //This method returns any passed pawns next to the current pawn
