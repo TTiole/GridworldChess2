@@ -42,7 +42,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     public void moveTo(Location loc)
     {
     	if(getPassedPawn() != null && getPassedPawn().getColorType() != getColorType())
-    		getPassedPawn().removeSelfFromGrid();
+    		StorageArea.takePiece(getPassedPawn());
     		
     	ArrayList<Location> enemyLocs;
     	if(getColorType() == 'w')
