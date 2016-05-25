@@ -37,6 +37,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolTip;
 import javax.swing.JViewport;
@@ -84,7 +87,7 @@ public class GridPanel extends JPanel implements Scrollable,
      */
     public GridPanel(DisplayMap map, ResourceBundle res)
     {
-    		currentSelection = new Location[0];
+    	currentSelection = new Location[0];
         displayMap = map;
         resources = res;
         setToolTipsEnabled(false);
@@ -530,6 +533,7 @@ public class GridPanel extends JPanel implements Scrollable,
         if (!grid.isValid(newLocation))
             return;
 
+		//clearSelection();
         setCurrentLocation(newLocation);
 
         JViewport viewPort = getEnclosingViewport();
@@ -727,5 +731,11 @@ public class GridPanel extends JPanel implements Scrollable,
             tipText = getToolTipText(loc);
 
         showTip(tipText, getLocation());
+    }
+    
+    public void createDialogue(String message)
+    {
+    	JFrame frame = new JFrame("Chess");
+    	JOptionPane.showMessageDialog(frame, message);
     }
 }

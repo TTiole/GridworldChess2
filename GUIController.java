@@ -279,6 +279,11 @@ public class GUIController<T>
 	                    {
 	                        C.moveTo(loc);
 	                        ChessBoard.flipBoard();
+	                        
+	                        if(ChessBoard.checkmate(C))
+	                        	display.createDialogue("Checkmate!");
+	                        else if (ChessBoard.check(C))
+	                        	display.createDialogue("Check!");
                         }
                     }
                     else if(occupant != null)

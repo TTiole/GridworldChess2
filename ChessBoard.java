@@ -85,6 +85,36 @@ public class ChessBoard
 		}
 	}
 	
+	public static boolean checkmate(ChessPiece C)
+	{
+		ArrayList<Location> enemyLocs;
+		enemyLocs = C.getLocations('w');
+		if(C.getColorType() == 'w')
+			enemyLocs = C.getLocations('b');
+		
+		for(Location enemyLoc : enemyLocs)
+		{
+			ChessPiece enemy = (ChessPiece)(grid.get(enemyLoc));
+			if(!enemy.getKing().isInCheck())
+				return false;
+					
+			for(Location loc : enemy.getLegalMoves(true))
+				if(loc != null)
+					return false;
+		}
+		return true;
+	}
+	
+	public static boolean check(ChessPiece C)
+	{
+		ArrayList<Location> enemyLocs;
+		enemyLocs = C.getLocations('w');
+		if(C.getColorType() == 'w')
+			enemyLocs = C.getLocations('b');
+		King enemyKing = (King)(((ChessPiece)(grid.get(enemyLocs.get(0)))).getKing());
+		return enemyKing.isInCheck();
+	}
+	
 	public static void reset()
 	{
 		clearAll();
