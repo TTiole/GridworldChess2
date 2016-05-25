@@ -13,34 +13,14 @@ public class Rook extends ChessPiece
 
     public Location[] getLegalMoves(boolean check)
     {
-        Location[] legalMovesArray = new Location[14];
+        Location[] legalMoves = new Location[14];
         
         if(!ChessBoard.isTurn(getColorType()) && check)
-        	return legalMovesArray;
+        	return legalMoves;
         	
-        int i = 0;
-        for(int d = 0; d < 360; d += 90)
-        {
-            Location sPos = getLocation();
-            while((loc != null && loc.isOnBoard()) || sPos.equals(getLocation()))
-            {
-                if(loc != null && loc.isOnBoard())
-                {
-                    ChessPiece C = (ChessPiece)(getGrid().get(sPos));
-                    if(C != null)
-                    {
-                      if(isLegal(check, sPos))
-                        legalMoves[i] = sPos;
-                      break;
-                    }
-                    else if(isLegal(check, sPos))
-                      legalMoves[i] = sPos;
-                    i++;
-                }
-                sPos = sPos.getAdjacentLocation(d);
-            }
-        }
-        return legalMovesArray;
+        appendLegalMoves(legalMoves, 0, 90);
+        
+        return legalMoves;
     }
     
     public void cLaunched(boolean left, int dl, int dr) //True = Kingside castle, False = Queenside castle
