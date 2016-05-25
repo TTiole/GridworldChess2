@@ -7,33 +7,13 @@ public class Queen extends ChessPiece
   
   public Location[] getLegalMoves(boolean check)
   {
-        Location[] legalMovesArray = new Location[27];
+        Location[] legalMoves = new Location[27];
         
         if(!ChessBoard.isTurn(getColorType()) && check)
-        	return legalMovesArray;
+        	return legalMoves;
         	
-        int i = 0;
-        for(int d = 0; d < 360; d += 45)
-        {
-            Location sPos = getLocation();
-            while((loc != null && loc.isOnBoard()) || sPos.equals(getLocation()))
-            {
-                if(loc != null && loc.isOnBoard())
-                {
-                    ChessPiece C = (ChessPiece)(getGrid().get(sPos));
-                    if(C != null)
-                    {
-                      if(isLegal(check, sPos))
-                        legalMoves[i] = sPos;
-                      break;
-                    }
-                    else if(isLegal(check, sPos))
-                      legalMoves[i] = sPos;
-                    i++;
-                }
-                sPos = sPos.getAdjacentLocation(d);
-            }
-        }
+        appendLinearMoves(legalMoves, 0, 45);
+        
         return legalMovesArray;
   }
   
