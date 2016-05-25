@@ -19,14 +19,20 @@ public class Bishop extends ChessPiece
         for(int d = 45; d < 360; d += 90)
         {
             Location sPos = getLocation();
-            while(isLegal(check, sPos) || sPos.equals(getLocation()))
+            while((loc != null && loc.isOnBoard()) || sPos.equals(getLocation()))
             {
-                if(isLegal(check, sPos))
+                if(loc != null && loc.isOnBoard())
                 {
-                    legalMoves[i] = sPos;
+                    ChessPiece C = (ChessPiece)(getGrid().get(sPos));
+                    if(C != null)
+                    {
+                      if(isLegal(check, sPos))
+                        legalMoves[i] = sPos;
+                      break;
+                    }
+                    else if(isLegal(check, sPos))
+                      legalMoves[i] = sPos;
                     i++;
-                    if(getGrid().get(sPos) != null)
-                		  break;
                 }
                 sPos = sPos.getAdjacentLocation(d);
             }
