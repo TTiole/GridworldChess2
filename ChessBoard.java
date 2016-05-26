@@ -4,12 +4,32 @@ public class ChessBoard
 {
 	private static ActorWorld world;
 	private static Grid grid;
+	private static String currentGame;
 	private static boolean isWhiteTurn = true;
 	
 	public ChessBoard(Grid g, ActorWorld w)
 	{
 		grid = g;
 		world = w;
+		currentGame = "";
+	}
+	
+	public static void newGame(String s)
+	{
+		reset();
+		currentGame = s;
+		switch(currentGame)
+		{
+			case "Standard":
+				defaultSetup();
+				break;
+		}
+	}
+	
+	public static void takeTurn()
+	{
+    	isWhiteTurn = !isWhiteTurn;
+		flipBoard();
 	}
 	
 	public static boolean isTurn(char c)
@@ -24,7 +44,6 @@ public class ChessBoard
     //This method flips the board after every turn	
     public static void flipBoard()
     {
-    	isWhiteTurn = !isWhiteTurn;
         for(int y = 0; y < 4; y++) //Loop through the top half of the board
     	    for(int x = 0; x < 8; x++)
     	    {

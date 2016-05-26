@@ -194,9 +194,10 @@ public class WorldFrame<T> extends JFrame
 
     public void repaint()
     {
-        String message = getWorld().getMessage();
+        String message = null;
         if (message == null)
             message = resources.getString("message.default");
+        System.out.println(message);
         messageArea.setText(message);
         messageArea.repaint();
         display.repaint(); // for applet

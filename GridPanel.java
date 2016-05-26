@@ -64,8 +64,9 @@ public class GridPanel extends JPanel implements Scrollable,
     private static final int DEFAULT_CELL_SIZE = 48;
     private static final int DEFAULT_CELL_COUNT = 12;
     private static final int TIP_DELAY = 1000;
-    private static final Color darkTiles = new Color(160, 82, 45);
-    private static final Color lightTiles = new Color(255, 248, 220);
+    private static final Color darkTiles   = new Color(160,  82,  45);
+    private static final Color mediumTiles = new Color(207, 165, 132);
+    private static final Color lightTiles  = new Color(255, 248, 220);
 
     private Grid<?> grid;
     private int numRows, numCols, originRow, originCol;
@@ -250,9 +251,17 @@ public class GridPanel extends JPanel implements Scrollable,
         if ("hide".equals(System.getProperty("info.gridworld.gui.selection")))
             return;
         for(int r = 0; r < 8; r++)
-        	for (int c = 0; c < 8; c++)
+        	for (int c = 0; c < 12; c++)
         	{
-        		if((r%2 == 0 && c%2 == 0) || (r%2 != 0 && c%2 != 0))
+        		if(c > 7)
+        		{
+	            	Point p = pointForLocation(new Location(r, c));
+	            	g2.setColor(mediumTiles);
+	            	g2.fillRect(p.x - cellSize / 2, p.y - cellSize / 2, cellSize, cellSize);
+	            	g2.setColor(lightTiles);
+        			
+        		}
+        		else if((r%2 == 0 && c%2 == 0) || (r%2 != 0 && c%2 != 0))
 	        	{
 	            	Point p = pointForLocation(new Location(r, c));
 	            	g2.setColor(darkTiles);

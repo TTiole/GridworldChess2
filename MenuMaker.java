@@ -131,7 +131,7 @@ public class MenuMaker<T>
         		cp.removeSelfFromGrid();
         		ChessBoard.add(currentLocation, (ChessPiece)obj);
         		
-        		ChessBoard.flipBoard();
+        		ChessBoard.takeTurn();
         		master.setMenuOpen(false);
         		master.getDisplay().setCurrentLocation(null);
         		parent.repaint();
@@ -160,13 +160,7 @@ public class MenuMaker<T>
 
         public void actionPerformed(ActionEvent event)
         {
-        	ChessBoard.reset();
-        	switch(event.getActionCommand())
-        	{
-        		case "Standard":
-        			ChessBoard.defaultSetup();
-        			break;	
-        	}
+        	ChessBoard.newGame(event.getActionCommand());
         	parent.repaint();
         }
         	

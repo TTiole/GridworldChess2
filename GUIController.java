@@ -49,14 +49,13 @@ public class GUIController<T>
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 
     private Timer timer;
-    private JButton playButton, resetButton;
     private JComponent controlPanel;
     private GridPanel display;
     private WorldFrame<T> parentFrame;
     private int numStepsToPlay, numStepsSoFar;
     private ResourceBundle resources;
     private DisplayMap displayMap;
-    private boolean playing, menuOpen;
+    private boolean menuOpen;
     private Set<Class> occupantClasses;
     private ChessPiece other = null;
     private Location prevLoc0;
@@ -114,7 +113,6 @@ public class GUIController<T>
                 }
             }
         });
-        play();
     }
     
     public GridPanel getDisplay()
@@ -134,27 +132,6 @@ public class GUIController<T>
         while (cl != Object.class);
     }
 
-    public void play()
-    {
-        playButton.setEnabled(false);
-        ChessBoard.defaultSetup();
-        playing = true;
-    }
-
-    /**
-     * Stops any existing timer currently carrying out steps.
-     */
-    public void reset()
-    {
-        playButton.setEnabled(true);
-        playing = false;
-    }
-
-    public boolean isPlaying()
-    {
-        return playing;
-    }
-
     /**
      * Builds the panel with the various controls (buttons and
      * slider).
@@ -162,38 +139,29 @@ public class GUIController<T>
     private void makeControls()
     {
         controlPanel = new JPanel();
-        playButton = new JButton(resources.getString("button.gui.play"));
-        resetButton = new JButton(resources.getString("button.gui.reset"));
+        //sampleButton = new JButton("");
         
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
         controlPanel.setBorder(BorderFactory.createEtchedBorder());
-        
-        Dimension spacer = new Dimension(5, resetButton.getPreferredSize().height + 10);
+        /*
+        Dimension spacer = new Dimension(5, sampleButton.getPreferredSize().height + 10);
         
         controlPanel.add(Box.createRigidArea(spacer));
 
-        controlPanel.add(resetButton);
+        controlPanel.add(sampleButton);
         controlPanel.add(Box.createRigidArea(spacer));
-        controlPanel.add(playButton);
-        playButton.setEnabled(true);
-        resetButton.setEnabled(true);
+        
+        sampleButton.setEnabled(true);
 
         controlPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
-        playButton.addActionListener(new ActionListener()
+        sampleButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                play();
+                sampleMethod();
             }
-        });
-        resetButton.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                reset();
-            }
-        });
+        });*/
     }
 
     /**
@@ -240,104 +208,62 @@ public class GUIController<T>
                 occupant0 = world.getGrid().get(loc0);
             Location[] locSelection = display.getCurrentSelection();
             
-            
-            if(playing)
+        
+         	// Mouse event handling
+            if(occupant0 != null && loc0.isOnBoard())
             {
-                    
-                if(occupant0 != null && loc0.isOnBoard())
+                display.clearSelection();
+                ChessPiece C = (ChessPiece)occupant0;
+                if(menuOpen)
                 {
-                    display.clearSelection();
-	                ChessPiece C = (ChessPiece)occupant0;
-	                if(menuOpen)
-	                {
-        				setMenuOpen(false);
-	        			C.moveTo(prevLoc0);
-		    			if(other != null)
-		    			{
-		    				if(other.getGrid() != null)
-		    					other.removeSelfFromGrid();
-		    				ChessBoard.add(loc0, other);
-		    			}
-		    			return;
-	                }
-                    
-                    if(locArrayContains(locSelection, loc)) // Piece -> legal move
-                    {                        
-                        if(C instanceof Pawn && loc.getRow() == 0)
-                        {
-                        	other = C.tryMove(loc);
-                        	if(other != null)
-                        		StorageArea.takePiece(other);
-	    					
-	    					setMenuOpen(true);
-							MenuMaker<T> maker = new MenuMaker<T>(this, parentFrame, resources, displayMap);
-                			JPopupMenu popup = maker.makePromoteMenu(occupant0, loc);
-                			Point p = display.pointForLocation(loc);
-                			popup.show(display, p.x, p.y);
-                        }
-                        else
-	                    {
-	                        C.moveTo(loc);
-	                        ChessBoard.flipBoard();
-	                        
-	                        if(ChessBoard.checkmate(C))
-	                        	display.createDialogue("Checkmate!");
-	                        else if (ChessBoard.check(C))
-	                        	display.createDialogue("Check!");
-                        }
-                    }
-                    else if(occupant != null)
-                    {
-                        ChessPiece C2 = (ChessPiece)occupant;
-                        if(loc.isOnBoard()) // Piece -> piece
-                        	display.setSelection(C2.getLegalMoves(true));
-                    }
+    				setMenuOpen(false);
+        			C.moveTo(prevLoc0);
+	    			if(other != null)
+	    			{
+	    				if(other.getGrid() != null)
+	    					other.removeSelfFromGrid();
+	    				ChessBoard.add(loc0, other);
+	    			}
+	    			return;
                 }
                 
-                else if(occupant != null) // Blank -> piece
-                {
-                    ChessPiece C = (ChessPiece)occupant;
-                    display.setSelection(C.getLegalMoves(true));
-                }
-            }
-            
-            else
-            {
-                if(occupant0 != null)
-                {
-                    ChessPiece C = (ChessPiece)occupant0;
-                    
-                    if(loc0.isOnBoard())
+                if(locArrayContains(locSelection, loc)) // Piece -> legal move
+                {                        
+                    if(C instanceof Pawn && loc.getRow() == 0)
                     {
-                        if(occupant == null) // Piece -> blank
-                        {
-                            C.moveTo(loc);
-                            display.clearSelection();
-                        }
-                        else
-                        {
-                            ChessPiece C2 = (ChessPiece)occupant;
-                            if(loc.isOnBoard()) // Piece -> piece
-                                display.setOneSelection(loc);
-                            else // Piece -> out
-                            {
-                                C.removeSelfFromGrid();
-                                display.clearSelection();
-                            }
-                        }
+                    	other = C.tryMove(loc);
+                    	if(other != null)
+                    		StorageArea.takePiece(other);
+    					
+    					setMenuOpen(true);
+						MenuMaker<T> maker = new MenuMaker<T>(this, parentFrame, resources, displayMap);
+            			JPopupMenu popup = maker.makePromoteMenu(occupant0, loc);
+            			Point p = display.pointForLocation(loc);
+            			popup.show(display, p.x, p.y);
                     }
                     else
                     {
-                        display.clearSelection();
-                        if(occupant == null) // Out -> blank
-                            C.copyTo(loc);
-                        else // Out -> piece
-                            display.setOneSelection(loc);
+                        C.moveTo(loc);
+                        ChessBoard.takeTurn();
+                        
+                        if(ChessBoard.checkmate(C))
+                        	display.createDialogue("Checkmate!");
+                        else if (ChessBoard.check(C))
+                        	display.createDialogue("Check!");
                     }
                 }
-                
-                else if(occupant != null) // Blank -> piece or out
-                    display.setOneSelection(loc);
+                else if(occupant != null)
+                {
+                    ChessPiece C2 = (ChessPiece)occupant;
+                    if(loc.isOnBoard()) // Piece -> piece
+                    	display.setSelection(C2.getLegalMoves(true));
+                }
+            }
+            
+            else if(occupant != null) // Blank -> piece
+            {
+                ChessPiece C = (ChessPiece)occupant;
+                display.setSelection(C.getLegalMoves(true));
             }
         }
         prevLoc0 = loc0;
