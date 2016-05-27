@@ -178,7 +178,6 @@ public class ChessBoard
 		    wInsufficient = false;
 		if(getLocations('b').size() > 2)
 		    bInsufficient = false;
-		System.out.println(getLocations('w').size() +", "+ getLocations('b').size());
 		for(Location wLoc : getLocations('w'))
 		{
 		    ChessPiece wPiece = (ChessPiece)(grid.get(wLoc));
@@ -197,8 +196,6 @@ public class ChessBoard
 		        break;
 		    }
 		}
-		
-		System.out.println("K/B/N: "+wInsufficient +", "+ bInsufficient);
 		return wInsufficient && bInsufficient;
 
 	}
