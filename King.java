@@ -24,7 +24,7 @@ public class King extends ChessPiece
   
   public boolean isInCheck(Location loc) //looks if it's in check if the king was in the passed location
   {
-    oppositeLocs = getLocations(targetColor);
+    oppositeLocs = ChessBoard.getLocations(targetColor);
     for(Location L : oppositeLocs)
     {
       ChessPiece C = (ChessPiece)(getGrid().get(L));

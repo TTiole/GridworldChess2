@@ -245,10 +245,11 @@ public class GUIController<T>
                     {
                         C.moveTo(loc);
                         ChessBoard.takeTurn();
+                        display.repaint();
                         
-                        if(ChessBoard.checkmate(C))
-                        	display.createDialogue("Checkmate!");
-                        else if (ChessBoard.check(C))
+                        if(ChessBoard.getEndMessage(C) != null)
+                        	display.createDialogue(ChessBoard.getEndMessage(C));
+                        else if(ChessBoard.check(C))
                         	display.createDialogue("Check!");
                     }
                 }

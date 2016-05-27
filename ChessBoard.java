@@ -6,6 +6,7 @@ public class ChessBoard
 	private static Grid grid;
 	private static String currentGame;
 	private static boolean isWhiteTurn = true;
+	private static King blackKing = null, whiteKing = null;
 	
 	public ChessBoard(Grid g, ActorWorld w)
 	{
@@ -24,6 +25,13 @@ public class ChessBoard
 				defaultSetup();
 				break;
 		}
+	}
+	
+	public static King getKing(char c)
+	{
+		if(c == 'w')
+			return whiteKing;
+		return blackKing;
 	}
 	
 	public static void takeTurn()
@@ -69,10 +77,12 @@ public class ChessBoard
 		char[] colors = new char[2];
 		colors[0] = 'b';
 		colors[1] = 'w';
+		whiteKing = new King('w');
+		blackKing = new King('b');
 		
 		for(int i = 0; i < 2; i++)
 		{
-    		world.add(new Location(0, 8 + 2*i), new King(colors[i]));
+    		world.add(new Location(0, 8 + 2*i), getKing(colors[i]));
     		world.add(new Location(1, 8 + 2*i), new Queen(colors[i]));
     		world.add(new Location(2, 8 + 2*i), new Rook(colors[i]));
     		world.add(new Location(3, 8 + 2*i), new Bishop(colors[i]));
@@ -87,6 +97,8 @@ public class ChessBoard
 		char[] colors = new char[2];
 		colors[0] = 'b';
 		colors[1] = 'w';
+		whiteKing = new King('w');
+		blackKing = new King('b');
 		
 		for(int i = 0; i < 2; i++)
 		{
@@ -96,20 +108,107 @@ public class ChessBoard
     		world.add(new Location(i*7, 0), new Rook(colors[i]));
     		world.add(new Location(i*7, 1), new Knight(colors[i]));
     		world.add(new Location(i*7, 2), new Bishop(colors[i]));
-    		world.add(new Location(i*7, 3), new King(colors[i]));
+    		world.add(new Location(i*7, 3), getKing(colors[i]));
     		world.add(new Location(i*7, 4), new Queen(colors[i]));
     		world.add(new Location(i*7, 5), new Bishop(colors[i]));
     		world.add(new Location(i*7, 6), new Knight(colors[i]));
     		world.add(new Location(i*7, 7), new Rook(colors[i]));
 		}
 	}
+    
+    //This method returns the locations of all the pieces of color c
+    public static ArrayList<Location> getLocations(char c)
+    {
+    	ArrayList<Location> Locs = grid.getOccupiedLocations();
+
+    	for(int i = 0; i < Locs.size(); i++)
+    	{
+      	  	ChessPiece C = (ChessPiece)(grid.get(Locs.get(i)));
+      	  	if(C.getColorType() != c || !Locs.get(i).isOnBoard())
+      	  	{
+	    		Locs.remove(i);
+	    		i--;
+      	  	}
+		}
+		return Locs;
+    }
+	
+	public static String getEndMessage(ChessPiece C)
+	{
+		if(checkmate(C))
+		{
+			if(C.getColorType() == 'w')
+				return "White Wins!";
+			return "Black Wins!";
+		}
+		
+		if(stalemate(C))
+			return "Draw by stalemate!";
+		
+		if(insufficientMat(C))
+			return "Draw by insufficient material.";
+			
+		return null;
+	}
+	
+	public static boolean stalemate(ChessPiece C)
+	{
+		ArrayList<Location> enemyLocs;
+		enemyLocs = getLocations('w');
+		if(C.getColorType() == 'w')
+			enemyLocs = getLocations('b');
+		
+		for(Location enemyLoc : enemyLocs)
+		{
+			ChessPiece enemy = (ChessPiece)(grid.get(enemyLoc));
+			if(enemy.getKing().isInCheck())
+				return false;
+					
+			for(Location loc : enemy.getLegalMoves(true))
+				if(loc != null)
+					return false;
+		}
+		return true;
+	}
+	
+	public static boolean insufficientMat(ChessPiece C)
+	{
+		boolean wInsufficient = true, bInsufficient = true;
+		if(getLocations('w').size() > 2)
+		    wInsufficient = false;
+		if(getLocations('b').size() > 2)
+		    bInsufficient = false;
+		System.out.println(getLocations('w').size() +", "+ getLocations('b').size());
+		for(Location wLoc : getLocations('w'))
+		{
+		    ChessPiece wPiece = (ChessPiece)(grid.get(wLoc));
+		    if(!(wPiece instanceof Bishop || wPiece instanceof King || wPiece instanceof Knight))
+		    {
+		        wInsufficient = false;
+		        break;
+		    }
+		}
+		for(Location bLoc : getLocations('b'))
+		{
+		    ChessPiece bPiece = (ChessPiece)(grid.get(bLoc));
+		    if(!(bPiece instanceof Bishop || bPiece instanceof King || bPiece instanceof Knight))
+		    {
+		        bInsufficient = false;
+		        break;
+		    }
+		}
+		
+		System.out.println("K/B/N: "+wInsufficient +", "+ bInsufficient);
+		return wInsufficient && bInsufficient;
+
+	}
 	
 	public static boolean checkmate(ChessPiece C)
 	{
 		ArrayList<Location> enemyLocs;
-		enemyLocs = C.getLocations('w');
+		enemyLocs = getLocations('w');
 		if(C.getColorType() == 'w')
-			enemyLocs = C.getLocations('b');
+			enemyLocs = getLocations('b');
 		
 		for(Location enemyLoc : enemyLocs)
 		{
@@ -127,11 +226,11 @@ public class ChessBoard
 	public static boolean check(ChessPiece C)
 	{
 		ArrayList<Location> enemyLocs;
-		enemyLocs = C.getLocations('w');
+		char targetColor = 'w';
 		if(C.getColorType() == 'w')
-			enemyLocs = C.getLocations('b');
-		King enemyKing = (King)(((ChessPiece)(grid.get(enemyLocs.get(0)))).getKing());
-		return enemyKing.isInCheck();
+			targetColor = 'b';
+		
+		return getKing(targetColor).isInCheck();
 	}
 	
 	public static void reset()

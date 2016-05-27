@@ -10,7 +10,7 @@ public class Queen extends ChessPiece
         if(!ChessBoard.isTurn(getColorType()) && check)
         	return new Location[0];
         
-        return getLinearMoves(27, 0, 45, check);
+        return getLinearMoves(50, 0, 45, check);
   }
   
   public void copyTo(Location loc)

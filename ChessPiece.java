@@ -76,9 +76,9 @@ public abstract class ChessPiece extends Actor implements Comparable
     		
     	ArrayList<Location> enemyLocs;
     	if(getColorType() == 'w')
-    		enemyLocs = getLocations('b');
+    		enemyLocs = ChessBoard.getLocations('b');
     	else
-    		enemyLocs = getLocations('w');
+    		enemyLocs = ChessBoard.getLocations('w');
     	
     	for(Location L : enemyLocs)
     		if(getGrid().get(L) instanceof Pawn)
@@ -116,7 +116,7 @@ public abstract class ChessPiece extends Actor implements Comparable
     //This method returns the king of the same color as ChessPiece
     public King getKing()
     {
-    	for (Location loc : getLocations(getColorType()))
+    	for (Location loc : ChessBoard.getLocations(getColorType()))
     	{
     		ChessPiece C = (ChessPiece)(getGrid().get(loc));
     		if (C instanceof King)
@@ -169,22 +169,6 @@ public abstract class ChessPiece extends Actor implements Comparable
     	
     	super.moveTo(loc);
     	return other;
-    }
-    
-    //This method returns the locations of all the pieces of color c
-    public ArrayList<Location> getLocations(char c)
-    {
-    	ArrayList<Location> Locs = getGrid().getOccupiedLocations();
-    	for(int i = 0; i < Locs.size(); i++)
-    	{
-      	  	ChessPiece C = (ChessPiece)(getGrid().get(Locs.get(i)));
-      	  	if(C.getColorType() != c)
-      	  	{
-	    		Locs.remove(i);
-	    		i--;
-      	  	}
-		}
-		return Locs;
     }
     
     public int getValue()

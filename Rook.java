@@ -16,7 +16,7 @@ public class Rook extends ChessPiece
         if(!ChessBoard.isTurn(getColorType()) && check)
         	return new Location[0];
         	
-        return getLinearMoves(14, 0, 90, check);
+        return getLinearMoves(50, 0, 90, check);
     }
     
     public void cLaunched(boolean left, int dl, int dr) //True = Kingside castle, False = Queenside castle

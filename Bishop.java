@@ -13,7 +13,7 @@ public class Bishop extends ChessPiece
         if(!ChessBoard.isTurn(getColorType()) && check)
         	return new Location[0];
         
-        return getLinearMoves(13, 45, 90, check);
+        return getLinearMoves(50, 45, 90, check);
     }
   
   public void copyTo(Location loc)
