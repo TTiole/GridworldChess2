@@ -2,6 +2,68 @@ import java.util.ArrayList;
 import java.lang.Comparable;
 import java.awt.Color;
 
+/*
+Field: private String key "abcdefgh";
+String s;
+if(this instanceof Pawn)
+    s = "";
+else if(this instanecof Bishop)
+    s = "B";
+else if(this instanceof King)
+    s = "K";
+else if(this instanceof Queen)
+    s = "Q";
+else if(this instanceof Rook)
+    s = "R";
+else if(this instanceof Knight)
+    s = "N";
+if(ChessBoard.isTurn('w'))
+{
+    
+    int col = getLocation().getCol();
+    if(col == 7)
+        s += h;
+    else
+        s += key.substring(col, col+1);
+    s += 8 - getLocation().getRow() + "";
+    if(getGrid().get(loc) != null)
+    {
+        ChessPiece other = getGrid().get(loc);
+        s += x;
+        int col = other.getLocation().getCol();
+        if(col == 7)
+            s += h;
+        else
+            s += key.substring(col, col+1);
+        s += 8 - other.getLocation().getRow() + "";
+    }
+}
+else
+{
+    String reverseKey = new StringBuilder(key).reverse().toString();
+    int col = getLocation().getCol();
+    if(col == 7)
+        s += a;
+    else
+        s += reverseKey.substring(col, col+1);
+    s += 1 + getLocation().getRow() + "";
+    if(getGrid().get(loc) != null)
+    {
+        ChessPiece other = getGrid().get(loc);
+        s += x;
+        int col = other.getLocation().getCol();
+        if(col == 7)
+            s += a;
+        else
+            s += reverseKey.substring(col, col+1);
+        s += 1 + other.getLocation().getRow() + "";
+    }
+}
+//pass s to a method here
+*/
+
+
+
 public abstract class ChessPiece extends Actor implements Comparable
 {
     private char colorType;
