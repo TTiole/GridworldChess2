@@ -17,6 +17,7 @@
  * @author Cay Horstmann
  */
 
+import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -189,7 +190,9 @@ public class WorldFrame<T> extends JFrame
         content.add(new JScrollPane(messageArea), BorderLayout.NORTH);
         
         histMessage = "";
-        histArea = new JTextArea(20, 10);
+        histArea = new JTextArea(20, 20);
+        Font font = new Font(Font.MONOSPACED, Font.PLAIN, 12);
+        histArea.setFont(font);
         histArea.setEditable(false);
         histArea.setFocusable(false);
         histArea.setBackground(Color.WHITE);

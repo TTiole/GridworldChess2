@@ -90,9 +90,6 @@ public abstract class ChessPiece extends Actor implements Comparable
     	ChessPiece occupant = (ChessPiece)(getGrid().get(loc));
         if(occupant != null)
             StorageArea.takePiece((ChessPiece)occupant);
-    		
-    	super.moveTo(loc);
-    	
     	
 		String s = "", key = "abcdefgh";
 		if(this instanceof Bishop)
@@ -108,9 +105,9 @@ public abstract class ChessPiece extends Actor implements Comparable
 		
 		if(ChessBoard.isTurn('w'))
 		{
+		    s = ChessBoard.getTurn() + ". " + s;
 			if(ChessBoard.getTurn() != 1)
-		    	s += "\n ";
-		    s += ChessBoard.getTurn() + ". ";
+		    	s = "\n " + s;
 		    int col = getLocation().getCol();
 		    if(col == 7)
 		        s += 'h';
@@ -153,6 +150,8 @@ public abstract class ChessPiece extends Actor implements Comparable
 		
 		WorldFrame frame = (WorldFrame)(ChessBoard.getWorld().getFrame());
 		frame.addHistMessage(s);
+    		
+    	super.moveTo(loc);
     }
     
     public void swapTo(Location loc)
