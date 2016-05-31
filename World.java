@@ -253,6 +253,11 @@ public class World<T>
     {
         return occupantClassNames;
     }
+    
+    public JFrame getFrame()
+    {
+    	return frame;
+    }
 
     private void repaint()
     {

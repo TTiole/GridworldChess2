@@ -7,12 +7,19 @@ public class ChessBoard
 	private static String currentGame;
 	private static boolean isWhiteTurn = true;
 	private static King blackKing = null, whiteKing = null;
+	private static int turn;
 	
 	public ChessBoard(Grid g, ActorWorld w)
 	{
 		grid = g;
 		world = w;
 		currentGame = "";
+		turn = 1;
+	}
+	
+	public static World getWorld()
+	{
+		return world;
 	}
 	
 	public static void newGame(String s)
@@ -34,10 +41,17 @@ public class ChessBoard
 		return blackKing;
 	}
 	
+	public static int getTurn()
+	{
+		return turn;
+	}
+	
 	public static void takeTurn()
 	{
     	isWhiteTurn = !isWhiteTurn;
 		flipBoard();
+		if(isWhiteTurn)
+			turn++;
 	}
 	
 	public static boolean isTurn(char c)

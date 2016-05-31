@@ -70,11 +70,12 @@ public class WorldFrame<T> extends JFrame
 {
     private GUIController<T> control;
     private GridPanel display;
-    private JTextArea messageArea;
+    private JTextArea messageArea, histArea;
     private ArrayList<JMenuItem> menuItemsDisabledDuringRun;
     private World<T> world;
     private ResourceBundle resources;
     private DisplayMap displayMap;
+    private String histMessage;
 
     private Set<Class> gridClasses;
     private JMenu newGridMenu;
@@ -186,11 +187,23 @@ public class WorldFrame<T> extends JFrame
         messageArea.setFocusable(false);
         messageArea.setBackground(new Color(0xFAFAD2));
         content.add(new JScrollPane(messageArea), BorderLayout.NORTH);
+        
+        histMessage = "";
+        histArea = new JTextArea(20, 10);
+        histArea.setEditable(false);
+        histArea.setFocusable(false);
+        histArea.setBackground(Color.WHITE);
+        content.add(new JScrollPane(histArea), BorderLayout.WEST);
 
         pack();
         repaint(); // to show message
         display.setGrid(gr);
     }
+
+	public void addHistMessage(String s)
+	{
+		histMessage += " " + s;
+	}
 
     public void repaint()
     {
@@ -199,7 +212,12 @@ public class WorldFrame<T> extends JFrame
             message = resources.getString("message.default");
         messageArea.setText(message);
         messageArea.repaint();
+        
+        histArea.setText(histMessage);
+        histArea.repaint();
+        
         display.repaint(); // for applet
+        
         super.repaint();
     }
 
