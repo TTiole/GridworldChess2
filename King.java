@@ -6,6 +6,7 @@ public class King extends ChessPiece
   private char targetColor;
   private ArrayList<Location> oppositeLocs = new ArrayList<Location>();
   private int moves;
+  private String castleSide;
   
   public King(char c)
   {
@@ -15,6 +16,7 @@ public class King extends ChessPiece
     if(c == 'w')
       targetColor = 'b';
   	check = false;
+  	castleSide = "";
   }
   
   public boolean isInCheck() //looks if it's in check for king in current location
@@ -36,8 +38,25 @@ public class King extends ChessPiece
     return false;
   }
   
+  public String getNotation(Location loc)
+  {
+  	String s = castleSide;
+  	if(castleSide.length() > 0)
+  	{
+  		if(ChessBoard.isTurn('w'))
+  		{
+	  		s = ChessBoard.getTurn() + ". " + s;
+			if(ChessBoard.getTurn() != 1)
+		    	s = "\n " + s;
+  		}
+		return s;
+  	}
+  	return super.getNotation(loc);
+  }
+  
   public void moveTo(Location loc)
   {
+  	castleSide = "";
     int dl = -3, dr = 4;
     if(getColorType() == 'b')
     {
@@ -55,6 +74,9 @@ public class King extends ChessPiece
       {
           LR = (Rook)(getGrid().get(LRLoc));
       	  LR.cLaunched(true, dl, dr);
+      	  castleSide = "0-0";
+      	  if(getColorType() == 'b')
+      	  	castleSide += "-0";
       }
     }
     else if(((loc.getCol() == 5 && getColorType() == 'w') || (loc.getCol() == 6 && getColorType() == 'b')) && canCastle()) // right side
@@ -66,6 +88,9 @@ public class King extends ChessPiece
       {
         RR = (Rook)(getGrid().get(RRLoc));
       	RR.cLaunched(false, dl, dr); //cLaunched stands for Castling Launched
+      	castleSide = "0-0";
+      	if(getColorType() == 'w')
+      		castleSide += "-0";
       }
     }
     

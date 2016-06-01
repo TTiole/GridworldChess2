@@ -4,11 +4,13 @@ import java.util.ArrayList;
 public class Rook extends ChessPiece
 {
     private int moves;
+    private boolean isCastling;
     
     public Rook(char c)
     {
         super(c, 5);
         moves = 0;
+        isCastling = false;
     }
 
     public Location[] getLegalMoves(boolean check)
@@ -19,8 +21,16 @@ public class Rook extends ChessPiece
         return getLinearMoves(50, 0, 90, check);
     }
     
+    public String getNotation(Location loc)
+    {
+  		if(isCastling)
+  			return "";
+  		return super.getNotation(loc);
+    }
+    
     public void cLaunched(boolean left, int dl, int dr) //True = Kingside castle, False = Queenside castle
     {
+    	isCastling = true;
         if(left)
             moveTo(new Location(getLocation().getRow(), getLocation().getCol() - dl - 1));
         else
@@ -31,6 +41,7 @@ public class Rook extends ChessPiece
     {
         moves++;
         super.moveTo(loc);
+        isCastling = false;
     }
     
     public boolean canCastle()

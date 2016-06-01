@@ -246,6 +246,11 @@ public class ChessBoard
 	
 	public static void reset()
 	{
+		WorldFrame frame = (WorldFrame)(world.getFrame());
+		
+		frame.setHistMessage("");
+		frame.getDisplay().clearSelection();
+		turn = 1;
 		clearAll();
 		isWhiteTurn = true;
 	}

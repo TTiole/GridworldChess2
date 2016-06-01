@@ -248,9 +248,21 @@ public class GUIController<T>
                         display.repaint();
                         
                         if(ChessBoard.getEndMessage(C) != null)
+                        {
+                        	System.out.println(ChessBoard.getEndMessage(C));
+                        	if(ChessBoard.getEndMessage(C).endsWith("Wins!"))
+                        	{
+                        		String s = parentFrame.getHistMessage();
+                        		parentFrame.setHistMessage(s + "#");
+                        	}
                         	display.createDialogue(ChessBoard.getEndMessage(C));
+                        }
                         else if(ChessBoard.check(C))
+                        {
+                        	String s = parentFrame.getHistMessage();
+                        	parentFrame.setHistMessage(s + "+");
                         	display.createDialogue("Check!");
+                        }
                     }
                 }
                 else if(occupant != null)

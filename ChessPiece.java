@@ -69,8 +69,9 @@ public abstract class ChessPiece extends Actor implements Comparable
       }
     return (Pawn)passedEnP;
   }
-    public void moveTo(Location loc)
-    {
+  
+  	public String getNotation(Location loc)
+  	{
     	String s = "", key = "abcdefgh";
 		if(this instanceof Bishop)
 		    s = "B";
@@ -82,45 +83,71 @@ public abstract class ChessPiece extends Actor implements Comparable
 		    s = "R";
 		else if(this instanceof Knight)
 		    s = "N";
-		
+
+		ChessPiece other = null;
 		if(getGrid().get(loc) != null)
-			ChessPiece other = new (ChessPiece)(getGrid().get(loc));
+			other = (ChessPiece)(getGrid().get(loc));
+		int col;
 		if(ChessBoard.isTurn('w'))
 		{	
-			if(other != null)
+			
+			if(other != null || getPassedPawn() != null)
+			{
+				if(this instanceof Pawn)
+				{
+					col = getLocation().getCol();
+					if(col == 7)
+				        s += 'h';
+				    else
+				        s += key.substring(col, col+1);
+				}
 		        s += 'x';
+			}
 		    s = ChessBoard.getTurn() + ". " + s;
 			if(ChessBoard.getTurn() != 1)
 		    	s = "\n " + s;
-		    int col = loc.getCol();
+		    col = loc.getCol();
 		    if(col == 7)
 		        s += 'h';
 		    else
 		        s += key.substring(col, col+1);
 		    s += 8 - loc.getRow() + "";
-
 		}
 		else
 		{
-			if(other != null)
+			String reverseKey = new StringBuilder(key).reverse().toString();
+			if(other != null || getPassedPawn() != null)
+			{
+				if(this instanceof Pawn)
+				{
+					col = getLocation().getCol();
+					if(col == 7)
+			        	s += 'a';
+			    	else
+			        	s += reverseKey.substring(col, col+1);	
+				}
+				
 		        s += 'x';
-		    String reverseKey = new StringBuilder(key).reverse().toString();
-		    int col = loc.getCol();
+			}
+		    col = loc.getCol();
 		    if(col == 7)
 		        s += 'a';
-		    else
-		        s += reverseKey.substring(col, col+1);
+		   	else
+		       	s += reverseKey.substring(col, col+1);	
 		    s += 1 + loc.getRow() + "";
 		    
 		}
-		if(other.getKing().isInCheck)
-		{
-				s += '+';
-		}
 		
+		if(getPassedPawn() != null)
+			s += " e.p.";
+		
+		return s;
+  	}
+  
+    public void moveTo(Location loc)
+    {
 		WorldFrame frame = (WorldFrame)(ChessBoard.getWorld().getFrame());
-		frame.addHistMessage(s);
-		
+		frame.addHistMessage(getNotation(loc));
 		
     	if(getPassedPawn() != null && getPassedPawn().getColorType() != getColorType())
     		StorageArea.takePiece(getPassedPawn());

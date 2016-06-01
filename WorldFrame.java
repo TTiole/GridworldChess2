@@ -208,6 +208,16 @@ public class WorldFrame<T> extends JFrame
 		histMessage += " " + s;
 	}
 
+	public void setHistMessage(String s)
+	{
+		histMessage = s;
+	}
+	
+	public String getHistMessage()
+	{
+		return histMessage;
+	}
+
     public void repaint()
     {
         String message = null;
@@ -231,6 +241,11 @@ public class WorldFrame<T> extends JFrame
     public World<T> getWorld()
     {
         return world;
+    }
+    
+    public GridPanel getDisplay()
+    {
+    	return display;
     }
 
     /**
