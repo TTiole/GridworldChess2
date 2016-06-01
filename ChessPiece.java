@@ -71,6 +71,57 @@ public abstract class ChessPiece extends Actor implements Comparable
   }
     public void moveTo(Location loc)
     {
+    	String s = "", key = "abcdefgh";
+		if(this instanceof Bishop)
+		    s = "B";
+		else if(this instanceof King)
+		    s = "K";
+		else if(this instanceof Queen)
+		    s = "Q";
+		else if(this instanceof Rook)
+		    s = "R";
+		else if(this instanceof Knight)
+		    s = "N";
+		
+		if(getGrid().get(loc) != null)
+			ChessPiece other = new (ChessPiece)(getGrid().get(loc));
+		if(ChessBoard.isTurn('w'))
+		{	
+			if(other != null)
+		        s += 'x';
+		    s = ChessBoard.getTurn() + ". " + s;
+			if(ChessBoard.getTurn() != 1)
+		    	s = "\n " + s;
+		    int col = loc.getCol();
+		    if(col == 7)
+		        s += 'h';
+		    else
+		        s += key.substring(col, col+1);
+		    s += 8 - loc.getRow() + "";
+
+		}
+		else
+		{
+			if(other != null)
+		        s += 'x';
+		    String reverseKey = new StringBuilder(key).reverse().toString();
+		    int col = loc.getCol();
+		    if(col == 7)
+		        s += 'a';
+		    else
+		        s += reverseKey.substring(col, col+1);
+		    s += 1 + loc.getRow() + "";
+		    
+		}
+		if(other.getKing().isInCheck)
+		{
+				s += '+';
+		}
+		
+		WorldFrame frame = (WorldFrame)(ChessBoard.getWorld().getFrame());
+		frame.addHistMessage(s);
+		
+		
     	if(getPassedPawn() != null && getPassedPawn().getColorType() != getColorType())
     		StorageArea.takePiece(getPassedPawn());
     		
@@ -91,65 +142,7 @@ public abstract class ChessPiece extends Actor implements Comparable
         if(occupant != null)
             StorageArea.takePiece((ChessPiece)occupant);
     	
-		String s = "", key = "abcdefgh";
-		if(this instanceof Bishop)
-		    s = "B";
-		else if(this instanceof King)
-		    s = "K";
-		else if(this instanceof Queen)
-		    s = "Q";
-		else if(this instanceof Rook)
-		    s = "R";
-		else if(this instanceof Knight)
-		    s = "N";
 		
-		if(ChessBoard.isTurn('w'))
-		{
-		    s = ChessBoard.getTurn() + ". " + s;
-			if(ChessBoard.getTurn() != 1)
-		    	s = "\n " + s;
-		    int col = getLocation().getCol();
-		    if(col == 7)
-		        s += 'h';
-		    else
-		        s += key.substring(col, col+1);
-		    s += 8 - getLocation().getRow() + "";
-		    if(getGrid().get(loc) != null)
-		    {
-		        ChessPiece other = (ChessPiece)(getGrid().get(loc));
-		        s += 'x';
-		        int col2 = other.getLocation().getCol();
-		        if(col2 == 7)
-		            s += 'h';
-		        else
-		            s += key.substring(col2, col2+1);
-		        s += 8 - other.getLocation().getRow() + "";
-		    }
-		}
-		else
-		{
-		    String reverseKey = new StringBuilder(key).reverse().toString();
-		    int col = getLocation().getCol();
-		    if(col == 7)
-		        s += 'a';
-		    else
-		        s += reverseKey.substring(col, col+1);
-		    s += 1 + getLocation().getRow() + "";
-		    if(getGrid().get(loc) != null)
-		    {
-		        ChessPiece other = (ChessPiece)(getGrid().get(loc));
-		        s += 'x';
-		        int col2 = other.getLocation().getCol();
-		        if(col2 == 7)
-		            s += 'a';
-		        else
-		            s += reverseKey.substring(col2, col2+1);
-		        s += 1 + other.getLocation().getRow() + "";
-		    }
-		}
-		
-		WorldFrame frame = (WorldFrame)(ChessBoard.getWorld().getFrame());
-		frame.addHistMessage(s);
     		
     	super.moveTo(loc);
     }
